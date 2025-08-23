@@ -1,6 +1,4 @@
-import type { RequestHandler } from '@sveltejs/kit';
-
-export const POST: RequestHandler = async ({ request }) => {
+export const POST = async ({ request }) => {
   const { title, message, token, user } = await request.json();
   const appToken = token || process.env.PUSHOVER_APP_TOKEN;
   const userKey = user || process.env.PUSHOVER_USER_KEY;

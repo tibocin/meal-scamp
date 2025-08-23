@@ -1,11 +1,11 @@
-<script lang="ts">
+<script>
   import { punches, workouts, goal, pushover } from '$lib/stores';
 
-  let dates: string[] = [];
+  let dates = [];
   let today = new Date();
   function genDates(){
     const s = new Date(); s.setDate(s.getDate()-3);
-    const out: string[] = [];
+    const out = [];
     for (let i=0;i<30;i++){ const d=new Date(s); d.setDate(s.getDate()+i); out.push(d.toISOString().slice(0,10)); }
     return out;
   }
@@ -21,11 +21,11 @@
 
   const cats = ['Strength','Endurance','Fast-twitch','Core','Flexibility'];
 
-  function togglePunch(d:string){
+  function togglePunch(d){
     const m = {...punchMap, [d]: !punchMap[d]};
     punches.set(m);
   }
-  function toggleCat(d:string, c:string){
+  function toggleCat(d, c){
     const arr = new Set(workoutMap[d] || []);
     if (arr.has(c)) arr.delete(c); else arr.add(c);
     workouts.set({...workoutMap, [d]: Array.from(arr)});

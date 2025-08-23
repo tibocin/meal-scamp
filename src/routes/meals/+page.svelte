@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   import { meals } from '$lib/stores';
   let all = [];
   meals.subscribe(v=> all=v);

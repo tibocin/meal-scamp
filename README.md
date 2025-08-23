@@ -23,7 +23,7 @@ caddy run --config Caddyfile
 ## Build & Deploy (Node adapter)
 ```bash
 npm run build
-node build/index.js
+node www/index.js
 ```
 
 Systemd unit included: `meal-scamp.service`
@@ -35,4 +35,4 @@ Edit `src/lib/data/seed-meals.json` (import your 30-meal catalog).
 - All state persists to local storage by default.
 - Add Supabase later if you want multi-device sync.
 - Caddyfile assumes domain `meal-scamp.tibocin.xyz`; adjust as needed.
-```
+- Application now serves from `www/` folder on port 3003.

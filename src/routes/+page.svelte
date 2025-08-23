@@ -1,10 +1,10 @@
-<script lang="ts">
-  import Planner from '$lib/ui/Planner.svelte';
-  import Tracker from '$lib/ui/Tracker.svelte';
-  import LinkBar from '$lib/ui/LinkBar.svelte';
+<script>
+  import Planner from "$lib/ui/Planner.svelte";
+  import Tracker from "$lib/ui/Tracker.svelte";
+  import LinkBar from "$lib/ui/LinkBar.svelte";
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js").catch(() => {});
   }
 </script>
 

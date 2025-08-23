@@ -1,14 +1,14 @@
-<script lang="ts">
+<script>
   import { meals, plan } from '$lib/stores';
   import { get } from 'svelte/store';
 
   const days = 7;
   let start = new Date();
-  let mealMap: Record<string, string[]> = {};
+  let mealMap = {};
   plan.subscribe(v => mealMap = v);
 
   function dates() {
-    const out: string[] = [];
+    const out = [];
     const s = new Date(start);
     for (let i=0;i<days;i++){ const d=new Date(s); d.setDate(s.getDate()+i); out.push(d.toISOString().slice(0,10)); }
     return out;
@@ -20,26 +20,26 @@
     fetch('/api/seed').then(r=>r.json()).then(data=>meals.set(data));
   }
 
-  function add(date: string, mealId: string){
+  function add(date, mealId){
     const p = structuredClone(mealMap);
     p[date] = p[date] || [];
     p[date].push(mealId);
     plan.set(p);
   }
-  function remove(date: string, idx: number){
+  function remove(date, idx){
     const p = structuredClone(mealMap);
     p[date].splice(idx,1);
     plan.set(p);
   }
 
   $: counts = (()=>{
-    const c: Record<string, number> = {};
+    const c = {};
     Object.values(mealMap).forEach(arr=>arr.forEach(m=>{ c[m]=(c[m]||0)+1 }));
     return c;
   })();
 
   $: shopping = (()=>{
-    const out: Record<string, number> = {};
+    const out = {};
     const mealsById = Object.fromEntries(allMeals.map(m=>[m.id,m]));
     for (const arr of Object.values(mealMap)) {
       for (const id of arr) {
@@ -51,6 +51,15 @@
     }
     return out;
   })();
+
+  function getMealsForDate(date) {
+    return mealMap[date] || [];
+  }
+
+  function getMealName(id) {
+    const meal = allMeals.find(x => x.id === id);
+    return meal ? meal.name : id;
+  }
 </script>
 
 <div class="space-y-4">
@@ -70,12 +79,13 @@
         <div class="mb-3">
           <div class="text-sm text-gray-500">{d}</div>
           <div class="flex flex-wrap gap-2 mt-1">
-            {(mealMap[d]||[]).length === 0 ?
-              <span class="tag">No meals yet</span> :
-              (mealMap[d]||[]).map((id, i)=> (
-                <button class="tag" on:click={()=>remove(d,i)}>{allMeals.find(x=>x.id===id)?.name || id} ✕</button>
-              ))
-            }
+            {#if getMealsForDate(d).length === 0}
+              <span class="tag">No meals yet</span>
+            {:else}
+              {#each getMealsForDate(d) as id, i}
+                <button class="tag" on:click={()=>remove(d,i)}>{getMealName(id)} ✕</button>
+              {/each}
+            {/if}
           </div>
           <div class="mt-2">
             <select class="border p-1" on:change={(e)=>add(d, e.target.value)}>
@@ -92,7 +102,7 @@
       <h3 class="font-semibold mb-2">Batch Prep Counts</h3>
       {#each Object.entries(counts) as [id, n]}
         <div class="flex justify-between border-b py-1 text-sm">
-          <span>{allMeals.find(x=>x.id===id)?.name || id}</span>
+          <span>{getMealName(id)}</span>
           <span class="font-mono">{n}×</span>
         </div>
       {/each}

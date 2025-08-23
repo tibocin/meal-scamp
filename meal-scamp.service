@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 WorkingDirectory=/opt/meal-scamp
-ExecStart=/usr/bin/node build/index.js
-Environment=PORT=3000
+ExecStart=/usr/bin/node www/index.js
+Environment=PORT=3003
 EnvironmentFile=/opt/meal-scamp/.env
 Restart=always
 RestartSec=5

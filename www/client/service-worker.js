@@ -1,0 +1,1 @@
+const n="meal-scamp-v1",h=["/","/manifest.webmanifest"];self.addEventListener("install",e=>{e.waitUntil(caches.open(n).then(t=>t.addAll(h)))});self.addEventListener("fetch",e=>{e.respondWith(caches.match(e.request).then(t=>t||fetch(e.request).then(c=>{const s=c.clone();return caches.open(n).then(a=>a.put(e.request,s)),c}).catch(()=>caches.match("/"))))});

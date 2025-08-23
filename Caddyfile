@@ -4,9 +4,9 @@ meal-scamp.tibocin.xyz {
         path /icons/* /manifest.webmanifest /service-worker.js
     }
     handle @static {
-        root * ./build
+        root * ./www
         file_server
     }
-    reverse_proxy localhost:3000
+    reverse_proxy localhost:3003
     tls internal
 }

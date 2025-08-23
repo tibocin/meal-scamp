@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   import { pushover } from '$lib/stores';
   let cfg;
   pushover.subscribe(v=> cfg=v);
