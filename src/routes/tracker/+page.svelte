@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Tracker from "$lib/ui/Tracker.svelte";
 </script>
 

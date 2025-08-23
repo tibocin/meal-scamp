@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
   import { pushover } from '$lib/stores';
-  let cfg;
+  let cfg: any;
   pushover.subscribe(v=> cfg=v);
   function save(){ pushover.set(cfg); alert('Saved'); }
   async function test(){

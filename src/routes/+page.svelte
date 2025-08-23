@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Planner from "$lib/ui/Planner.svelte";
   import Tracker from "$lib/ui/Tracker.svelte";
   import LinkBar from "$lib/ui/LinkBar.svelte";

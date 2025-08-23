@@ -1,31 +1,31 @@
-<script>
+<script lang="ts">
   import { punches, workouts, goal, pushover } from '$lib/stores';
 
-  let dates = [];
+  let dates: string[] = [];
   let today = new Date();
-  function genDates(){
+  function genDates(): string[] {
     const s = new Date(); s.setDate(s.getDate()-3);
-    const out = [];
+    const out: string[] = [];
     for (let i=0;i<30;i++){ const d=new Date(s); d.setDate(s.getDate()+i); out.push(d.toISOString().slice(0,10)); }
     return out;
   }
   dates = genDates();
 
-  let punchMap = {};
+  let punchMap: Record<string, boolean> = {};
   punches.subscribe(v=> punchMap = v);
 
-  let workoutMap = {};
+  let workoutMap: Record<string, string[]> = {};
   workouts.subscribe(v=> workoutMap = v);
 
-  let g; goal.subscribe(v=> g=v);
+  let g: any; goal.subscribe(v=> g=v);
 
   const cats = ['Strength','Endurance','Fast-twitch','Core','Flexibility'];
 
-  function togglePunch(d){
+  function togglePunch(d: string) {
     const m = {...punchMap, [d]: !punchMap[d]};
     punches.set(m);
   }
-  function toggleCat(d, c){
+  function toggleCat(d: string, c: string) {
     const arr = new Set(workoutMap[d] || []);
     if (arr.has(c)) arr.delete(c); else arr.add(c);
     workouts.set({...workoutMap, [d]: Array.from(arr)});

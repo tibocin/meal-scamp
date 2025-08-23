@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Planner from "$lib/ui/Planner.svelte";
 </script>
 

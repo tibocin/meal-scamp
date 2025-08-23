@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
   import { meals } from '$lib/stores';
-  let all = [];
+  let all: any[] = [];
   meals.subscribe(v=> all=v);
   if (all.length===0) {
     fetch('/api/seed').then(r=>r.json()).then(data=>meals.set(data));
