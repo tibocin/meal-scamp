@@ -1,0 +1,12 @@
+meal-scamp.tibocin.xyz {
+    encode zstd gzip
+    @static {
+        path /icons/* /manifest.webmanifest /service-worker.js
+    }
+    handle @static {
+        root * ./build
+        file_server
+    }
+    reverse_proxy localhost:3000
+    tls internal
+}

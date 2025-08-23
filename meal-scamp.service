@@ -1,0 +1,16 @@
+[Unit]
+Description=Meal Scamp SvelteKit
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/meal-scamp
+ExecStart=/usr/bin/node build/index.js
+Environment=PORT=3000
+EnvironmentFile=/opt/meal-scamp/.env
+Restart=always
+RestartSec=5
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target
