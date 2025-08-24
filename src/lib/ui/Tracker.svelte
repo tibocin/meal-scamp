@@ -402,24 +402,55 @@
 
     {#if !goalCollapsed}
       <div class="mt-4 transition-all duration-300 ease-in-out">
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 mb-3">
           <div>Start: {g.start} lbs</div>
           <div>Target: {g.target} lbs</div>
           <div>
             Current: <input
-              class="border p-1 w-20"
+              class="border p-1 w-20 text-center"
               type="number"
               bind:value={g.current}
               onchange={() => goal.set(g)}
               onclick={(e) => e.stopPropagation()}
-            />
+              min="100"
+              max="500"
+              step="0.1"
+            /> lbs
           </div>
         </div>
-        <div class="mt-2 w-full bg-gray-200 h-3 rounded">
-          <div
-            class="bg-black h-3 rounded"
-            style={`width:${Math.min(100, ((g.start - g.current) / (g.start - g.target)) * 100)}%`}
-          ></div>
+        <div class="text-xs text-gray-500 mb-3">
+          💡 Update your weight goals in <a
+            href="/settings"
+            class="text-blue-600 hover:underline">Settings</a
+          >
+        </div>
+
+        <!-- Progress Bar with Label -->
+        <div class="mb-3">
+          <div class="text-sm text-gray-600 mb-2">🎯 Progress:</div>
+          <div class="w-full bg-gray-200 h-3 rounded">
+            <div
+              class="bg-black h-3 rounded transition-all duration-300"
+              style="width:{Math.max(
+                0,
+                Math.min(
+                  100,
+                  (Math.abs(g.current - g.start) /
+                    Math.abs(g.target - g.start)) *
+                    100,
+                ),
+              )}%"
+            ></div>
+          </div>
+          <div class="text-xs text-gray-500 mt-1">
+            {#if g.target < g.start}
+              {Math.max(0, g.start - g.current).toFixed(2)} lbs lost of
+              {(g.start - g.target).toFixed(2)} lbs goal
+            {:else}
+              {Math.max(0, g.current - g.start).toFixed(2)} lbs gained
+              of {(g.target - g.start).toFixed(2)} lbs goal
+            {/if}
+          </div>
         </div>
       </div>
     {/if}
