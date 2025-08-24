@@ -19,7 +19,9 @@
   // Daily practice modal state
   let showModal = $state(false);
   let selectedDate = $state("");
-  let dailyPracticeCompleted = $state(false);
+  let gratitudeCompleted = $state(false);
+  let meditationCompleted = $state(false);
+  let prayerCompleted = $state(false);
 
   // Initialize dates using the date range from stores
   dates = getCurrentDateRange();
@@ -48,20 +50,28 @@
 
   function showDailyPracticeModal(d: string) {
     selectedDate = d;
-    dailyPracticeCompleted = false;
+    gratitudeCompleted = false;
+    meditationCompleted = false;
+    prayerCompleted = false;
     showModal = true;
   }
 
   function confirmDailyPractice() {
-    dailyPracticeCompleted = true;
     togglePunch(selectedDate);
     showModal = false;
+    // Reset states
+    selectedDate = "";
+    gratitudeCompleted = false;
+    meditationCompleted = false;
+    prayerCompleted = false;
   }
 
   function cancelDailyPractice() {
     showModal = false;
     selectedDate = "";
-    dailyPracticeCompleted = false;
+    gratitudeCompleted = false;
+    meditationCompleted = false;
+    prayerCompleted = false;
   }
 </script>
 
@@ -77,15 +87,15 @@
         
         <div class="space-y-3 mb-6">
           <label class="flex items-center">
-            <input type="checkbox" bind:checked={dailyPracticeCompleted} class="mr-3">
+            <input type="checkbox" bind:checked={gratitudeCompleted} class="mr-3">
             <span>Gratitude practice</span>
           </label>
           <label class="flex items-center">
-            <input type="checkbox" bind:checked={dailyPracticeCompleted} class="mr-3">
+            <input type="checkbox" bind:checked={meditationCompleted} class="mr-3">
             <span>Meditation</span>
           </label>
           <label class="flex items-center">
-            <input type="checkbox" bind:checked={dailyPracticeCompleted} class="mr-3">
+            <input type="checkbox" bind:checked={prayerCompleted} class="mr-3">
             <span>Prayer</span>
           </label>
         </div>
@@ -99,7 +109,7 @@
           </button>
           <button
             class="btn bg-green-600 hover:bg-green-700 text-white"
-            disabled={!dailyPracticeCompleted}
+            disabled={!(gratitudeCompleted || meditationCompleted || prayerCompleted)}
             onclick={confirmDailyPractice}
           >
             Confirm & Check Off
