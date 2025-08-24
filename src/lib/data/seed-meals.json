@@ -55,12 +55,14 @@
     "tags": [
       "quick",
       "gluten-free"
-    ]
+    ],
+    "prep_time": 15
   },
   {
     "id": "b02",
     "name": "Salmon + Cucumber Bowl",
     "mealType": "breakfast",
+    "prep_time": 25,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 1,
@@ -110,6 +112,7 @@
     "id": "b03",
     "name": "Ribeye + Eggs",
     "mealType": "breakfast",
+    "prep_time": 20,
     "portions": {
       "protein_palms": 2,
       "veg_fists": 1,
@@ -163,6 +166,7 @@
     "id": "b04",
     "name": "Quinoa Porridge",
     "mealType": "breakfast",
+    "prep_time": 20,
     "portions": {
       "protein_palms": 1,
       "veg_fists": 0,
@@ -210,6 +214,7 @@
     "id": "b05",
     "name": "Sweet Potato Hash",
     "mealType": "breakfast",
+    "prep_time": 30,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 1,
@@ -264,6 +269,7 @@
     "id": "b06",
     "name": "Greek Yogurt Bowl with Fruit",
     "mealType": "breakfast",
+    "prep_time": 5,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 0,
@@ -307,6 +313,7 @@
     "id": "b07",
     "name": "Eggs, Bacon, Yogurt & Fruit",
     "mealType": "breakfast",
+    "prep_time": 15,
     "portions": {
       "protein_palms": 2,
       "veg_fists": 0,
@@ -349,6 +356,7 @@
     "id": "b08",
     "name": "Cottage Cheese Bowl",
     "mealType": "breakfast",
+    "prep_time": 3,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 0,
@@ -386,6 +394,7 @@
     "id": "b09",
     "name": "Lettuce Wrap Breakfast Tacos",
     "mealType": "breakfast",
+    "prep_time": 20,
     "portions": {
       "protein_palms": 2,
       "veg_fists": 1,
@@ -434,6 +443,7 @@
     "id": "b10",
     "name": "Carrot + Ginger Smoothie",
     "mealType": "breakfast",
+    "prep_time": 10,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -485,6 +495,7 @@
     "id": "l01",
     "name": "Chicken Thigh Bowl",
     "mealType": "lunch",
+    "prep_time": 35,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -544,6 +555,7 @@
     "id": "l02",
     "name": "Carnitas Salad",
     "mealType": "lunch",
+    "prep_time": 15,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -603,6 +615,7 @@
     "id": "l03",
     "name": "Tuna + Bean Bowl",
     "mealType": "lunch",
+    "prep_time": 10,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -661,6 +674,7 @@
     "id": "l04",
     "name": "Egg + Quinoa Bowl",
     "mealType": "lunch",
+    "prep_time": 25,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 1.5,
@@ -715,6 +729,7 @@
     "id": "l05",
     "name": "Salmon + Sweet Potato Mash",
     "mealType": "lunch",
+    "prep_time": 30,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -768,6 +783,7 @@
     "id": "l06",
     "name": "Chicken Lettuce Wraps",
     "mealType": "lunch",
+    "prep_time": 25,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -817,6 +833,7 @@
     "id": "l07",
     "name": "Shrimp Stir-Fry",
     "mealType": "lunch",
+    "prep_time": 20,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -875,6 +892,7 @@
     "id": "l08",
     "name": "Beef + Broccoli Bowl",
     "mealType": "lunch",
+    "prep_time": 30,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -934,6 +952,7 @@
     "id": "l09",
     "name": "Spinach + Lentil Soup",
     "mealType": "lunch",
+    "prep_time": 35,
     "portions": {
       "protein_palms": 0.8,
       "veg_fists": 2,
@@ -993,6 +1012,7 @@
     "id": "l10",
     "name": "Chicken Curry Bowl",
     "mealType": "lunch",
+    "prep_time": 30,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1057,6 +1077,7 @@
     "id": "d01",
     "name": "Ribeye Steak + Broccolini",
     "mealType": "dinner",
+    "prep_time": 25,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1105,6 +1126,7 @@
     "id": "d02",
     "name": "Carnitas Bowl",
     "mealType": "dinner",
+    "prep_time": 20,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1157,6 +1179,7 @@
     "id": "d03",
     "name": "Salmon + Cabbage Slaw",
     "mealType": "dinner",
+    "prep_time": 25,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1204,6 +1227,7 @@
     "id": "d04",
     "name": "Chicken Thigh Curry",
     "mealType": "dinner",
+    "prep_time": 35,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1267,6 +1291,7 @@
     "id": "d05",
     "name": "Shrimp + Zucchini Noodles",
     "mealType": "dinner",
+    "prep_time": 20,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1315,6 +1340,7 @@
     "id": "d06",
     "name": "Quinoa + Veggie Stir-Fry",
     "mealType": "dinner",
+    "prep_time": 30,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1369,6 +1395,7 @@
     "id": "d07",
     "name": "Beef Chili (bean-based)",
     "mealType": "dinner",
+    "prep_time": 45,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1437,6 +1464,7 @@
     "id": "d08",
     "name": "Roast Chicken + Sweet Potatoes",
     "mealType": "dinner",
+    "prep_time": 40,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1494,6 +1522,7 @@
     "id": "d09",
     "name": "Salmon + Spinach Rice Bowl",
     "mealType": "dinner",
+    "prep_time": 25,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
@@ -1542,6 +1571,7 @@
     "id": "d10",
     "name": "Stuffed Bell Peppers (Chicken)",
     "mealType": "dinner",
+    "prep_time": 45,
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
