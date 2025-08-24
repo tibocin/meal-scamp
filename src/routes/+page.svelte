@@ -383,11 +383,11 @@
             </div>
             <div class="text-xs text-gray-500 mt-1">
               {#if $goal.target < $goal.start}
-                {Math.max(0, $goal.start - $goal.current)} lbs lost of {$goal.start -
-                  $goal.target} lbs goal
+                {Math.max(0, $goal.start - $goal.current).toFixed(2)} lbs lost of
+                {($goal.start - $goal.target).toFixed(2)} lbs goal
               {:else}
-                {Math.max(0, $goal.current - $goal.start)} lbs gained of {$goal.target -
-                  $goal.start} lbs goal
+                {Math.max(0, $goal.current - $goal.start).toFixed(2)} lbs gained
+                of {($goal.target - $goal.start).toFixed(2)} lbs goal
               {/if}
             </div>
           </div>
