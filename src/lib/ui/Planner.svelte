@@ -1,6 +1,7 @@
 <script lang="ts">
   import { meals, plan } from "$lib/stores";
   import { get } from "svelte/store";
+  import { onMount } from "svelte";
 
   const days = 7;
   let start = new Date();
@@ -20,11 +21,16 @@
 
   let allMeals: any[] = [];
   meals.subscribe((v) => (allMeals = v));
-  if (allMeals.length === 0) {
-    fetch("/api/seed")
-      .then((r) => r.json())
-      .then((data) => meals.set(data));
-  }
+
+  // Load data only on client side using onMount
+  onMount(() => {
+    if (allMeals.length === 0) {
+      // Temporarily commented out to test
+      // fetch("/api/seed")
+      //   .then((r) => r.json())
+      //   .then((data) => meals.set(data));
+    }
+  });
 
   function add(date: string, mealId: string) {
     const p = structuredClone(mealMap);
@@ -38,7 +44,8 @@
     plan.set(p);
   }
 
-  $: counts = (() => {
+  // Convert reactive statements to Svelte 5 $derived
+  const counts = $derived(() => {
     const c: Record<string, number> = {};
     Object.values(mealMap).forEach((arr) =>
       arr.forEach((m) => {
@@ -46,9 +53,9 @@
       }),
     );
     return c;
-  })();
+  });
 
-  $: shopping = (() => {
+  const shopping = $derived(() => {
     const out: Record<string, number> = {};
     const mealsById = Object.fromEntries(allMeals.map((m) => [m.id, m]));
     for (const arr of Object.values(mealMap)) {
@@ -61,7 +68,7 @@
       }
     }
     return out;
-  })();
+  });
 
   function getMealsForDate(date: string): string[] {
     return mealMap[date] || [];
@@ -78,7 +85,7 @@
     <h3 class="font-semibold mb-2">Add Meals to Days</h3>
     <div class="flex gap-2 flex-wrap">
       {#each allMeals as m}
-        <button class="btn-outline" on:click={() => add(dates()[0], m.id)}
+        <button class="btn-outline" onclick={() => add(dates()[0], m.id)}
           >{m.name}</button
         >
       {/each}
@@ -96,7 +103,7 @@
               <span class="tag">No meals yet</span>
             {:else}
               {#each getMealsForDate(d) as id, i}
-                <button class="tag" on:click={() => remove(d, i)}
+                <button class="tag" onclick={() => remove(d, i)}
                   >{getMealName(id)} ✕</button
                 >
               {/each}
@@ -105,7 +112,7 @@
           <div class="mt-2">
             <select
               class="border p-1"
-              on:change={(e) => add(d, e.target.value)}
+              onchange={(e) => add(d, (e.target as HTMLSelectElement).value)}
             >
               <option value="">+ Add meal</option>
               {#each allMeals as m}

@@ -3,7 +3,8 @@
   import Tracker from "$lib/ui/Tracker.svelte";
   import LinkBar from "$lib/ui/LinkBar.svelte";
 
-  if ("serviceWorker" in navigator) {
+  // Service worker registration - only run in browser
+  if (typeof window !== "undefined" && "serviceWorker" in navigator) {
     navigator.serviceWorker.register("/service-worker.js").catch(() => {});
   }
 </script>
