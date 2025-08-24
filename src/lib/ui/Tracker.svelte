@@ -447,8 +447,9 @@
               {Math.max(0, g.start - g.current).toFixed(2)} lbs lost of
               {(g.start - g.target).toFixed(2)} lbs goal
             {:else}
-              {Math.max(0, g.current - g.start).toFixed(2)} lbs gained
-              of {(g.target - g.start).toFixed(2)} lbs goal
+              {Math.max(0, g.current - g.start).toFixed(2)} lbs gained of {(
+                g.target - g.start
+              ).toFixed(2)} lbs goal
             {/if}
           </div>
         </div>

@@ -185,12 +185,18 @@
   // Convert reactive statements to simpler reactive variables
   let shopping = $state<Record<string, { amount: number; unit: string }>>({});
   let currentPlan = $state<Record<string, string[]>>({});
-  let batchPrepCounts = $state<Record<string, number>>({});
+  let batchPrepCounts = $state<
+    Record<string, { count: number; mealId: string }>
+  >({});
 
   // Collapsible section states
   let weeklyPlannerCollapsed = $state(false);
   let batchPrepCollapsed = $state(false);
   let shoppingCollapsed = $state(false);
+
+  // Meal details modal state
+  let showMealModal = $state(false);
+  let selectedMealForModal = $state<any>(null);
 
   // Subscribe to plan changes to update derived data and local state
   plan.subscribe((planData) => {
@@ -205,12 +211,16 @@
 
   // Update counts and shopping when plan or meals change
   function updateDerivedData() {
-    // Update batch prep counts with meal names
-    const newBatchCounts: Record<string, number> = {};
+    // Update batch prep counts with meal names and IDs for linking
+    const newBatchCounts: Record<string, { count: number; mealId: string }> =
+      {};
     Object.values(currentPlan).forEach((arr) => {
       arr.forEach((m) => {
         const mealName = getMealName(m);
-        newBatchCounts[mealName] = (newBatchCounts[mealName] || 0) + 1;
+        if (!newBatchCounts[mealName]) {
+          newBatchCounts[mealName] = { count: 0, mealId: m };
+        }
+        newBatchCounts[mealName].count += 1;
       });
     });
     batchPrepCounts = newBatchCounts;
@@ -292,6 +302,19 @@
 
     // Force update of derived data
     updateDerivedData();
+  }
+
+  function showMealDetails(mealId: string) {
+    const meal = allMeals.find((m) => m.id === mealId);
+    if (meal) {
+      selectedMealForModal = meal;
+      showMealModal = true;
+    }
+  }
+
+  function closeMealModal() {
+    showMealModal = false;
+    selectedMealForModal = null;
   }
 </script>
 
@@ -488,7 +511,13 @@
                           {@const meal = allMeals.find((m) => m.id === mealId)}
                           {#if meal}
                             <span class="tag">
-                              {meal.name}
+                              <button
+                                class="hover:text-blue-600 hover:underline cursor-pointer text-left"
+                                onclick={() => showMealDetails(mealId)}
+                                title="Click to view meal details and instructions"
+                              >
+                                {meal.name}
+                              </button>
                               <button
                                 class="ml-1 text-red-500 hover:text-red-700"
                                 onclick={() => removeMeal(date, mealId)}
@@ -543,12 +572,20 @@
         <div class="mt-4 transition-all duration-300 ease-in-out">
           {#if Object.keys(batchPrepCounts).length > 0}
             <div class="space-y-3">
-              {#each Object.entries(batchPrepCounts) as [mealName, count]}
+              {#each Object.entries(batchPrepCounts) as [mealName, mealData]}
                 <div
                   class="flex justify-between items-center p-3 bg-gray-50 rounded"
                 >
-                  <div class="font-medium">{mealName}</div>
-                  <div class="text-2xl text-blue-600 font-bold">{count}</div>
+                  <button
+                    class="font-medium hover:text-blue-600 hover:underline cursor-pointer text-left"
+                    onclick={() => showMealDetails(mealData.mealId)}
+                    title="Click to view meal details and instructions"
+                  >
+                    {mealName}
+                  </button>
+                  <div class="text-2xl text-blue-600 font-bold">
+                    {mealData.count}
+                  </div>
                 </div>
               {/each}
             </div>
@@ -618,3 +655,130 @@
     </div>
   </div>
 </div>
+
+<!-- Meal Details Modal -->
+{#if showMealModal && selectedMealForModal}
+  <div
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+  >
+    <div
+      class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+    >
+      <!-- Modal Header -->
+      <div class="flex justify-between items-center p-6 border-b">
+        <h2 class="text-xl font-semibold">{selectedMealForModal.name}</h2>
+        <button
+          class="text-gray-400 hover:text-gray-600 text-2xl"
+          onclick={closeMealModal}
+        >
+          ×
+        </button>
+      </div>
+
+      <!-- Modal Content -->
+      <div class="p-6 space-y-6">
+        <!-- Meal Type and Tags -->
+        <div class="flex items-center gap-4">
+          <span class="text-sm text-gray-600 capitalize">
+            {selectedMealForModal.mealType}
+          </span>
+          {#if selectedMealForModal.tags?.length}
+            <div class="flex gap-2">
+              {#each selectedMealForModal.tags as tag}
+                <span
+                  class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"
+                >
+                  {tag}
+                </span>
+              {/each}
+            </div>
+          {/if}
+        </div>
+
+        <!-- Portions -->
+        <div>
+          <h3 class="font-medium mb-3">Portion Sizes</h3>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="flex justify-between">
+              <span>Protein:</span>
+              <span class="font-medium"
+                >{selectedMealForModal.portions?.protein_palms || 0} palms</span
+              >
+            </div>
+            <div class="flex justify-between">
+              <span>Veggies:</span>
+              <span class="font-medium"
+                >{selectedMealForModal.portions?.veg_fists || 0} fists</span
+              >
+            </div>
+            <div class="flex justify-between">
+              <span>Starch:</span>
+              <span class="font-medium"
+                >{selectedMealForModal.portions?.starch_fists || 0} fists</span
+              >
+            </div>
+            <div class="flex justify-between">
+              <span>Fat:</span>
+              <span class="font-medium"
+                >{selectedMealForModal.portions?.fat_thumbs || 0} thumbs</span
+              >
+            </div>
+            <div class="flex justify-between">
+              <span>Fruit:</span>
+              <span class="font-medium"
+                >{selectedMealForModal.portions?.fruit_fists || 0} fists</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Ingredients -->
+        {#if selectedMealForModal.ingredients?.length}
+          <div>
+            <h3 class="font-medium mb-3">Ingredients</h3>
+            <div class="space-y-2">
+              {#each selectedMealForModal.ingredients as ingredient}
+                <div
+                  class="flex justify-between items-center p-2 bg-gray-50 rounded"
+                >
+                  <span class="font-medium">{ingredient.name}</span>
+                  <span class="text-sm text-gray-600">
+                    {ingredient.amount}
+                    {ingredient.unit}
+                  </span>
+                </div>
+              {/each}
+            </div>
+          </div>
+        {/if}
+
+        <!-- Prep Steps -->
+        {#if selectedMealForModal.steps?.length}
+          <div>
+            <div class="flex items-center gap-3 mb-3">
+              <h3 class="font-medium">Prep Steps</h3>
+              {#if selectedMealForModal.prep_time}
+                <span
+                  class="text-sm bg-blue-100 text-blue-800 px-3 py-1 rounded"
+                >
+                  ⏱️ {selectedMealForModal.prep_time} minutes
+                </span>
+              {/if}
+            </div>
+            <ol class="list-decimal list-inside space-y-2 text-sm">
+              {#each selectedMealForModal.steps as step, index}
+                <li class="p-2 bg-gray-50 rounded">{step}</li>
+              {/each}
+            </ol>
+          </div>
+        {/if}
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex justify-end gap-3 p-6 border-t">
+        <button class="btn-outline" onclick={closeMealModal}> Close </button>
+        <a href="/meals" class="btn"> View in Meals Library </a>
+      </div>
+    </div>
+  </div>
+{/if}

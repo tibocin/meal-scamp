@@ -94,6 +94,7 @@
           unit: formData.get("unit1") as string,
         },
       ].filter((i) => i.name && i.amount),
+      prep_time: Number(formData.get("prep_time")) || null,
       steps: (formData.get("steps") as string)
         .split("\n")
         .filter((s) => s.trim()),
@@ -341,6 +342,23 @@
         </div>
 
         <div class="mt-4">
+          <label for="prep-time" class="block text-sm font-medium mb-1"
+            >Prep Time (minutes)</label
+          >
+          <input
+            id="prep-time"
+            type="number"
+            name="prep_time"
+            value={editingMeal?.prep_time || ""}
+            min="1"
+            max="480"
+            step="1"
+            class="border p-2 w-full rounded"
+            placeholder="e.g., 30"
+          />
+        </div>
+
+        <div class="mt-4">
           <label for="steps" class="block text-sm font-medium mb-1"
             >Steps (one per line)</label
           >
@@ -430,7 +448,13 @@
                   class="border rounded-lg p-3 hover:shadow-md transition-shadow"
                 >
                   <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-semibold">{meal.name}</h3>
+                    <h3
+                      class="font-semibold cursor-pointer hover:text-blue-600 hover:underline"
+                      onclick={() => editMeal(meal)}
+                      title="Click to edit meal"
+                    >
+                      {meal.name}
+                    </h3>
                     <div class="flex gap-1">
                       <button
                         class="text-sm text-blue-600 hover:text-blue-800"
@@ -473,7 +497,16 @@
 
                   {#if meal.steps?.length}
                     <div class="text-xs text-gray-600">
-                      <strong>Prep Steps:</strong>
+                      <div class="flex items-center gap-2 mb-2">
+                        <strong>Prep Steps:</strong>
+                        {#if meal.prep_time}
+                          <span
+                            class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"
+                          >
+                            ⏱️ {meal.prep_time} min
+                          </span>
+                        {/if}
+                      </div>
                       <ol class="list-decimal list-inside mt-1 space-y-1">
                         {#each meal.steps as step, index}
                           <li>{step}</li>
@@ -531,7 +564,13 @@
                   class="border rounded-lg p-3 hover:shadow-md transition-shadow"
                 >
                   <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-semibold">{meal.name}</h3>
+                    <h3
+                      class="font-semibold cursor-pointer hover:text-blue-600 hover:underline"
+                      onclick={() => editMeal(meal)}
+                      title="Click to edit meal"
+                    >
+                      {meal.name}
+                    </h3>
                     <div class="flex gap-1">
                       <button
                         class="text-sm text-blue-600 hover:text-blue-800"
@@ -574,7 +613,16 @@
 
                   {#if meal.steps?.length}
                     <div class="text-xs text-gray-600">
-                      <strong>Prep Steps:</strong>
+                      <div class="flex items-center gap-2 mb-2">
+                        <strong>Prep Steps:</strong>
+                        {#if meal.prep_time}
+                          <span
+                            class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"
+                          >
+                            ⏱️ {meal.prep_time} min
+                          </span>
+                        {/if}
+                      </div>
                       <ol class="list-decimal list-inside mt-1 space-y-1">
                         {#each meal.steps as step, index}
                           <li>{step}</li>
@@ -632,7 +680,13 @@
                   class="border rounded-lg p-3 hover:shadow-md transition-shadow"
                 >
                   <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-semibold">{meal.name}</h3>
+                    <h3
+                      class="font-semibold cursor-pointer hover:text-blue-600 hover:underline"
+                      onclick={() => editMeal(meal)}
+                      title="Click to edit meal"
+                    >
+                      {meal.name}
+                    </h3>
                     <div class="flex gap-1">
                       <button
                         class="text-sm text-blue-600 hover:text-blue-800"
@@ -675,7 +729,16 @@
 
                   {#if meal.steps?.length}
                     <div class="text-xs text-gray-600">
-                      <strong>Prep Steps:</strong>
+                      <div class="flex items-center gap-2 mb-2">
+                        <strong>Prep Steps:</strong>
+                        {#if meal.prep_time}
+                          <span
+                            class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded"
+                          >
+                            ⏱️ {meal.prep_time} min
+                          </span>
+                        {/if}
+                      </div>
                       <ol class="list-decimal list-inside mt-1 space-y-1">
                         {#each meal.steps as step, index}
                           <li>{step}</li>
@@ -733,7 +796,13 @@
                   class="border rounded-lg p-3 hover:shadow-md transition-shadow"
                 >
                   <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-semibold">{meal.name}</h3>
+                    <h3
+                      class="font-semibold cursor-pointer hover:text-blue-600 hover:underline"
+                      onclick={() => editMeal(meal)}
+                      title="Click to edit meal"
+                    >
+                      {meal.name}
+                    </h3>
                     <div class="flex gap-1">
                       <button
                         class="text-sm text-blue-600 hover:text-blue-800"
@@ -776,7 +845,16 @@
 
                   {#if meal.steps?.length}
                     <div class="text-xs text-gray-600">
-                      <strong>Prep Steps:</strong>
+                      <div class="flex items-center gap-2 mb-2">
+                        <strong>Prep Steps:</strong>
+                        {#if meal.prep_time}
+                          <span
+                            class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded"
+                          >
+                            ⏱️ {meal.prep_time} min
+                          </span>
+                        {/if}
+                      </div>
                       <ol class="list-decimal list-inside mt-1 space-y-1">
                         {#each meal.steps as step, index}
                           <li>{step}</li>
