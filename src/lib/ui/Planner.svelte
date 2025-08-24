@@ -25,10 +25,9 @@
   // Load data only on client side using onMount
   onMount(() => {
     if (allMeals.length === 0) {
-      // Temporarily commented out to test
-      // fetch("/api/seed")
-      //   .then((r) => r.json())
-      //   .then((data) => meals.set(data));
+      fetch("/api/seed")
+        .then((r) => r.json())
+        .then((data) => meals.set(data));
     }
   });
 
@@ -77,6 +76,19 @@
   function getMealName(id: string): string {
     const meal = allMeals.find((x) => x.id === id);
     return meal ? meal.name : id;
+  }
+
+  function exportShoppingList() {
+    const data = Object.entries(shopping).map(([name, amt]) => `${name}: ${amt}`).join('\n');
+    const blob = new Blob([data], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'shopping_list.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 </script>
 
@@ -131,7 +143,17 @@
           <span class="font-mono">{n}×</span>
         </div>
       {/each}
+      
       <h3 class="font-semibold mt-4 mb-2">Shopping List (aggregated)</h3>
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-600">Total items: {Object.keys(shopping).length}</span>
+        <button 
+          class="btn-outline text-sm" 
+          onclick={() => exportShoppingList()}
+        >
+          📋 Export List
+        </button>
+      </div>
       {#each Object.entries(shopping) as [name, amt]}
         <div class="flex justify-between border-b py-1 text-sm">
           <span>{name}</span><span class="font-mono">{amt}</span>
