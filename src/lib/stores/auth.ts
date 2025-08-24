@@ -175,6 +175,11 @@ const createAuthStore = () => {
     // Clear error
     clearError() {
       update(state => ({ ...state, error: null }));
+    },
+
+    // Update user profile information
+    updateUser(updatedUser: User) {
+      update(state => ({ ...state, user: updatedUser }));
     }
   };
 };
