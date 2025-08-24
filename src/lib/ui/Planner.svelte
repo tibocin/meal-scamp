@@ -5,6 +5,7 @@
     seedMeals,
     needsSeeding,
     getCurrentDateRange,
+    dateRange,
   } from "$lib/stores";
   import { get } from "svelte/store";
   import { onMount } from "svelte";
@@ -15,70 +16,166 @@
   let toastMessage = $state("");
   let toastType = $state<"success" | "error" | "info">("info");
 
-  // Subscribe to meals store changes
-  meals.subscribe((v) => {
-    console.log("🍽️ Meals store subscription triggered:", v.length, "meals");
-    allMeals = v;
-    console.log("🍽️ allMeals updated to:", allMeals.length, "meals");
+  // Subscribe to dateRange store for reactive date updates
+  let currentDateRange = $state<string[]>([]);
+  dateRange.subscribe((range) => {
+    if (range.start && range.end) {
+      currentDateRange = getLocalDateRange(range.start, range.end);
+      console.log(
+        "📅 Date range updated:",
+        range.start,
+        "to",
+        range.end,
+        "->",
+        currentDateRange.length,
+        "days",
+      );
+    }
   });
 
   // Load data only on client side using onMount
   onMount(async () => {
     console.log("🔍 Planner component mounted");
     console.log("📊 Current meals count:", allMeals.length);
-    console.log("🌱 Needs seeding?", needsSeeding());
-    console.log("🍽️ Meals store value:", get(meals).length);
 
-    // Always try to load meals to ensure they're available
-    console.log("🌱 Loading sample meals...");
-    await loadSampleMeals();
+    // Initialize date range from current store value
+    const currentRange = get(dateRange);
+    if (currentRange.start && currentRange.end) {
+      currentDateRange = getLocalDateRange(
+        currentRange.start,
+        currentRange.end,
+      );
+      console.log(
+        "📅 Initialized date range:",
+        currentRange.start,
+        "to",
+        currentRange.end,
+        "->",
+        currentDateRange.length,
+        "days",
+      );
+    }
 
-    // Force a refresh of the meals data
-    const currentMeals = get(meals);
-    console.log("📊 After loading - meals store:", currentMeals.length);
-    allMeals = currentMeals;
+    // Always load meals directly from API to bypass store issues
+    console.log("🌱 Loading meals directly from API...");
+    await loadMealsDirectly();
+
     console.log("📊 After loading - allMeals count:", allMeals.length);
   });
 
-  async function loadSampleMeals() {
+  async function loadMealsDirectly() {
     isLoading = true;
     try {
-      console.log("🔄 Calling seedMeals()...");
-      const result = await seedMeals();
-      console.log("📊 Seed result:", result);
-      
-      // Check the store immediately after seeding
-      const storeMeals = get(meals);
-      console.log("🍽️ Store meals after seeding:", storeMeals.length);
-      console.log("🍽️ Store meals content:", storeMeals);
-      
-      // Force update allMeals
-      allMeals = storeMeals;
-      console.log("🍽️ allMeals after seeding:", allMeals.length);
-      
-      // TEMPORARY: If store is still empty, try direct API call
-      if (allMeals.length === 0) {
-        console.log("⚠️ Store still empty, trying direct API call...");
-        try {
-          const response = await fetch('/api/seed');
-          if (response.ok) {
-            const directMeals = await response.json();
-            console.log("🍽️ Direct API call successful:", directMeals.length, "meals");
-            allMeals = directMeals;
-            console.log("🍽️ allMeals after direct API:", allMeals.length);
-          }
-        } catch (apiError) {
-          console.error("❌ Direct API call failed:", apiError);
-        }
+      console.log("🔄 Making direct API call to /api/seed...");
+      const response = await fetch("/api/seed");
+      if (response.ok) {
+        const directMeals = await response.json();
+        console.log(
+          "🍽️ Direct API call successful:",
+          directMeals.length,
+          "meals",
+        );
+        console.log("🍽️ First meal sample:", directMeals[0]);
+        console.log(
+          "🍽️ Meal structure check - has ingredients?",
+          directMeals[0]?.ingredients,
+        );
+
+        allMeals = directMeals;
+        console.log("🍽️ allMeals after direct API:", allMeals.length);
+
+        // Force a re-render by updating derived data
+        updateDerivedData();
+      } else {
+        console.error("❌ API call failed:", response.status);
       }
-      
-      showToast(result.message, result.success ? "success" : "error");
     } catch (error) {
-      console.error("❌ Error in loadSampleMeals:", error);
-      showToast("Failed to load sample meals", "error");
+      console.error("❌ Error in loadMealsDirectly:", error);
     } finally {
       isLoading = false;
     }
+  }
+
+  // Helper function to get meals by type
+  function getMealsByType(type: string) {
+    return allMeals.filter((meal) => meal.mealType === type);
+  }
+
+  // Deep copy function to handle Proxy objects from Svelte $state
+  function deepCopy<T>(obj: T): T {
+    try {
+      console.log(
+        "🔍 deepCopy called with:",
+        typeof obj,
+        "constructor:",
+        obj?.constructor?.name,
+      );
+
+      // Handle primitive types
+      if (obj === null || typeof obj !== "object") {
+        console.log("🔍 Returning primitive:", obj);
+        return obj;
+      }
+
+      // Handle arrays
+      if (Array.isArray(obj)) {
+        console.log("🔍 Processing array with", obj.length, "items");
+        return obj.map((item) => deepCopy(item)) as T;
+      }
+
+      // Handle objects (including Proxy objects)
+      if (typeof obj === "object") {
+        console.log(
+          "🔍 Processing object with keys:",
+          Object.keys(obj as Record<string, any>),
+        );
+        const copy = {} as Record<string, any>;
+        // Use Object.keys to safely iterate over own properties
+        const keys = Object.keys(obj as Record<string, any>);
+        for (const key of keys) {
+          try {
+            copy[key] = deepCopy((obj as Record<string, any>)[key]);
+          } catch (propError) {
+            console.warn(
+              `⚠️ Warning: Could not copy property ${key}:`,
+              propError,
+            );
+            // Skip problematic properties
+            continue;
+          }
+        }
+        console.log("🔍 Object copy completed:", copy);
+        return copy as T;
+      }
+
+      return obj;
+    } catch (error) {
+      console.error("❌ Error in deepCopy:", error, "Object:", obj);
+      // Fallback: return a safe copy of the object
+      if (typeof obj === "object" && obj !== null) {
+        return { ...obj } as T;
+      }
+      return obj;
+    }
+  }
+
+  // Local function to generate date range based on provided dates
+  function getLocalDateRange(start: string, end: string): string[] {
+    if (!start || !end) return [];
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const dates: string[] = [];
+
+    for (
+      let d = new Date(startDate);
+      d <= endDate;
+      d.setDate(d.getDate() + 1)
+    ) {
+      dates.push(d.toISOString().slice(0, 10));
+    }
+
+    return dates;
   }
 
   function showToast(message: string, type: "success" | "error" | "info") {
@@ -90,7 +187,7 @@
   }
 
   function add(date: string, mealId: string) {
-    const p = structuredClone(currentPlan);
+    const p = deepCopy(currentPlan);
     p[date] = p[date] || [];
     p[date].push(mealId);
     currentPlan = p; // Update local state immediately
@@ -98,16 +195,16 @@
   }
 
   function remove(date: string, idx: number) {
-    const p = structuredClone(currentPlan);
+    const p = deepCopy(currentPlan);
     p[date].splice(idx, 1);
     currentPlan = p; // Update local state immediately
     plan.set(p);
   }
 
   // Convert reactive statements to simpler reactive variables
-  let counts = $state<Record<string, number>>({});
   let shopping = $state<Record<string, { amount: number; unit: string }>>({});
   let currentPlan = $state<Record<string, string[]>>({});
+  let batchPrepCounts = $state<Record<string, number>>({});
 
   // Subscribe to plan changes to update derived data and local state
   plan.subscribe((planData) => {
@@ -123,30 +220,52 @@
   // Update counts and shopping when plan or meals change
   function updateDerivedData() {
     console.log("🔄 updateDerivedData called, currentPlan:", currentPlan);
+    console.log("🔄 allMeals available:", allMeals.length, "meals");
 
-    // Update counts
-    const newCounts: Record<string, number> = {};
-    Object.values(currentPlan).forEach((arr) =>
+    // Update batch prep counts with meal names
+    const newBatchCounts: Record<string, number> = {};
+    Object.values(currentPlan).forEach((arr) => {
+      console.log("🔄 Processing date array:", arr);
       arr.forEach((m) => {
-        newCounts[m] = (newCounts[m] || 0) + 1;
-      }),
-    );
-    counts = newCounts;
-    console.log("📊 Updated counts:", counts);
+        const mealName = getMealName(m);
+        console.log("🔄 Processing meal ID:", m, "-> name:", mealName);
+        newBatchCounts[mealName] = (newBatchCounts[mealName] || 0) + 1;
+      });
+    });
+    batchPrepCounts = newBatchCounts;
+    console.log("📊 Updated batch prep counts:", batchPrepCounts);
 
     // Update shopping with proper unit handling
     const newShopping: Record<string, { amount: number; unit: string }> = {};
     const mealsById = Object.fromEntries(allMeals.map((m) => [m.id, m]));
+    console.log("🔄 Meals by ID mapping:", Object.keys(mealsById));
+
     for (const arr of Object.values(currentPlan)) {
       for (const id of arr) {
         const m = mealsById[id];
-        if (!m) continue;
+        console.log("🔄 Processing meal for shopping:", id, "-> meal:", m);
+        if (!m) {
+          console.log("⚠️ Meal not found for ID:", id);
+          continue;
+        }
+        if (!m.ingredients) {
+          console.log("⚠️ Meal has no ingredients:", m);
+          continue;
+        }
         for (const ing of m.ingredients) {
           const key = ing.name;
           if (!newShopping[key]) {
             newShopping[key] = { amount: 0, unit: ing.unit };
           }
           newShopping[key].amount += ing.amount || 0;
+          console.log(
+            "🔄 Added ingredient:",
+            key,
+            "amount:",
+            ing.amount,
+            "unit:",
+            ing.unit,
+          );
         }
       }
     }
@@ -154,12 +273,9 @@
     console.log("🛒 Updated shopping:", shopping);
   }
 
-  function getMealsForDate(date: string): string[] {
-    return currentPlan[date] || [];
-  }
-
   function getMealName(id: string): string {
     const meal = allMeals.find((x) => x.id === id);
+    console.log("🔍 getMealName called with ID:", id, "-> found meal:", meal);
     return meal ? meal.name : id;
   }
 
@@ -179,16 +295,63 @@
     showToast("Shopping list exported successfully", "success");
   }
 
-  // Get meal plan data
-  let days = $state(0);
+  // Note: All meal plan data is now handled through currentPlan and batchPrepCounts
 
-  // Update days when plan changes
-  plan.subscribe((planData) => {
-    days = Object.keys(planData).length;
-  });
+  // New function to add meal to a specific day and type
+  function addMeal(date: string, mealId: string, mealType: string) {
+    console.log("🍽️ Adding meal:", mealId, "to date:", date, "type:", mealType);
+    console.log("🍽️ Current allMeals:", allMeals);
+    console.log("🍽️ Current currentPlan:", currentPlan);
+    console.log(
+      "🍽️ currentPlan type:",
+      typeof currentPlan,
+      "constructor:",
+      currentPlan?.constructor?.name,
+    );
 
-  function dates() {
-    return getCurrentDateRange();
+    const p = deepCopy(currentPlan);
+    console.log("🍽️ Deep copy result:", p);
+    console.log(
+      "🍽️ Deep copy type:",
+      typeof p,
+      "constructor:",
+      p?.constructor?.name,
+    );
+
+    p[date] = p[date] || [];
+    p[date].push(mealId);
+
+    // Update local state immediately
+    currentPlan = p;
+
+    // Update the global plan store
+    plan.set(p);
+
+    console.log("🍽️ Updated currentPlan:", currentPlan);
+
+    // Force update of derived data
+    updateDerivedData();
+
+    console.log("✅ Meal added successfully. Current plan:", currentPlan);
+  }
+
+  // New function to remove meal from a specific day
+  function removeMeal(date: string, mealId: string) {
+    console.log("🗑️ Removing meal:", mealId, "from date:", date);
+
+    const p = deepCopy(currentPlan);
+    p[date] = p[date]?.filter((id) => id !== mealId) || [];
+
+    // Update local state immediately
+    currentPlan = p;
+
+    // Update the global plan store
+    plan.set(p);
+
+    // Force update of derived data
+    updateDerivedData();
+
+    console.log("✅ Meal removed successfully. Current plan:", currentPlan);
   }
 </script>
 
@@ -207,164 +370,164 @@
   </div>
 {/if}
 
-<div class="space-y-4">
-  <!-- Load Sample Meals Button -->
-  {#if needsSeeding()}
-    <div class="card">
+<div class="space-y-6">
+  <!-- Weekly Planner -->
+  <div class="card">
+    <h2 class="text-xl font-semibold mb-4">Weekly Planner</h2>
+
+    {#if allMeals.length === 0}
       <div class="text-center py-4">
         <p class="text-gray-600 mb-3">No meals available for planning</p>
-        <button class="btn" onclick={loadSampleMeals} disabled={isLoading}>
+        <button class="btn" onclick={loadMealsDirectly} disabled={isLoading}>
           {isLoading ? "Loading..." : "📥 Load Sample Meals"}
         </button>
       </div>
-    </div>
-  {/if}
+    {:else}
+      <!-- Meal Planning Grid -->
+      <div class="space-y-4">
+        {#each currentDateRange as date}
+          <div class="border rounded-lg p-4">
+            <div class="text-sm font-medium text-gray-700 mb-3">{date}</div>
 
-  <div class="card">
-    <h3 class="font-semibold mb-2">Add Meals to Days</h3>
+            <!-- Breakfast -->
+            <div class="mb-3">
+              <label class="block text-xs text-gray-500 mb-1"
+                >🍳 Breakfast</label
+              >
+              <select
+                class="border p-2 w-full rounded text-sm"
+                onchange={(e) => {
+                  const target = e.target as HTMLSelectElement;
+                  if (target && target.value) {
+                    addMeal(date, target.value, "breakfast");
+                    target.value = ""; // Reset dropdown
+                  }
+                }}
+              >
+                <option value="">+ Add breakfast</option>
+                {#each getMealsByType("breakfast") as meal}
+                  <option value={meal.id}>{meal.name}</option>
+                {/each}
+              </select>
+            </div>
 
-    <!-- Breakfast Meals -->
-    {#if allMeals.filter((m) => m.mealType === "breakfast").length > 0}
-      <div class="mb-3">
-        <h4 class="text-sm font-medium text-gray-700 mb-2">🍳 Breakfast</h4>
-        <div class="flex gap-2 flex-wrap">
-          {#each allMeals.filter((m) => m.mealType === "breakfast") as m}
-            <button
-              class="btn-outline text-sm"
-              onclick={() => add(dates()[0], m.id)}>{m.name}</button
-            >
-          {/each}
-        </div>
-      </div>
-    {/if}
+            <!-- Lunch -->
+            <div class="mb-3">
+              <label class="block text-xs text-gray-500 mb-1">🥪 Lunch</label>
+              <select
+                class="border p-2 w-full rounded text-sm"
+                onchange={(e) => {
+                  const target = e.target as HTMLSelectElement;
+                  if (target && target.value) {
+                    addMeal(date, target.value, "lunch");
+                    target.value = ""; // Reset dropdown
+                  }
+                }}
+              >
+                <option value="">+ Add lunch</option>
+                {#each getMealsByType("lunch") as meal}
+                  <option value={meal.id}>{meal.name}</option>
+                {/each}
+              </select>
+            </div>
 
-    <!-- Lunch Meals -->
-    {#if allMeals.filter((m) => m.mealType === "lunch").length > 0}
-      <div class="mb-3">
-        <h4 class="text-sm font-medium text-gray-700 mb-2">🥪 Lunch</h4>
-        <div class="flex gap-2 flex-wrap">
-          {#each allMeals.filter((m) => m.mealType === "lunch") as m}
-            <button
-              class="btn-outline text-sm"
-              onclick={() => add(dates()[0], m.id)}>{m.name}</button
-            >
-          {/each}
-        </div>
-      </div>
-    {/if}
+            <!-- Dinner -->
+            <div class="mb-3">
+              <label class="block text-xs text-gray-500 mb-1">🍽️ Dinner</label>
+              <select
+                class="border p-2 w-full rounded text-sm"
+                onchange={(e) => {
+                  const target = e.target as HTMLSelectElement;
+                  if (target && target.value) {
+                    addMeal(date, target.value, "dinner");
+                    target.value = ""; // Reset dropdown
+                  }
+                }}
+              >
+                <option value="">+ Add dinner</option>
+                {#each getMealsByType("dinner") as meal}
+                  <option value={meal.id}>{meal.name}</option>
+                {/each}
+              </select>
+            </div>
 
-    <!-- Dinner Meals -->
-    {#if allMeals.filter((m) => m.mealType === "dinner").length > 0}
-      <div class="mb-3">
-        <h4 class="text-sm font-medium text-gray-700 mb-2">🍽️ Dinner</h4>
-        <div class="flex gap-2 flex-wrap">
-          {#each allMeals.filter((m) => m.mealType === "dinner") as m}
-            <button
-              class="btn-outline text-sm"
-              onclick={() => add(dates()[0], m.id)}>{m.name}</button
-            >
-          {/each}
-        </div>
+            <!-- Current Meals for this day -->
+            {#if currentPlan[date] && currentPlan[date].length > 0}
+              <div class="mt-3 pt-3 border-t">
+                <div class="text-xs text-gray-500 mb-2">Planned Meals:</div>
+                <div class="flex flex-wrap gap-2">
+                  {#each currentPlan[date] as mealId}
+                    {@const meal = allMeals.find((m) => m.id === mealId)}
+                    {#if meal}
+                      <span class="tag">
+                        {meal.name}
+                        <button
+                          class="ml-1 text-red-500 hover:text-red-700"
+                          onclick={() => removeMeal(date, mealId)}
+                        >
+                          ×
+                        </button>
+                      </span>
+                    {/if}
+                  {/each}
+                </div>
+              </div>
+            {/if}
+          </div>
+        {/each}
       </div>
     {/if}
   </div>
 
-  <div class="grid md:grid-cols-2 gap-4">
+  <!-- Side-by-side layout for batch prep and shopping -->
+  <div class="grid md:grid-cols-2 gap-6">
+    <!-- Batch Prep Counts -->
     <div class="card">
-      <h3 class="font-semibold mb-2">Plan ({days} days)</h3>
-      {#each dates() as d}
-        <div class="mb-3">
-          <div class="text-sm text-gray-500">{d}</div>
-          <div class="flex flex-wrap gap-2 mt-1">
-            {#if (currentPlan[d] || []).length === 0}
-              <span class="tag">No meals yet</span>
-            {:else}
-              {#each currentPlan[d] || [] as id, i}
-                <button class="tag" onclick={() => remove(d, i)}
-                  >{getMealName(id)} ✕</button
-                >
-              {/each}
-            {/if}
-          </div>
-          <div class="mt-2">
-            <select
-              class="border p-1"
-              onchange={(e) => {
-                const value = (e.target as HTMLSelectElement).value;
-                if (value) {
-                  console.log("🍽️ Adding meal:", value, "to date:", d);
-                  add(d, value);
-                  (e.target as HTMLSelectElement).value = "";
-                }
-              }}
+      <h3 class="font-semibold mb-3">Batch Prep Counts</h3>
+      {#if Object.keys(batchPrepCounts).length > 0}
+        <div class="space-y-3">
+          {#each Object.entries(batchPrepCounts) as [mealName, count]}
+            <div
+              class="flex justify-between items-center p-3 bg-gray-50 rounded"
             >
-              <option value="">+ Add meal</option>
-              <!-- Debug: allMeals count -->
-              <option disabled>DEBUG: {allMeals.length} total meals</option>
-
-              <!-- Breakfast Meals -->
-              <optgroup label="🍳 Breakfast">
-                {#each allMeals.filter((m) => m.mealType === "breakfast") as m}
-                  <option value={m.id}>{m.name}</option>
-                {/each}
-                {#if allMeals.filter((m) => m.mealType === "breakfast").length === 0}
-                  <option disabled>No breakfast meals available</option>
-                {/if}
-              </optgroup>
-
-              <!-- Lunch Meals -->
-              <optgroup label="🥪 Lunch">
-                {#each allMeals.filter((m) => m.mealType === "lunch") as m}
-                  <option value={m.id}>{m.name}</option>
-                {/each}
-                {#if allMeals.filter((m) => m.mealType === "lunch").length === 0}
-                  <option disabled>No lunch meals available</option>
-                {/if}
-              </optgroup>
-
-              <!-- Dinner Meals -->
-              <optgroup label="🍽️ Dinner">
-                {#each allMeals.filter((m) => m.mealType === "dinner") as m}
-                  <option value={m.id}>{m.name}</option>
-                {/each}
-                {#if allMeals.filter((m) => m.mealType === "dinner").length === 0}
-                  <option disabled>No dinner meals available</option>
-                {/if}
-              </optgroup>
-            </select>
-          </div>
+              <div class="font-medium">{mealName}</div>
+              <div class="text-2xl text-blue-600 font-bold">{count}</div>
+            </div>
+          {/each}
         </div>
-      {/each}
+      {:else}
+        <p class="text-gray-500 text-center py-4">No meals planned yet</p>
+      {/if}
     </div>
 
+    <!-- Shopping List -->
     <div class="card">
-      <h3 class="font-semibold mb-2">Batch Prep Counts</h3>
-      {#each Object.entries(counts) as [id, n]}
-        <div class="flex justify-between border-b py-1 text-sm">
-          <span>{getMealName(id)}</span>
-          <span class="font-mono">{n}×</span>
-        </div>
-      {/each}
-
-      <h3 class="font-semibold mt-4 mb-2">Shopping List (aggregated)</h3>
-      <div class="flex justify-between items-center mb-2">
+      <h3 class="font-semibold mb-3">Shopping List (aggregated)</h3>
+      <div class="flex justify-between items-center mb-3">
         <span class="text-sm text-gray-600"
           >Total items: {Object.keys(shopping).length}</span
         >
-        <button
-          class="btn-outline text-sm"
-          onclick={() => exportShoppingList()}
-        >
+        <button class="btn-outline text-sm" onclick={exportShoppingList}>
           📋 Export List
         </button>
       </div>
-      {#each Object.entries(shopping) as [name, amt]}
-        <div class="flex justify-between border-b py-1 text-sm">
-          <span>{name}</span><span class="font-mono"
-            >{amt.amount} {amt.unit}</span
-          >
+      {#if Object.keys(shopping).length > 0}
+        <div class="space-y-2">
+          {#each Object.entries(shopping) as [ingredient, details]}
+            <div
+              class="flex justify-between items-center p-2 bg-gray-50 rounded"
+            >
+              <span class="font-medium">{ingredient}</span>
+              <span class="text-sm text-gray-600">
+                {details.amount}
+                {details.unit}
+              </span>
+            </div>
+          {/each}
         </div>
-      {/each}
+      {:else}
+        <p class="text-gray-500 text-center py-4">No ingredients to buy</p>
+      {/if}
     </div>
   </div>
 </div>
