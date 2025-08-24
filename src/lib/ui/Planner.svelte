@@ -79,12 +79,14 @@
   }
 
   function exportShoppingList() {
-    const data = Object.entries(shopping).map(([name, amt]) => `${name}: ${amt}`).join('\n');
-    const blob = new Blob([data], { type: 'text/plain' });
+    const data = Object.entries(shopping)
+      .map(([name, amt]) => `${name}: ${amt}`)
+      .join("\n");
+    const blob = new Blob([data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'shopping_list.txt';
+    a.download = "shopping_list.txt";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -143,12 +145,14 @@
           <span class="font-mono">{n}×</span>
         </div>
       {/each}
-      
+
       <h3 class="font-semibold mt-4 mb-2">Shopping List (aggregated)</h3>
       <div class="flex justify-between items-center mb-2">
-        <span class="text-sm text-gray-600">Total items: {Object.keys(shopping).length}</span>
-        <button 
-          class="btn-outline text-sm" 
+        <span class="text-sm text-gray-600"
+          >Total items: {Object.keys(shopping).length}</span
+        >
+        <button
+          class="btn-outline text-sm"
           onclick={() => exportShoppingList()}
         >
           📋 Export List

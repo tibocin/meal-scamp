@@ -3,14 +3,14 @@ Description=Meal Scamp SvelteKit
 After=network.target
 
 [Service]
-WorkingDirectory=/opt/meal-scamp
+WorkingDirectory=/home/tibo/r/meal-scamp
 ExecStart=/usr/bin/node www/index.js
 Environment=PORT=3003
-EnvironmentFile=/opt/meal-scamp/.env
+Environment=NODE_ENV=production
 Restart=always
 RestartSec=5
-User=www-data
-Group=www-data
+User=tibo
+Group=tibo
 
 [Install]
 WantedBy=multi-user.target
