@@ -1,52 +1,62 @@
 <script lang="ts">
-  import { meals, plan } from "$lib/stores";
+  import { meals, plan, seedMeals, needsSeeding } from "$lib/stores";
   import { get } from "svelte/store";
-  import { onMount } from "svelte";
-
-  const days = 7;
-  let start = new Date();
-  let mealMap: Record<string, string[]> = {};
-  plan.subscribe((v) => (mealMap = v));
-
-  function dates(): string[] {
-    const out: string[] = [];
-    const s = new Date(start);
-    for (let i = 0; i < days; i++) {
-      const d = new Date(s);
-      d.setDate(s.getDate() + i);
-      out.push(d.toISOString().slice(0, 10));
-    }
-    return out;
-  }
-
+  import { onMount } from 'svelte';
+  
   let allMeals = $state<any[]>([]);
+  let isLoading = $state(false);
+  let toastMessage = $state("");
+  let toastType = $state<"success" | "error" | "info">("info");
+  
   meals.subscribe((v) => (allMeals = v));
-
+  
   // Load data only on client side using onMount
-  onMount(() => {
-    if (allMeals.length === 0) {
-      fetch("/api/seed")
-        .then((r) => r.json())
-        .then((data) => meals.set(data));
+  onMount(async () => {
+    if (needsSeeding()) {
+      await loadSampleMeals();
     }
   });
 
+  async function loadSampleMeals() {
+    isLoading = true;
+    try {
+      const result = await seedMeals();
+      showToast(result.message, result.success ? "success" : "error");
+    } catch (error) {
+      showToast("Failed to load sample meals", "error");
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  function showToast(message: string, type: "success" | "error" | "info") {
+    toastMessage = message;
+    toastType = type;
+    setTimeout(() => {
+      toastMessage = "";
+    }, 5000);
+  }
+
   function add(date: string, mealId: string) {
-    const p = structuredClone(mealMap);
+    const currentPlan = get(plan);
+    const p = structuredClone(currentPlan);
     p[date] = p[date] || [];
     p[date].push(mealId);
     plan.set(p);
   }
+  
   function remove(date: string, idx: number) {
-    const p = structuredClone(mealMap);
+    const currentPlan = get(plan);
+    const p = structuredClone(currentPlan);
     p[date].splice(idx, 1);
     plan.set(p);
   }
 
   // Convert reactive statements to Svelte 5 $derived
   const counts = $derived(() => {
+    const currentPlan = get(plan);
     const c: Record<string, number> = {};
-    Object.values(mealMap).forEach((arr) =>
+    Object.values(currentPlan).forEach((arr) =>
       arr.forEach((m) => {
         c[m] = (c[m] || 0) + 1;
       }),
@@ -55,9 +65,10 @@
   });
 
   const shopping = $derived(() => {
+    const currentPlan = get(plan);
     const out: Record<string, number> = {};
     const mealsById = Object.fromEntries(allMeals.map((m) => [m.id, m]));
-    for (const arr of Object.values(mealMap)) {
+    for (const arr of Object.values(currentPlan)) {
       for (const id of arr) {
         const m = mealsById[id];
         if (!m) continue;
@@ -70,7 +81,8 @@
   });
 
   function getMealsForDate(date: string): string[] {
-    return mealMap[date] || [];
+    const currentPlan = get(plan);
+    return currentPlan[date] || [];
   }
 
   function getMealName(id: string): string {
@@ -79,9 +91,7 @@
   }
 
   function exportShoppingList() {
-    const data = Object.entries(shopping)
-      .map(([name, amt]) => `${name}: ${amt}`)
-      .join("\n");
+    const data = Object.entries(shopping).map(([name, amt]) => `${name}: ${amt}`).join("\n");
     const blob = new Blob([data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -91,10 +101,52 @@
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    showToast("Shopping list exported successfully", "success");
+  }
+
+  // Get meal plan data
+  const days = $derived(() => Object.keys(get(plan)).length);
+  
+  function dates() {
+    const dates = [];
+    const today = new Date();
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      dates.push(date.toISOString().split('T')[0]);
+    }
+    return dates;
   }
 </script>
 
+<!-- Toast Notification -->
+{#if toastMessage}
+  <div
+    class={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${
+      toastType === "success"
+        ? "bg-green-500 text-white"
+        : toastType === "error"
+          ? "bg-red-500 text-white"
+          : "bg-blue-500 text-white"
+    }`}
+  >
+    {toastMessage}
+  </div>
+{/if}
+
 <div class="space-y-4">
+  <!-- Load Sample Meals Button -->
+  {#if needsSeeding()}
+    <div class="card">
+      <div class="text-center py-4">
+        <p class="text-gray-600 mb-3">No meals available for planning</p>
+        <button class="btn" onclick={loadSampleMeals} disabled={isLoading}>
+          {isLoading ? "Loading..." : "📥 Load Sample Meals"}
+        </button>
+      </div>
+    </div>
+  {/if}
+
   <div class="card">
     <h3 class="font-semibold mb-2">Add Meals to Days</h3>
     <div class="flex gap-2 flex-wrap">
@@ -137,6 +189,7 @@
         </div>
       {/each}
     </div>
+
     <div class="card">
       <h3 class="font-semibold mb-2">Batch Prep Counts</h3>
       {#each Object.entries(counts) as [id, n]}

@@ -1,21 +1,64 @@
 <script lang="ts">
-  import { meals } from "$lib/stores";
+  import {
+    meals,
+    seedMeals,
+    needsSeeding,
+    importMealsFromJSON,
+  } from "$lib/stores";
   import { onMount } from "svelte";
 
   let all = $state<any[]>([]);
   let showAddForm = $state(false);
   let editingMeal = $state<any>(null);
+  let showImportForm = $state(false);
+  let importData = $state("");
+  let toastMessage = $state("");
+  let toastType = $state<"success" | "error" | "info">("info");
+  let isLoading = $state(false);
 
   meals.subscribe((v) => (all = v));
 
   // Load data only on client side using onMount
-  onMount(() => {
-    if (all.length === 0) {
-      fetch("/api/seed")
-        .then((r) => r.json())
-        .then((data) => meals.set(data));
+  onMount(async () => {
+    if (needsSeeding()) {
+      await loadSampleMeals();
     }
   });
+
+  async function loadSampleMeals() {
+    isLoading = true;
+    try {
+      const result = await seedMeals();
+      showToast(result.message, result.success ? "success" : "error");
+    } catch (error) {
+      showToast("Failed to load sample meals", "error");
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  function showToast(message: string, type: "success" | "error" | "info") {
+    toastMessage = message;
+    toastType = type;
+    setTimeout(() => {
+      toastMessage = "";
+    }, 5000);
+  }
+
+  function handleImport() {
+    if (!importData.trim()) {
+      showToast("Please enter JSON data", "error");
+      return;
+    }
+
+    const result = importMealsFromJSON(importData);
+    showToast(result.message, result.success ? "success" : "error");
+
+    if (result.success) {
+      showImportForm = false;
+      importData = "";
+    }
+  }
 
   function addMeal() {
     showAddForm = true;
@@ -59,9 +102,11 @@
       // Update existing meal
       const updated = all.map((m) => (m.id === editingMeal.id ? mealData : m));
       meals.set(updated);
+      showToast("Meal updated successfully", "success");
     } else {
       // Add new meal
       meals.set([...all, mealData]);
+      showToast("Meal added successfully", "success");
     }
 
     showAddForm = false;
@@ -72,16 +117,77 @@
     if (confirm("Are you sure you want to delete this meal?")) {
       const filtered = all.filter((m) => m.id !== id);
       meals.set(filtered);
+      showToast("Meal deleted successfully", "success");
     }
   }
 </script>
 
 <div class="max-w-4xl mx-auto p-4 space-y-4">
+  <!-- Toast Notification -->
+  {#if toastMessage}
+    <div
+      class={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${
+        toastType === "success"
+          ? "bg-green-500 text-white"
+          : toastType === "error"
+            ? "bg-red-500 text-white"
+            : "bg-blue-500 text-white"
+      }`}
+    >
+      {toastMessage}
+    </div>
+  {/if}
+
   <div class="flex justify-between items-center">
     <h1 class="text-2xl font-bold">Meal Library</h1>
-    <button class="btn" onclick={addMeal}>+ Add Meal</button>
+    <div class="flex gap-2">
+      {#if needsSeeding()}
+        <button
+          class="btn-outline"
+          onclick={loadSampleMeals}
+          disabled={isLoading}
+        >
+          {isLoading ? "Loading..." : "📥 Load Sample Meals"}
+        </button>
+      {/if}
+      <button class="btn-outline" onclick={() => (showImportForm = true)}>
+        📁 Import JSON
+      </button>
+      <button class="btn" onclick={addMeal}>+ Add Meal</button>
+    </div>
   </div>
 
+  <!-- Import Form -->
+  {#if showImportForm}
+    <div class="card">
+      <h2 class="text-xl font-semibold mb-4">Import Meals from JSON</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">JSON Data</label>
+          <textarea
+            bind:value={importData}
+            rows="8"
+            class="border p-2 w-full rounded font-mono text-sm"
+            placeholder="Paste your JSON meal data here..."
+          ></textarea>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn" onclick={handleImport}>Import Meals</button>
+          <button
+            class="btn-outline"
+            onclick={() => {
+              showImportForm = false;
+              importData = "";
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  {/if}
+
+  <!-- Add/Edit Form -->
   {#if showAddForm}
     <div class="card">
       <h2 class="text-xl font-semibold mb-4">
@@ -241,6 +347,7 @@
     </div>
   {/if}
 
+  <!-- Meals Grid -->
   <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
     {#each all as meal}
       <div class="card">
@@ -284,4 +391,23 @@
       </div>
     {/each}
   </div>
+
+  <!-- Empty State -->
+  {#if all.length === 0}
+    <div class="text-center py-12">
+      <div class="text-6xl mb-4">🍽️</div>
+      <h3 class="text-xl font-semibold mb-2">No meals yet</h3>
+      <p class="text-gray-600 mb-4">
+        Get started by loading sample meals or creating your own
+      </p>
+      <div class="flex gap-2 justify-center">
+        <button class="btn" onclick={loadSampleMeals} disabled={isLoading}>
+          {isLoading ? "Loading..." : "📥 Load Sample Meals"}
+        </button>
+        <button class="btn-outline" onclick={() => (showImportForm = true)}>
+          📁 Import JSON
+        </button>
+      </div>
+    </div>
+  {/if}
 </div>
