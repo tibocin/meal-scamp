@@ -84,32 +84,27 @@
     try {
       // Update username in the user store if it changed
       if ($user && profileSettings.username !== $user.username) {
-        console.log('🔄 Updating username from:', $user.username, 'to:', profileSettings.username);
-        
         // Create updated user object
         const updatedUser = {
           ...$user,
-          username: profileSettings.username.trim()
+          username: profileSettings.username.trim(),
         };
-        
-        console.log('📝 Updated user object:', updatedUser);
         
         // Update the auth store with new user data
         auth.updateUser(updatedUser);
-        
-        console.log('✅ User store updated');
-      } else {
-        console.log('ℹ️ No username change detected');
       }
 
       // TODO: Implement password change API endpoint
       // For now, just show success message for password changes
       if (profileSettings.newPassword) {
-        showToast("Profile updated successfully! Note: Password change requires backend implementation", "success");
+        showToast(
+          "Profile updated successfully! Note: Password change requires backend implementation",
+          "success",
+        );
       } else {
         showToast("Profile updated successfully", "success");
       }
-      
+
       // Clear password fields
       profileSettings.currentPassword = "";
       profileSettings.newPassword = "";

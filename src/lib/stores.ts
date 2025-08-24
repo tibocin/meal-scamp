@@ -70,31 +70,20 @@ const FALLBACK_MEALS: Meal[] = seedMealsData as Meal[];
 // Robust seeding function
 export async function seedMeals(): Promise<{ success: boolean; message: string; count: number }> {
 	try {
-		console.log('🌱 Starting meal seeding...');
-		
-		// First try the API endpoint
 		const response = await fetch('/api/seed');
 		if (response.ok) {
 			const data = await response.json();
-			console.log('📡 API response received:', data.length, 'meals');
-			
-			if (Array.isArray(data) && data.length > 0) {
-				meals.set(data);
-				console.log('✅ Meals loaded from API:', data.length);
-				return { success: true, message: `Loaded ${data.length} meals from API`, count: data.length };
-			}
+			meals.set(data);
+			return { success: true, message: `Loaded ${data.length} meals successfully`, count: data.length };
+		} else {
+			// Fallback to local data if API fails
+			meals.set(FALLBACK_MEALS);
+			return { success: true, message: `Loaded ${FALLBACK_MEALS.length} fallback meals`, count: FALLBACK_MEALS.length };
 		}
-
-		console.log('⚠️ API failed, using fallback data:', FALLBACK_MEALS.length, 'meals');
-		// Fallback to bundled data
-		meals.set(FALLBACK_MEALS);
-		return { success: true, message: `Loaded ${FALLBACK_MEALS.length} sample meals`, count: FALLBACK_MEALS.length };
-
 	} catch (error) {
-		console.error('❌ Error seeding meals:', error);
-		// Final fallback to bundled data
+		// Fallback to local data on error
 		meals.set(FALLBACK_MEALS);
-		return { success: true, message: `Loaded ${FALLBACK_MEALS.length} sample meals (fallback)`, count: FALLBACK_MEALS.length };
+		return { success: true, message: `Loaded ${FALLBACK_MEALS.length} fallback meals due to error`, count: FALLBACK_MEALS.length };
 	}
 }
 

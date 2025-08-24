@@ -21,78 +21,28 @@
   dateRange.subscribe((range) => {
     if (range.start && range.end) {
       currentDateRange = getLocalDateRange(range.start, range.end);
-      console.log(
-        "📅 Date range updated:",
-        range.start,
-        "to",
-        range.end,
-        "->",
-        currentDateRange.length,
-        "days",
-      );
     }
   });
 
   // Load data only on client side using onMount
-  onMount(async () => {
-    console.log("🔍 Planner component mounted");
-    console.log("📊 Current meals count:", allMeals.length);
-
-    // Initialize date range from current store value
-    const currentRange = get(dateRange);
-    if (currentRange.start && currentRange.end) {
-      currentDateRange = getLocalDateRange(
-        currentRange.start,
-        currentRange.end,
-      );
-      console.log(
-        "📅 Initialized date range:",
-        currentRange.start,
-        "to",
-        currentRange.end,
-        "->",
-        currentDateRange.length,
-        "days",
-      );
+  onMount(() => {
+    // Load meals if not already loaded
+    if (allMeals.length === 0) {
+      loadMealsDirectly();
     }
-
-    // Always load meals directly from API to bypass store issues
-    console.log("🌱 Loading meals directly from API...");
-    await loadMealsDirectly();
-
-    console.log("📊 After loading - allMeals count:", allMeals.length);
   });
 
   async function loadMealsDirectly() {
-    isLoading = true;
     try {
-      console.log("🔄 Making direct API call to /api/seed...");
       const response = await fetch("/api/seed");
       if (response.ok) {
         const directMeals = await response.json();
-        console.log(
-          "🍽️ Direct API call successful:",
-          directMeals.length,
-          "meals",
-        );
-        console.log("🍽️ First meal sample:", directMeals[0]);
-        console.log(
-          "🍽️ Meal structure check - has ingredients?",
-          directMeals[0]?.ingredients,
-        );
-
         allMeals = directMeals;
-        console.log("🍽️ allMeals after direct API:", allMeals.length);
-
-        // Force a re-render by updating derived data
-        updateDerivedData();
       } else {
-        console.error("❌ API call failed:", response.status);
+        console.error("API call failed:", response.status);
       }
     } catch (error) {
-      console.error("❌ Error in loadMealsDirectly:", error);
-    } finally {
-      isLoading = false;
+      console.error("Error in loadMealsDirectly:", error);
     }
   }
 
@@ -104,31 +54,18 @@
   // Deep copy function to handle Proxy objects from Svelte $state
   function deepCopy<T>(obj: T): T {
     try {
-      console.log(
-        "🔍 deepCopy called with:",
-        typeof obj,
-        "constructor:",
-        obj?.constructor?.name,
-      );
-
       // Handle primitive types
       if (obj === null || typeof obj !== "object") {
-        console.log("🔍 Returning primitive:", obj);
         return obj;
       }
 
       // Handle arrays
       if (Array.isArray(obj)) {
-        console.log("🔍 Processing array with", obj.length, "items");
         return obj.map((item) => deepCopy(item)) as T;
       }
 
       // Handle objects (including Proxy objects)
       if (typeof obj === "object") {
-        console.log(
-          "🔍 Processing object with keys:",
-          Object.keys(obj as Record<string, any>),
-        );
         const copy = {} as Record<string, any>;
         // Use Object.keys to safely iterate over own properties
         const keys = Object.keys(obj as Record<string, any>);
@@ -144,7 +81,6 @@
             continue;
           }
         }
-        console.log("🔍 Object copy completed:", copy);
         return copy as T;
       }
 
@@ -224,37 +160,27 @@
 
   // Update counts and shopping when plan or meals change
   function updateDerivedData() {
-    console.log("🔄 updateDerivedData called, currentPlan:", currentPlan);
-    console.log("🔄 allMeals available:", allMeals.length, "meals");
-
     // Update batch prep counts with meal names
     const newBatchCounts: Record<string, number> = {};
     Object.values(currentPlan).forEach((arr) => {
-      console.log("🔄 Processing date array:", arr);
       arr.forEach((m) => {
         const mealName = getMealName(m);
-        console.log("🔄 Processing meal ID:", m, "-> name:", mealName);
         newBatchCounts[mealName] = (newBatchCounts[mealName] || 0) + 1;
       });
     });
     batchPrepCounts = newBatchCounts;
-    console.log("📊 Updated batch prep counts:", batchPrepCounts);
 
     // Update shopping with proper unit handling
     const newShopping: Record<string, { amount: number; unit: string }> = {};
     const mealsById = Object.fromEntries(allMeals.map((m) => [m.id, m]));
-    console.log("🔄 Meals by ID mapping:", Object.keys(mealsById));
 
     for (const arr of Object.values(currentPlan)) {
       for (const id of arr) {
         const m = mealsById[id];
-        console.log("🔄 Processing meal for shopping:", id, "-> meal:", m);
         if (!m) {
-          console.log("⚠️ Meal not found for ID:", id);
           continue;
         }
         if (!m.ingredients) {
-          console.log("⚠️ Meal has no ingredients:", m);
           continue;
         }
         for (const ing of m.ingredients) {
@@ -263,24 +189,14 @@
             newShopping[key] = { amount: 0, unit: ing.unit };
           }
           newShopping[key].amount += ing.amount || 0;
-          console.log(
-            "🔄 Added ingredient:",
-            key,
-            "amount:",
-            ing.amount,
-            "unit:",
-            ing.unit,
-          );
         }
       }
     }
     shopping = newShopping;
-    console.log("🛒 Updated shopping:", shopping);
   }
 
   function getMealName(id: string): string {
     const meal = allMeals.find((x) => x.id === id);
-    console.log("🔍 getMealName called with ID:", id, "-> found meal:", meal);
     return meal ? meal.name : id;
   }
 
@@ -304,25 +220,7 @@
 
   // New function to add meal to a specific day and type
   function addMeal(date: string, mealId: string, mealType: string) {
-    console.log("🍽️ Adding meal:", mealId, "to date:", date, "type:", mealType);
-    console.log("🍽️ Current allMeals:", allMeals);
-    console.log("🍽️ Current currentPlan:", currentPlan);
-    console.log(
-      "🍽️ currentPlan type:",
-      typeof currentPlan,
-      "constructor:",
-      currentPlan?.constructor?.name,
-    );
-
     const p = deepCopy(currentPlan);
-    console.log("🍽️ Deep copy result:", p);
-    console.log(
-      "🍽️ Deep copy type:",
-      typeof p,
-      "constructor:",
-      p?.constructor?.name,
-    );
-
     p[date] = p[date] || [];
     p[date].push(mealId);
 
@@ -332,18 +230,12 @@
     // Update the global plan store
     plan.set(p);
 
-    console.log("🍽️ Updated currentPlan:", currentPlan);
-
     // Force update of derived data
     updateDerivedData();
-
-    console.log("✅ Meal added successfully. Current plan:", currentPlan);
   }
 
   // New function to remove meal from a specific day
   function removeMeal(date: string, mealId: string) {
-    console.log("🗑️ Removing meal:", mealId, "from date:", date);
-
     const p = deepCopy(currentPlan);
     p[date] = p[date]?.filter((id) => id !== mealId) || [];
 
@@ -355,8 +247,6 @@
 
     // Force update of derived data
     updateDerivedData();
-
-    console.log("✅ Meal removed successfully. Current plan:", currentPlan);
   }
 </script>
 

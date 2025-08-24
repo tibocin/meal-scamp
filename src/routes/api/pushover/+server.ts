@@ -23,22 +23,17 @@ const pushoverSchema = z.object({
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
-    console.log('🔔 Pushover endpoint called');
-
     const body = await request.json();
-    console.log('📨 Request body received:', body);
 
     // Validate input
     const validationResult = pushoverSchema.safeParse(body);
     if (!validationResult.success) {
-      console.log('❌ Validation failed:', validationResult.error.errors);
       return json(
         { message: validationResult.error.errors[0].message },
         { status: 400 }
       );
     }
 
-    console.log('✅ Validation passed:', validationResult.data);
     const { message, title, priority, sound, url, urlTitle, userKey, appToken } = validationResult.data;
 
     // Prepare notification data for Pushover API
