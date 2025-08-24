@@ -69,21 +69,23 @@
 
   <div class="grid grid-cols-2 gap-4 mb-4">
     <div>
-      <label class="block text-sm font-medium mb-1">Start Date</label>
+      <label for="start-date" class="block text-sm font-medium mb-1">Start Date</label>
       <input
+        id="start-date"
         type="date"
         bind:value={startDate}
-        onchange={updateDateRange}
         class="border p-2 w-full rounded"
+        required
       />
     </div>
     <div>
-      <label class="block text-sm font-medium mb-1">End Date</label>
+      <label for="end-date" class="block text-sm font-medium mb-1">End Date</label>
       <input
+        id="end-date"
         type="date"
         bind:value={endDate}
-        onchange={updateDateRange}
         class="border p-2 w-full rounded"
+        required
       />
     </div>
   </div>

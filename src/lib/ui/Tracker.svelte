@@ -206,18 +206,23 @@
 
   <!-- 30-Day Success Punch Card -->
   <div class="card">
-    <div
-      class="flex items-center justify-between cursor-pointer"
+    <button
+      type="button"
+      class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
       onclick={() => (punchCardCollapsed = !punchCardCollapsed)}
+      aria-expanded={!punchCardCollapsed}
+      aria-controls="punch-card-content"
     >
-      <h3 class="font-semibold text-lg">Punch Card</h3>
-      <button
-        class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
-        class:rotate-180={punchCardCollapsed}
+      <h2 class="text-lg font-medium">Punch Card</h2>
+      <svg
+        class="w-5 h-5 transform transition-transform duration-200 {punchCardCollapsed ? 'rotate-180' : ''}"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
       >
-        ▼
-      </button>
-    </div>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
 
     {#if !punchCardCollapsed}
       <div class="mt-4 transition-all duration-300 ease-in-out">
@@ -309,18 +314,23 @@
 
   <!-- Weekly Workout Categories -->
   <div class="card">
-    <div
-      class="flex items-center justify-between cursor-pointer"
+    <button
+      type="button"
+      class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
       onclick={() => (workoutCollapsed = !workoutCollapsed)}
+      aria-expanded={!workoutCollapsed}
+      aria-controls="workout-content"
     >
-      <h3 class="font-semibold">Weekly Workout Categories</h3>
-      <button
-        class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
-        class:rotate-180={workoutCollapsed}
+      <h2 class="text-lg font-medium">Weekly Workout Categories</h2>
+      <svg
+        class="w-5 h-5 transform transition-transform duration-200 {workoutCollapsed ? 'rotate-180' : ''}"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
       >
-        ▼
-      </button>
-    </div>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
 
     {#if !workoutCollapsed}
       <div class="mt-4 transition-all duration-300 ease-in-out">
@@ -351,18 +361,23 @@
 
   <!-- Goal Tracker -->
   <div class="card">
-    <div
-      class="flex items-center justify-between cursor-pointer"
+    <button
+      type="button"
+      class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
       onclick={() => (goalCollapsed = !goalCollapsed)}
+      aria-expanded={!goalCollapsed}
+      aria-controls="goal-content"
     >
-      <h3 class="font-semibold">Goal Tracker</h3>
-      <button
-        class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
-        class:rotate-180={goalCollapsed}
+      <h2 class="text-lg font-medium">Goal Tracker</h2>
+      <svg
+        class="w-5 h-5 transform transition-transform duration-200 {goalCollapsed ? 'rotate-180' : ''}"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
       >
-        ▼
-      </button>
-    </div>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
 
     {#if !goalCollapsed}
       <div class="mt-4 transition-all duration-300 ease-in-out">

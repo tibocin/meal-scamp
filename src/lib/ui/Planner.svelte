@@ -270,18 +270,23 @@
   <!-- Left Side: Weekly Planner (2/3 width on desktop) -->
   <div class="lg:col-span-2">
     <div class="card">
-      <div
-        class="flex items-center justify-between cursor-pointer"
+      <button
+        type="button"
+        class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
         onclick={() => (weeklyPlannerCollapsed = !weeklyPlannerCollapsed)}
+        aria-expanded={!weeklyPlannerCollapsed}
+        aria-controls="weekly-planner-content"
       >
-        <h2 class="text-xl font-semibold">Weekly Planner</h2>
-        <button
-          class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
-          class:rotate-180={weeklyPlannerCollapsed}
+        <h2 class="text-lg font-medium">Weekly Planner</h2>
+        <svg
+          class="w-5 h-5 transform transition-transform duration-200 {weeklyPlannerCollapsed ? 'rotate-180' : ''}"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         >
-          ▼
-        </button>
-      </div>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
 
       {#if !weeklyPlannerCollapsed}
         <div class="mt-4 transition-all duration-300 ease-in-out">
@@ -416,18 +421,23 @@
   <div class="space-y-6">
     <!-- Batch Prep Counts -->
     <div class="card">
-      <div
-        class="flex items-center justify-between cursor-pointer"
+      <button
+        type="button"
+        class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
         onclick={() => (batchPrepCollapsed = !batchPrepCollapsed)}
+        aria-expanded={!batchPrepCollapsed}
+        aria-controls="batch-prep-content"
       >
-        <h3 class="font-semibold">Batch Prep Counts</h3>
-        <button
-          class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
-          class:rotate-180={batchPrepCollapsed}
+        <h2 class="text-lg font-medium">Batch Prep Counts</h2>
+        <svg
+          class="w-5 h-5 transform transition-transform duration-200 {batchPrepCollapsed ? 'rotate-180' : ''}"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         >
-          ▼
-        </button>
-      </div>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
 
       {#if !batchPrepCollapsed}
         <div class="mt-4 transition-all duration-300 ease-in-out">
@@ -451,18 +461,23 @@
 
     <!-- Shopping List -->
     <div class="card">
-      <div
-        class="flex items-center justify-between cursor-pointer"
+      <button
+        type="button"
+        class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
         onclick={() => (shoppingCollapsed = !shoppingCollapsed)}
+        aria-expanded={!shoppingCollapsed}
+        aria-controls="shopping-list-content"
       >
-        <h3 class="font-semibold">Shopping List (aggregated)</h3>
-        <button
-          class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
-          class:rotate-180={shoppingCollapsed}
+        <h2 class="text-lg font-medium">Shopping List (aggregated)</h2>
+        <svg
+          class="w-5 h-5 transform transition-transform duration-200 {shoppingCollapsed ? 'rotate-180' : ''}"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         >
-          ▼
-        </button>
-      </div>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
 
       {#if !shoppingCollapsed}
         <div class="mt-4 transition-all duration-300 ease-in-out">

@@ -89,7 +89,7 @@
           ...$user,
           username: profileSettings.username.trim(),
         };
-        
+
         // Update the auth store with new user data
         auth.updateUser(updatedUser);
       }

@@ -163,8 +163,9 @@
       <h2 class="text-xl font-semibold mb-4">Import Meals from JSON</h2>
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-medium mb-2">JSON Data</label>
+          <label for="json-data" class="block text-sm font-medium mb-2">JSON Data</label>
           <textarea
+            id="json-data"
             bind:value={importData}
             rows="8"
             class="border p-2 w-full rounded font-mono text-sm"
@@ -202,8 +203,9 @@
       >
         <div class="grid md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium mb-1">Meal Name</label>
+            <label for="meal-name" class="block text-sm font-medium mb-1">Meal Name</label>
             <input
+              id="meal-name"
               type="text"
               name="name"
               value={editingMeal?.name || ""}
@@ -213,8 +215,8 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium mb-1">Meal Type</label>
-            <select name="mealType" class="border p-2 w-full rounded" required>
+            <label for="meal-type" class="block text-sm font-medium mb-1">Meal Type</label>
+            <select id="meal-type" name="mealType" class="border p-2 w-full rounded" required>
               <option
                 value="breakfast"
                 selected={editingMeal?.mealType === "breakfast"}
@@ -238,8 +240,9 @@
           <h3 class="font-medium mb-2">Portion Sizes</h3>
           <div class="grid grid-cols-5 gap-2">
             <div>
-              <label class="block text-xs mb-1">Protein (palms)</label>
+              <label for="protein-palms" class="block text-xs mb-1">Protein (palms)</label>
               <input
+                id="protein-palms"
                 type="number"
                 name="protein_palms"
                 value={editingMeal?.portions?.protein_palms || 0}
@@ -248,8 +251,9 @@
               />
             </div>
             <div>
-              <label class="block text-xs mb-1">Veggies (fists)</label>
+              <label for="veg-fists" class="block text-xs mb-1">Veggies (fists)</label>
               <input
+                id="veg-fists"
                 type="number"
                 name="veg_fists"
                 value={editingMeal?.portions?.veg_fists || 0}
@@ -258,8 +262,9 @@
               />
             </div>
             <div>
-              <label class="block text-xs mb-1">Starch (fists)</label>
+              <label for="starch-fists" class="block text-xs mb-1">Starch (fists)</label>
               <input
+                id="starch-fists"
                 type="number"
                 name="starch_fists"
                 value={editingMeal?.portions?.starch_fists || 0}
@@ -268,8 +273,9 @@
               />
             </div>
             <div>
-              <label class="block text-xs mb-1">Fat (thumbs)</label>
+              <label for="fat-thumbs" class="block text-xs mb-1">Fat (thumbs)</label>
               <input
+                id="fat-thumbs"
                 type="number"
                 name="fat_thumbs"
                 value={editingMeal?.portions?.fat_thumbs || 0}
@@ -278,8 +284,9 @@
               />
             </div>
             <div>
-              <label class="block text-xs mb-1">Fruit (fists)</label>
+              <label for="fruit-fists" class="block text-xs mb-1">Fruit (fists)</label>
               <input
+                id="fruit-fists"
                 type="number"
                 name="fruit_fists"
                 value={editingMeal?.portions?.fruit_fists || 0}
@@ -291,10 +298,11 @@
         </div>
 
         <div class="mt-4">
-          <label class="block text-sm font-medium mb-1"
+          <label for="ingredients" class="block text-sm font-medium mb-1"
             >Ingredients (one per line: name, amount, unit)</label
           >
           <textarea
+            id="ingredients"
             name="ingredients"
             rows="3"
             class="border p-2 w-full rounded"
@@ -303,28 +311,29 @@
         </div>
 
         <div class="mt-4">
-          <label class="block text-sm font-medium mb-1"
+          <label for="steps" class="block text-sm font-medium mb-1"
             >Steps (one per line)</label
           >
           <textarea
+            id="steps"
             name="steps"
             rows="3"
             class="border p-2 w-full rounded"
-            placeholder="e.g., Cook chicken 10-12 min&#10;Cook rice&#10;Steam broccoli"
-            >{editingMeal?.steps?.join("\n") || ""}</textarea
-          >
+            placeholder="1. Heat oil in pan&#10;2. Add chicken and cook until golden&#10;3. Add vegetables and stir-fry"
+          ></textarea>
         </div>
 
         <div class="mt-4">
-          <label class="block text-sm font-medium mb-1"
+          <label for="tags" class="block text-sm font-medium mb-1"
             >Tags (comma-separated)</label
           >
           <input
+            id="tags"
             type="text"
             name="tags"
             value={editingMeal?.tags?.join(", ") || ""}
             class="border p-2 w-full rounded"
-            placeholder="quick, gluten-free, batch"
+            placeholder="quick, healthy, protein-rich"
           />
         </div>
 
