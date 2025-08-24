@@ -89,7 +89,8 @@
   function getPunchCardDates() {
     const today = new Date();
     const startDate = new Date(today);
-    startDate.setDate(today.getDate() - 15 + (currentPunchCardPeriod * 30)); // Center on today, allow navigation
+    // Position current day 5th from the end for better streak visibility
+    startDate.setDate(today.getDate() - 25 + (currentPunchCardPeriod * 30));
     
     const dates: string[] = [];
     for (let i = 0; i < 30; i++) {
@@ -100,6 +101,19 @@
     return dates;
   }
 
+  function getPunchCardDateRange() {
+    const dates = getPunchCardDates();
+    if (dates.length === 0) return { start: '', end: '' };
+    
+    const startDate = new Date(dates[0]);
+    const endDate = new Date(dates[dates.length - 1]);
+    
+    return {
+      start: startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      end: endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    };
+  }
+
   function navigatePunchCard(direction: number) {
     currentPunchCardPeriod += direction;
     // Ensure we don't go too far into the future (max 1 period ahead)
@@ -107,18 +121,24 @@
   }
 
   function getCurrentStreak() {
-    const dates = getPunchCardDates();
+    const today = new Date().toISOString().slice(0, 10);
     let streak = 0;
     
     // Count backwards from today to find current streak
-    const today = new Date().toISOString().slice(0, 10);
-    for (let i = dates.length - 1; i >= 0; i--) {
-      if ($punches[dates[i]]) {
+    // Start from today and go backwards until we find a gap
+    let currentDate = new Date(today);
+    
+    while (true) {
+      const dateString = currentDate.toISOString().slice(0, 10);
+      if ($punches[dateString]) {
         streak++;
+        // Move to previous day
+        currentDate.setDate(currentDate.getDate() - 1);
       } else {
-        break;
+        break; // Found a gap, stop counting
       }
     }
+    
     return streak;
   }
 </script>
@@ -192,6 +212,12 @@
               Complete your daily gratitude, meditation, or prayer practice before checking off each day.
             </div>
             
+            <!-- Current Streak Display -->
+            <div class="text-center mb-4 p-3 bg-green-50 rounded-lg border border-green-200">
+              <div class="text-2xl font-bold text-green-600">{getCurrentStreak()}</div>
+              <div class="text-sm text-green-700">Day Streak</div>
+            </div>
+            
             <!-- Punch Card Navigation -->
             <div class="flex items-center justify-between mb-4">
               <button
@@ -201,11 +227,6 @@
               >
                 ← Previous 30 Days
               </button>
-              
-              <div class="text-center">
-                <div class="text-lg font-bold text-green-600">{getCurrentStreak()}</div>
-                <div class="text-xs text-gray-500">Day Streak</div>
-              </div>
               
               <button
                 class="btn-outline text-sm px-3 py-1"
@@ -239,17 +260,11 @@
               {/each}
             </div>
             
-            <!-- Period Indicator -->
-            <div class="text-center mt-3">
-              <span class="text-xs text-gray-500">
-                {#if currentPunchCardPeriod === -1}
-                  Previous 30 Days
-                {:else if currentPunchCardPeriod === 0}
-                  Current 30 Days
-                {:else if currentPunchCardPeriod === 1}
-                  Next 30 Days
-                {/if}
-              </span>
+            <!-- Date Range and Period Indicator -->
+            <div class="flex items-center justify-between mt-3 text-xs text-gray-500">
+              <span>{getPunchCardDateRange().start}</span>
+              <span class="font-medium">30 Day View</span>
+              <span>{getPunchCardDateRange().end}</span>
             </div>
           </div>
         {/if}

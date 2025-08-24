@@ -81,8 +81,9 @@
   function getPunchCardDates() {
     const today = new Date();
     const startDate = new Date(today);
-    startDate.setDate(today.getDate() - 15 + (currentPunchCardPeriod * 30)); // Center on today, allow navigation
-    
+    // Position current day 5th from the end for better streak visibility
+    startDate.setDate(today.getDate() - 25 + currentPunchCardPeriod * 30);
+
     const dates: string[] = [];
     for (let i = 0; i < 30; i++) {
       const date = new Date(startDate);
@@ -92,25 +93,50 @@
     return dates;
   }
 
+  function getPunchCardDateRange() {
+    const dates = getPunchCardDates();
+    if (dates.length === 0) return { start: "", end: "" };
+
+    const startDate = new Date(dates[0]);
+    const endDate = new Date(dates[dates.length - 1]);
+
+    return {
+      start: startDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }),
+      end: endDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }),
+    };
+  }
+
   function navigatePunchCard(direction: number) {
     currentPunchCardPeriod += direction;
     // Ensure we don't go too far into the future (max 1 period ahead)
     if (currentPunchCardPeriod > 1) currentPunchCardPeriod = 1;
   }
 
-  function getCurrentStreak() {
-    const dates = getPunchCardDates();
+    function getCurrentStreak() {
+    const today = new Date().toISOString().slice(0, 10);
     let streak = 0;
     
     // Count backwards from today to find current streak
-    const today = new Date().toISOString().slice(0, 10);
-    for (let i = dates.length - 1; i >= 0; i--) {
-      if (punchMap[dates[i]]) {
+    // Start from today and go backwards until we find a gap
+    let currentDate = new Date(today);
+    
+    while (true) {
+      const dateString = currentDate.toISOString().slice(0, 10);
+      if (punchMap[dateString]) {
         streak++;
+        // Move to previous day
+        currentDate.setDate(currentDate.getDate() - 1);
       } else {
-        break;
+        break; // Found a gap, stop counting
       }
     }
+    
     return streak;
   }
 </script>
@@ -118,24 +144,39 @@
 <div class="space-y-4">
   <!-- Daily Practice Modal -->
   {#if showModal}
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
       <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
         <h3 class="text-lg font-semibold mb-4">Daily Spiritual Practice</h3>
         <p class="text-gray-600 mb-6">
-          Before checking off <strong>{selectedDate}</strong>, please confirm that you have completed at least one of these daily practices:
+          Before checking off <strong>{selectedDate}</strong>, please confirm
+          that you have completed at least one of these daily practices:
         </p>
-        
+
         <div class="space-y-3 mb-6">
           <label class="flex items-center">
-            <input type="checkbox" bind:checked={gratitudeCompleted} class="mr-3">
+            <input
+              type="checkbox"
+              bind:checked={gratitudeCompleted}
+              class="mr-3"
+            />
             <span>Gratitude practice</span>
           </label>
           <label class="flex items-center">
-            <input type="checkbox" bind:checked={meditationCompleted} class="mr-3">
+            <input
+              type="checkbox"
+              bind:checked={meditationCompleted}
+              class="mr-3"
+            />
             <span>Meditation</span>
           </label>
           <label class="flex items-center">
-            <input type="checkbox" bind:checked={prayerCompleted} class="mr-3">
+            <input
+              type="checkbox"
+              bind:checked={prayerCompleted}
+              class="mr-3"
+            />
             <span>Prayer</span>
           </label>
         </div>
@@ -149,7 +190,11 @@
           </button>
           <button
             class="btn bg-green-600 hover:bg-green-700 text-white"
-            disabled={!(gratitudeCompleted || meditationCompleted || prayerCompleted)}
+            disabled={!(
+              gratitudeCompleted ||
+              meditationCompleted ||
+              prayerCompleted
+            )}
             onclick={confirmDailyPractice}
           >
             Confirm & Check Off
@@ -161,77 +206,100 @@
 
   <!-- 30-Day Success Punch Card -->
   <div class="card">
-    <div class="flex items-center justify-between cursor-pointer" onclick={() => punchCardCollapsed = !punchCardCollapsed}>
+    <div
+      class="flex items-center justify-between cursor-pointer"
+      onclick={() => (punchCardCollapsed = !punchCardCollapsed)}
+    >
       <h3 class="font-semibold text-lg">Daily Spiritual Practice Tracker</h3>
-      <button class="text-gray-500 hover:text-gray-700 transition-transform duration-200" class:rotate-180={punchCardCollapsed}>
+      <button
+        class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
+        class:rotate-180={punchCardCollapsed}
+      >
         ▼
       </button>
     </div>
-    
+
     {#if !punchCardCollapsed}
       <div class="mt-4 transition-all duration-300 ease-in-out">
         <div class="text-sm text-gray-600 mb-4">
-          Complete your daily gratitude, meditation, or prayer practice before checking off each day.
+          Complete your daily gratitude, meditation, or prayer practice before
+          checking off each day.
         </div>
-        
+
+        <!-- Current Streak Display -->
+        <div
+          class="text-center mb-4 p-3 bg-green-50 rounded-lg border border-green-200"
+        >
+          <div class="text-2xl font-bold text-green-600">
+            {getCurrentStreak()}
+          </div>
+          <div class="text-sm text-green-700">Day Streak</div>
+        </div>
+
         <!-- Punch Card Navigation -->
         <div class="flex items-center justify-between mb-4">
           <button
             class="btn-outline text-sm px-3 py-1"
-            onclick={(e) => { e.stopPropagation(); navigatePunchCard(-1); }}
+            onclick={(e) => {
+              e.stopPropagation();
+              navigatePunchCard(-1);
+            }}
             disabled={currentPunchCardPeriod <= -2}
           >
             ← Previous 30 Days
           </button>
-          
-          <div class="text-center">
-            <div class="text-lg font-bold text-green-600">{getCurrentStreak()}</div>
-            <div class="text-xs text-gray-500">Day Streak</div>
-          </div>
-          
+
           <button
             class="btn-outline text-sm px-3 py-1"
-            onclick={(e) => { e.stopPropagation(); navigatePunchCard(1); }}
+            onclick={(e) => {
+              e.stopPropagation();
+              navigatePunchCard(1);
+            }}
             disabled={currentPunchCardPeriod >= 1}
           >
             Next 30 Days →
           </button>
         </div>
-        
+
         <!-- 30-Day Punch Card Grid -->
         <div class="grid grid-cols-10 gap-2">
           {#each getPunchCardDates() as d}
             <button
-              class="aspect-square rounded border-2 border-black {punchMap[d] ? 'bg-green-100 border-green-600' : 'bg-white hover:bg-gray-50'} transition-all duration-200 flex items-center justify-center relative"
-              onclick={(e) => { e.stopPropagation(); showDailyPracticeModal(d); }}
+              class="aspect-square rounded border-2 border-black {punchMap[d]
+                ? 'bg-green-100 border-green-600'
+                : 'bg-white hover:bg-gray-50'} transition-all duration-200 flex items-center justify-center relative"
+              onclick={(e) => {
+                e.stopPropagation();
+                showDailyPracticeModal(d);
+              }}
               title="Check in for {d}"
             >
               <!-- Current day indicator -->
               {#if d === new Date().toISOString().slice(0, 10)}
-                <div class="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-white"></div>
+                <div
+                  class="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-white"
+                ></div>
               {/if}
-              
+
               <!-- Checkmark overlay (doesn't affect box size) -->
               {#if punchMap[d]}
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div
+                  class="absolute inset-0 flex items-center justify-center pointer-events-none"
+                >
                   <span class="text-lg">✅</span>
                 </div>
               {/if}
             </button>
           {/each}
         </div>
-        
-        <!-- Period Indicator -->
-        <div class="text-center mt-3">
-          <span class="text-xs text-gray-500">
-            {#if currentPunchCardPeriod === -1}
-              Previous 30 Days
-            {:else if currentPunchCardPeriod === 0}
-              Current 30 Days
-            {:else if currentPunchCardPeriod === 1}
-              Next 30 Days
-            {/if}
-          </span>
+
+        <!-- Date Range and Period Indicator -->
+        <div
+          class="flex items-center justify-between mt-3 text-xs text-gray-500"
+        >
+          <span>{getPunchCardDateRange().start}</span>
+          <span class="font-medium">30 Day View</span>
+          <span>{getPunchCardDateRange().end}</span>
         </div>
       </div>
     {/if}
@@ -239,13 +307,19 @@
 
   <!-- Weekly Workout Categories -->
   <div class="card">
-    <div class="flex items-center justify-between cursor-pointer" onclick={() => workoutCollapsed = !workoutCollapsed}>
+    <div
+      class="flex items-center justify-between cursor-pointer"
+      onclick={() => (workoutCollapsed = !workoutCollapsed)}
+    >
       <h3 class="font-semibold">Weekly Workout Categories</h3>
-      <button class="text-gray-500 hover:text-gray-700 transition-transform duration-200" class:rotate-180={workoutCollapsed}>
+      <button
+        class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
+        class:rotate-180={workoutCollapsed}
+      >
         ▼
       </button>
     </div>
-    
+
     {#if !workoutCollapsed}
       <div class="mt-4 transition-all duration-300 ease-in-out">
         <div class="text-sm text-gray-600 mb-2">
@@ -259,7 +333,10 @@
                 {#each cats as c}
                   <button
                     class={`tag ${(workoutMap[d] || []).includes(c) ? "bg-black text-white" : ""}`}
-                    onclick={(e) => { e.stopPropagation(); toggleCat(d, c); }}>{c}</button
+                    onclick={(e) => {
+                      e.stopPropagation();
+                      toggleCat(d, c);
+                    }}>{c}</button
                   >
                 {/each}
               </div>
@@ -272,13 +349,19 @@
 
   <!-- Goal Tracker -->
   <div class="card">
-    <div class="flex items-center justify-between cursor-pointer" onclick={() => goalCollapsed = !goalCollapsed}>
+    <div
+      class="flex items-center justify-between cursor-pointer"
+      onclick={() => (goalCollapsed = !goalCollapsed)}
+    >
       <h3 class="font-semibold">Goal Tracker</h3>
-      <button class="text-gray-500 hover:text-gray-700 transition-transform duration-200" class:rotate-180={goalCollapsed}>
+      <button
+        class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
+        class:rotate-180={goalCollapsed}
+      >
         ▼
       </button>
     </div>
-    
+
     {#if !goalCollapsed}
       <div class="mt-4 transition-all duration-300 ease-in-out">
         <div class="flex items-center gap-3">
