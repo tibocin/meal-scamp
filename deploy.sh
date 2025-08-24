@@ -27,15 +27,20 @@ echo "✅ Build successful - www/index.js created"
 
 # Step 4: Test the build locally
 echo "🧪 Step 3: Testing build locally..."
-timeout 10s bash -c 'until curl -s http://localhost:3003 > /dev/null; do sleep 1; done' || {
-    echo "❌ Local test failed - server not responding"
-    exit 1
-}
+PORT=3003 node www/index.js &
+SERVER_PID=$!
+sleep 5
 
-echo "✅ Local test successful - server responding"
+if curl -s http://localhost:3003 > /dev/null; then
+    echo "✅ Local test successful - server responding"
+else
+    echo "❌ Local test failed - server not responding"
+    kill $SERVER_PID 2>/dev/null || true
+    exit 1
+fi
 
 # Step 5: Stop local test server
-pkill -f "node www/index.js" 2>/dev/null || echo "Local server stopped"
+kill $SERVER_PID 2>/dev/null || echo "Local server stopped"
 
 # Step 6: Install/Update systemd service
 echo "⚙️  Step 4: Installing systemd service..."
