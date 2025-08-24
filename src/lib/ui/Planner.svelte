@@ -279,12 +279,19 @@
       >
         <h2 class="text-lg font-medium">Weekly Planner</h2>
         <svg
-          class="w-5 h-5 transform transition-transform duration-200 {weeklyPlannerCollapsed ? 'rotate-180' : ''}"
+          class="w-5 h-5 transform transition-transform duration-200 {weeklyPlannerCollapsed
+            ? 'rotate-180'
+            : ''}"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
         </svg>
       </button>
 
@@ -430,12 +437,19 @@
       >
         <h2 class="text-lg font-medium">Batch Prep Counts</h2>
         <svg
-          class="w-5 h-5 transform transition-transform duration-200 {batchPrepCollapsed ? 'rotate-180' : ''}"
+          class="w-5 h-5 transform transition-transform duration-200 {batchPrepCollapsed
+            ? 'rotate-180'
+            : ''}"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
         </svg>
       </button>
 
@@ -470,12 +484,19 @@
       >
         <h2 class="text-lg font-medium">Shopping List (aggregated)</h2>
         <svg
-          class="w-5 h-5 transform transition-transform duration-200 {shoppingCollapsed ? 'rotate-180' : ''}"
+          class="w-5 h-5 transform transition-transform duration-200 {shoppingCollapsed
+            ? 'rotate-180'
+            : ''}"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
         </svg>
       </button>
 

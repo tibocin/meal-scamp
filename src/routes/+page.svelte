@@ -230,12 +230,19 @@
       >
         <h2 class="text-lg font-medium">30-Day Success Punch Card</h2>
         <svg
-          class="w-5 h-5 transform transition-transform duration-200 {punchCardCollapsed ? 'rotate-180' : ''}"
+          class="w-5 h-5 transform transition-transform duration-200 {punchCardCollapsed
+            ? 'rotate-180'
+            : ''}"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
         </svg>
       </button>
 
@@ -338,12 +345,19 @@
       >
         <h2 class="text-lg font-medium">Goal Tracker</h2>
         <svg
-          class="w-5 h-5 transform transition-transform duration-200 {goalCollapsed ? 'rotate-180' : ''}"
+          class="w-5 h-5 transform transition-transform duration-200 {goalCollapsed
+            ? 'rotate-180'
+            : ''}"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
         </svg>
       </button>
 
@@ -419,12 +433,19 @@
       >
         <h2 class="text-lg font-medium">Weekly Workout Categories</h2>
         <svg
-          class="w-5 h-5 transform transition-transform duration-200 {workoutCollapsed ? 'rotate-180' : ''}"
+          class="w-5 h-5 transform transition-transform duration-200 {workoutCollapsed
+            ? 'rotate-180'
+            : ''}"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
         </svg>
       </button>
 
