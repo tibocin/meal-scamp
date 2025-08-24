@@ -380,9 +380,15 @@
   <!-- Left Side: Weekly Planner (2/3 width on desktop) -->
   <div class="lg:col-span-2">
     <div class="card">
-      <div class="flex items-center justify-between cursor-pointer" onclick={() => weeklyPlannerCollapsed = !weeklyPlannerCollapsed}>
+      <div
+        class="flex items-center justify-between cursor-pointer"
+        onclick={() => (weeklyPlannerCollapsed = !weeklyPlannerCollapsed)}
+      >
         <h2 class="text-xl font-semibold">Weekly Planner</h2>
-        <button class="text-gray-500 hover:text-gray-700 transition-transform duration-200" class:rotate-180={weeklyPlannerCollapsed}>
+        <button
+          class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
+          class:rotate-180={weeklyPlannerCollapsed}
+        >
           ▼
         </button>
       </div>
@@ -392,7 +398,11 @@
           {#if allMeals.length === 0}
             <div class="text-center py-4">
               <p class="text-gray-600 mb-3">No meals available for planning</p>
-              <button class="btn" onclick={loadMealsDirectly} disabled={isLoading}>
+              <button
+                class="btn"
+                onclick={loadMealsDirectly}
+                disabled={isLoading}
+              >
                 {isLoading ? "Loading..." : "📥 Load Sample Meals"}
               </button>
             </div>
@@ -414,8 +424,12 @@
                     <div class="text-xs text-gray-500 text-center">
                       🍳 Breakfast
                     </div>
-                    <div class="text-xs text-gray-500 text-center">🥪 Lunch</div>
-                    <div class="text-xs text-gray-500 text-center">🍽️ Dinner</div>
+                    <div class="text-xs text-gray-500 text-center">
+                      🥪 Lunch
+                    </div>
+                    <div class="text-xs text-gray-500 text-center">
+                      🍽️ Dinner
+                    </div>
                   </div>
 
                   <!-- Row 3: Dropdowns (side by side) -->
@@ -478,7 +492,9 @@
                   <!-- Row 4: Planned Meals Display -->
                   {#if currentPlan[date] && currentPlan[date].length > 0}
                     <div class="pt-3 border-t">
-                      <div class="text-xs text-gray-500 mb-2">Planned Meals:</div>
+                      <div class="text-xs text-gray-500 mb-2">
+                        Planned Meals:
+                      </div>
                       <div class="flex flex-wrap gap-2">
                         {#each currentPlan[date] as mealId}
                           {@const meal = allMeals.find((m) => m.id === mealId)}
@@ -510,13 +526,19 @@
   <div class="space-y-6">
     <!-- Batch Prep Counts -->
     <div class="card">
-      <div class="flex items-center justify-between cursor-pointer" onclick={() => batchPrepCollapsed = !batchPrepCollapsed}>
+      <div
+        class="flex items-center justify-between cursor-pointer"
+        onclick={() => (batchPrepCollapsed = !batchPrepCollapsed)}
+      >
         <h3 class="font-semibold">Batch Prep Counts</h3>
-        <button class="text-gray-500 hover:text-gray-700 transition-transform duration-200" class:rotate-180={batchPrepCollapsed}>
+        <button
+          class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
+          class:rotate-180={batchPrepCollapsed}
+        >
           ▼
         </button>
       </div>
-      
+
       {#if !batchPrepCollapsed}
         <div class="mt-4 transition-all duration-300 ease-in-out">
           {#if Object.keys(batchPrepCounts).length > 0}
@@ -539,13 +561,19 @@
 
     <!-- Shopping List -->
     <div class="card">
-      <div class="flex items-center justify-between cursor-pointer" onclick={() => shoppingCollapsed = !shoppingCollapsed}>
+      <div
+        class="flex items-center justify-between cursor-pointer"
+        onclick={() => (shoppingCollapsed = !shoppingCollapsed)}
+      >
         <h3 class="font-semibold">Shopping List (aggregated)</h3>
-        <button class="text-gray-500 hover:text-gray-700 transition-transform duration-200" class:rotate-180={shoppingCollapsed}>
+        <button
+          class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
+          class:rotate-180={shoppingCollapsed}
+        >
           ▼
         </button>
       </div>
-      
+
       {#if !shoppingCollapsed}
         <div class="mt-4 transition-all duration-300 ease-in-out">
           <div class="flex justify-between items-center mb-3">
