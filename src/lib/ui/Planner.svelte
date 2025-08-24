@@ -206,6 +206,11 @@
   let currentPlan = $state<Record<string, string[]>>({});
   let batchPrepCounts = $state<Record<string, number>>({});
 
+  // Collapsible section states
+  let weeklyPlannerCollapsed = $state(false);
+  let batchPrepCollapsed = $state(false);
+  let shoppingCollapsed = $state(false);
+
   // Subscribe to plan changes to update derived data and local state
   plan.subscribe((planData) => {
     currentPlan = planData;
@@ -375,115 +380,127 @@
   <!-- Left Side: Weekly Planner (2/3 width on desktop) -->
   <div class="lg:col-span-2">
     <div class="card">
-      <h2 class="text-xl font-semibold mb-4">Weekly Planner</h2>
+      <div class="flex items-center justify-between cursor-pointer" onclick={() => weeklyPlannerCollapsed = !weeklyPlannerCollapsed}>
+        <h2 class="text-xl font-semibold">Weekly Planner</h2>
+        <button class="text-gray-500 hover:text-gray-700 transition-transform duration-200" class:rotate-180={weeklyPlannerCollapsed}>
+          ▼
+        </button>
+      </div>
 
-      {#if allMeals.length === 0}
-        <div class="text-center py-4">
-          <p class="text-gray-600 mb-3">No meals available for planning</p>
-          <button class="btn" onclick={loadMealsDirectly} disabled={isLoading}>
-            {isLoading ? "Loading..." : "📥 Load Sample Meals"}
-          </button>
-        </div>
-      {:else}
-        <!-- Meal Planning Grid with 4 organized rows -->
-        <div class="space-y-4">
-          {#each currentDateRange as date}
-            <div class="border rounded-lg p-4">
-              <!-- Row 1: Header with Date + Meals Count -->
-              <div class="flex justify-between items-center mb-3">
-                <div class="text-sm font-medium text-gray-700">{date}</div>
-                <div class="text-xs text-gray-500">
-                  {currentPlan[date] ? currentPlan[date].length : 0} meals planned
-                </div>
-              </div>
-
-              <!-- Row 2: Meal Type Labels (side by side) -->
-              <div class="grid grid-cols-3 gap-3 mb-3">
-                <div class="text-xs text-gray-500 text-center">
-                  🍳 Breakfast
-                </div>
-                <div class="text-xs text-gray-500 text-center">🥪 Lunch</div>
-                <div class="text-xs text-gray-500 text-center">🍽️ Dinner</div>
-              </div>
-
-              <!-- Row 3: Dropdowns (side by side) -->
-              <div class="grid grid-cols-3 gap-3 mb-3">
-                <!-- Breakfast Dropdown -->
-                <select
-                  class="border p-2 rounded text-sm"
-                  onchange={(e) => {
-                    const target = e.target as HTMLSelectElement;
-                    if (target && target.value) {
-                      addMeal(date, target.value, "breakfast");
-                      target.value = ""; // Reset dropdown
-                    }
-                  }}
-                >
-                  <option value="">+ Add</option>
-                  {#each getMealsByType("breakfast") as meal}
-                    <option value={meal.id}>{meal.name}</option>
-                  {/each}
-                </select>
-
-                <!-- Lunch Dropdown -->
-                <select
-                  class="border p-2 rounded text-sm"
-                  onchange={(e) => {
-                    const target = e.target as HTMLSelectElement;
-                    if (target && target.value) {
-                      addMeal(date, target.value, "lunch");
-                      target.value = ""; // Reset dropdown
-                    }
-                  }}
-                >
-                  <option value="">+ Add</option>
-                  {#each getMealsByType("lunch") as meal}
-                    <option value={meal.id}>{meal.name}</option>
-                  {/each}
-                </select>
-
-                <!-- Dinner Dropdown -->
-                <select
-                  class="border p-2 rounded text-sm"
-                  onchange={(e) => {
-                    const target = e.target as HTMLSelectElement;
-                    if (target && target.value) {
-                      addMeal(date, target.value, "dinner");
-                      target.value = ""; // Reset dropdown
-                    }
-                  }}
-                >
-                  <option value="">+ Add</option>
-                  {#each getMealsByType("dinner") as meal}
-                    <option value={meal.id}>{meal.name}</option>
-                  {/each}
-                </select>
-              </div>
-
-              <!-- Row 4: Planned Meals Display -->
-              {#if currentPlan[date] && currentPlan[date].length > 0}
-                <div class="pt-3 border-t">
-                  <div class="text-xs text-gray-500 mb-2">Planned Meals:</div>
-                  <div class="flex flex-wrap gap-2">
-                    {#each currentPlan[date] as mealId}
-                      {@const meal = allMeals.find((m) => m.id === mealId)}
-                      {#if meal}
-                        <span class="tag">
-                          {meal.name}
-                          <button
-                            class="ml-1 text-red-500 hover:text-red-700"
-                            onclick={() => removeMeal(date, mealId)}
-                          >
-                            ×
-                          </button>
-                        </span>
-                      {/if}
-                    {/each}
-                  </div>
-                </div>
-              {/if}
+      {#if !weeklyPlannerCollapsed}
+        <div class="mt-4 transition-all duration-300 ease-in-out">
+          {#if allMeals.length === 0}
+            <div class="text-center py-4">
+              <p class="text-gray-600 mb-3">No meals available for planning</p>
+              <button class="btn" onclick={loadMealsDirectly} disabled={isLoading}>
+                {isLoading ? "Loading..." : "📥 Load Sample Meals"}
+              </button>
             </div>
-          {/each}
+          {:else}
+            <!-- Meal Planning Grid with 4 organized rows -->
+            <div class="space-y-4">
+              {#each currentDateRange as date}
+                <div class="border rounded-lg p-4">
+                  <!-- Row 1: Header with Date + Meals Count -->
+                  <div class="flex justify-between items-center mb-3">
+                    <div class="text-sm font-medium text-gray-700">{date}</div>
+                    <div class="text-xs text-gray-500">
+                      {currentPlan[date] ? currentPlan[date].length : 0} meals planned
+                    </div>
+                  </div>
+
+                  <!-- Row 2: Meal Type Labels (side by side) -->
+                  <div class="grid grid-cols-3 gap-3 mb-3">
+                    <div class="text-xs text-gray-500 text-center">
+                      🍳 Breakfast
+                    </div>
+                    <div class="text-xs text-gray-500 text-center">🥪 Lunch</div>
+                    <div class="text-xs text-gray-500 text-center">🍽️ Dinner</div>
+                  </div>
+
+                  <!-- Row 3: Dropdowns (side by side) -->
+                  <div class="grid grid-cols-3 gap-3 mb-3">
+                    <!-- Breakfast Dropdown -->
+                    <select
+                      class="border p-2 rounded text-sm"
+                      onchange={(e) => {
+                        const target = e.target as HTMLSelectElement;
+                        if (target && target.value) {
+                          addMeal(date, target.value, "breakfast");
+                          target.value = ""; // Reset dropdown
+                        }
+                      }}
+                      onclick={(e) => e.stopPropagation()}
+                    >
+                      <option value="">+ Add</option>
+                      {#each getMealsByType("breakfast") as meal}
+                        <option value={meal.id}>{meal.name}</option>
+                      {/each}
+                    </select>
+
+                    <!-- Lunch Dropdown -->
+                    <select
+                      class="border p-2 rounded text-sm"
+                      onchange={(e) => {
+                        const target = e.target as HTMLSelectElement;
+                        if (target && target.value) {
+                          addMeal(date, target.value, "lunch");
+                          target.value = ""; // Reset dropdown
+                        }
+                      }}
+                      onclick={(e) => e.stopPropagation()}
+                    >
+                      <option value="">+ Add</option>
+                      {#each getMealsByType("lunch") as meal}
+                        <option value={meal.id}>{meal.name}</option>
+                      {/each}
+                    </select>
+
+                    <!-- Dinner Dropdown -->
+                    <select
+                      class="border p-2 rounded text-sm"
+                      onchange={(e) => {
+                        const target = e.target as HTMLSelectElement;
+                        if (target && target.value) {
+                          addMeal(date, target.value, "dinner");
+                          target.value = ""; // Reset dropdown
+                        }
+                      }}
+                      onclick={(e) => e.stopPropagation()}
+                    >
+                      <option value="">+ Add</option>
+                      {#each getMealsByType("dinner") as meal}
+                        <option value={meal.id}>{meal.name}</option>
+                      {/each}
+                    </select>
+                  </div>
+
+                  <!-- Row 4: Planned Meals Display -->
+                  {#if currentPlan[date] && currentPlan[date].length > 0}
+                    <div class="pt-3 border-t">
+                      <div class="text-xs text-gray-500 mb-2">Planned Meals:</div>
+                      <div class="flex flex-wrap gap-2">
+                        {#each currentPlan[date] as mealId}
+                          {@const meal = allMeals.find((m) => m.id === mealId)}
+                          {#if meal}
+                            <span class="tag">
+                              {meal.name}
+                              <button
+                                class="ml-1 text-red-500 hover:text-red-700"
+                                onclick={() => removeMeal(date, mealId)}
+                              >
+                                ×
+                              </button>
+                            </span>
+                          {/if}
+                        {/each}
+                      </div>
+                    </div>
+                  {/if}
+                </div>
+              {/each}
+            </div>
+          {/if}
         </div>
       {/if}
     </div>
@@ -493,50 +510,70 @@
   <div class="space-y-6">
     <!-- Batch Prep Counts -->
     <div class="card">
-      <h3 class="font-semibold mb-3">Batch Prep Counts</h3>
-      {#if Object.keys(batchPrepCounts).length > 0}
-        <div class="space-y-3">
-          {#each Object.entries(batchPrepCounts) as [mealName, count]}
-            <div
-              class="flex justify-between items-center p-3 bg-gray-50 rounded"
-            >
-              <div class="font-medium">{mealName}</div>
-              <div class="text-2xl text-blue-600 font-bold">{count}</div>
+      <div class="flex items-center justify-between cursor-pointer" onclick={() => batchPrepCollapsed = !batchPrepCollapsed}>
+        <h3 class="font-semibold">Batch Prep Counts</h3>
+        <button class="text-gray-500 hover:text-gray-700 transition-transform duration-200" class:rotate-180={batchPrepCollapsed}>
+          ▼
+        </button>
+      </div>
+      
+      {#if !batchPrepCollapsed}
+        <div class="mt-4 transition-all duration-300 ease-in-out">
+          {#if Object.keys(batchPrepCounts).length > 0}
+            <div class="space-y-3">
+              {#each Object.entries(batchPrepCounts) as [mealName, count]}
+                <div
+                  class="flex justify-between items-center p-3 bg-gray-50 rounded"
+                >
+                  <div class="font-medium">{mealName}</div>
+                  <div class="text-2xl text-blue-600 font-bold">{count}</div>
+                </div>
+              {/each}
             </div>
-          {/each}
+          {:else}
+            <p class="text-gray-500 text-center py-4">No meals planned yet</p>
+          {/if}
         </div>
-      {:else}
-        <p class="text-gray-500 text-center py-4">No meals planned yet</p>
       {/if}
     </div>
 
     <!-- Shopping List -->
     <div class="card">
-      <h3 class="font-semibold mb-3">Shopping List (aggregated)</h3>
-      <div class="flex justify-between items-center mb-3">
-        <span class="text-sm text-gray-600"
-          >Total items: {Object.keys(shopping).length}</span
-        >
-        <button class="btn-outline text-sm" onclick={exportShoppingList}>
-          📋 Export List
+      <div class="flex items-center justify-between cursor-pointer" onclick={() => shoppingCollapsed = !shoppingCollapsed}>
+        <h3 class="font-semibold">Shopping List (aggregated)</h3>
+        <button class="text-gray-500 hover:text-gray-700 transition-transform duration-200" class:rotate-180={shoppingCollapsed}>
+          ▼
         </button>
       </div>
-      {#if Object.keys(shopping).length > 0}
-        <div class="space-y-2">
-          {#each Object.entries(shopping) as [ingredient, details]}
-            <div
-              class="flex justify-between items-center p-2 bg-gray-50 rounded"
+      
+      {#if !shoppingCollapsed}
+        <div class="mt-4 transition-all duration-300 ease-in-out">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-sm text-gray-600"
+              >Total items: {Object.keys(shopping).length}</span
             >
-              <span class="font-medium">{ingredient}</span>
-              <span class="text-sm text-gray-600">
-                {details.amount}
-                {details.unit}
-              </span>
+            <button class="btn-outline text-sm" onclick={exportShoppingList}>
+              📋 Export List
+            </button>
+          </div>
+          {#if Object.keys(shopping).length > 0}
+            <div class="space-y-2">
+              {#each Object.entries(shopping) as [ingredient, details]}
+                <div
+                  class="flex justify-between items-center p-2 bg-gray-50 rounded"
+                >
+                  <span class="font-medium">{ingredient}</span>
+                  <span class="text-sm text-gray-600">
+                    {details.amount}
+                    {details.unit}
+                  </span>
+                </div>
+              {/each}
             </div>
-          {/each}
+          {:else}
+            <p class="text-gray-500 text-center py-4">No ingredients to buy</p>
+          {/if}
         </div>
-      {:else}
-        <p class="text-gray-500 text-center py-4">No ingredients to buy</p>
       {/if}
     </div>
   </div>
