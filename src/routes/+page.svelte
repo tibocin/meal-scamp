@@ -353,19 +353,31 @@
               class="text-blue-600 hover:underline">Settings</a
             >
           </div>
-          <div class="w-full bg-gray-200 h-3 rounded">
-            <div
-              class="bg-black h-3 rounded transition-all duration-300"
-              style="width:{Math.max(
-                0,
-                Math.min(
-                  100,
-                  Math.abs($goal.current - $goal.start) /
-                    Math.abs($goal.target - $goal.start) *
-                    100
-                )
-              )}%"
-            ></div>
+          
+          <!-- Progress Bar with Label -->
+          <div class="mb-3">
+            <div class="text-sm text-gray-600 mb-2">🎯 Progress:</div>
+            <div class="w-full bg-gray-200 h-3 rounded">
+              <div
+                class="bg-black h-3 rounded transition-all duration-300"
+                style="width:{Math.max(
+                  0,
+                  Math.min(
+                    100,
+                    (Math.abs($goal.current - $goal.start) /
+                      Math.abs($goal.target - $goal.start)) *
+                      100,
+                  ),
+                )}%"
+              ></div>
+            </div>
+            <div class="text-xs text-gray-500 mt-1">
+              {#if $goal.target < $goal.start}
+                {Math.max(0, $goal.start - $goal.current)} lbs lost of {$goal.start - $goal.target} lbs goal
+              {:else}
+                {Math.max(0, $goal.current - $goal.start)} lbs gained of {$goal.target - $goal.start} lbs goal
+              {/if}
+            </div>
           </div>
         </div>
       {/if}
