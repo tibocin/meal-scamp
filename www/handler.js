@@ -1251,21 +1251,21 @@ function serve_prerendered() {
 /**
  * Custom health check endpoint
  */
-const healthz = (req, res) => {
+const healthz = (req, res, next) => {
 	if (req.url === '/healthz') {
 		res.statusCode = 200;
 		res.setHeader('Content-Type', 'text/plain');
 		res.setHeader('Cache-Control', 'no-cache');
 		res.end('ok');
-		return true;
+		return;
 	}
-	return false;
+	next();
 };
 
 /**
  * Custom diagnostic endpoint
  */
-const diag = (req, res) => {
+const diag = (req, res, next) => {
 	if (req.url === '/api/diag') {
 		res.statusCode = 200;
 		res.setHeader('Content-Type', 'application/json');
@@ -1282,9 +1282,9 @@ const diag = (req, res) => {
 			uptime: process.uptime(),
 			memory: process.memoryUsage()
 		}, null, 2));
-		return true;
+		return;
 	}
-	return false;
+	next();
 };
 
 /** @type {import('polka').Middleware} */
