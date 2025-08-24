@@ -150,7 +150,6 @@
 </script>
 
 <div class="container mx-auto px-4 py-8">
-
   <!-- Daily Practice Modal -->
   {#if showModal}
     <div
@@ -346,14 +345,10 @@
           <div class="flex items-center gap-3 mb-3">
             <div>Start: {$goal.start} lbs</div>
             <div>Target: {$goal.target} lbs</div>
-            <div>
-              Current: <input
-                class="border p-1 w-20"
-                type="number"
-                bind:value={$goal.current}
-                onclick={(e) => e.stopPropagation()}
-              />
-            </div>
+            <div>Current: {$goal.current} lbs</div>
+          </div>
+          <div class="text-xs text-gray-500 mb-3">
+            💡 Update your weight goals in <a href="/settings" class="text-blue-600 hover:underline">Settings</a>
           </div>
           <div class="w-full bg-gray-200 h-3 rounded">
             <div

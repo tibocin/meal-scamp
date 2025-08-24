@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { pushover, meals, plan, workouts, punches, seedMeals } from "$lib/stores";
+  import { pushover, meals, plan, workouts, punches, seedMeals, goal } from "$lib/stores";
   import { onMount } from "svelte";
 
   let cfg = $state<any>({});
@@ -7,11 +7,28 @@
   let toastMessage = $state("");
   let toastType = $state<"success" | "error" | "info">("info");
   
+  // Goal weight settings
+  let goalSettings = $state({
+    start: $goal.start,
+    target: $goal.target,
+    current: $goal.current
+  });
+  
   pushover.subscribe((v) => (cfg = v));
 
   function save() {
     pushover.set(cfg);
     showToast("Settings saved successfully", "success");
+  }
+
+  function saveGoalSettings() {
+    goal.set({
+      ...$goal,
+      start: goalSettings.start,
+      target: goalSettings.target,
+      current: goalSettings.current
+    });
+    showToast("Goal settings saved successfully", "success");
   }
 
   // Wrap fetch in onMount to prevent SSR issues
@@ -82,6 +99,75 @@
 <div class="max-w-3xl mx-auto p-4 space-y-6">
   <h1 class="text-xl font-semibold">Settings</h1>
   
+  <!-- Weight Goal Settings -->
+  <div class="card space-y-4">
+    <h2 class="text-lg font-medium">Weight Goal Settings</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">Starting Weight (lbs)</span>
+        <input
+          type="number"
+          class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          bind:value={goalSettings.start}
+          min="100"
+          max="500"
+          step="0.1"
+        />
+      </label>
+      
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">Target Weight (lbs)</span>
+        <input
+          type="number"
+          class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          bind:value={goalSettings.target}
+          min="100"
+          max="500"
+          step="0.1"
+        />
+      </label>
+      
+      <label class="block">
+        <span class="text-sm font-medium text-gray-700">Current Weight (lbs)</span>
+        <input
+          type="number"
+          class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          bind:value={goalSettings.current}
+          min="100"
+          max="500"
+          step="0.1"
+        />
+      </label>
+    </div>
+    
+    <!-- Progress Preview -->
+    <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+      <div class="text-sm text-gray-600 mb-2">Progress Preview:</div>
+      <div class="w-full bg-gray-200 h-3 rounded">
+        <div
+          class="bg-blue-600 h-3 rounded transition-all duration-300"
+          style="width:{100 -
+            Math.max(
+              0,
+              Math.min(
+                100,
+                ((goalSettings.start - goalSettings.current) /
+                  (goalSettings.start - goalSettings.target)) *
+                  100,
+              ),
+            )}%"
+        ></div>
+      </div>
+      <div class="text-xs text-gray-500 mt-1">
+        {goalSettings.start - goalSettings.current} lbs lost of {goalSettings.start - goalSettings.target} lbs goal
+      </div>
+    </div>
+    
+    <button class="btn bg-blue-600 hover:bg-blue-700 text-white" onclick={saveGoalSettings}>
+      Save Goal Settings
+    </button>
+  </div>
+
   <!-- Pushover Settings -->
   <div class="card space-y-2">
     <h2 class="text-lg font-medium">Pushover Notifications</h2>
