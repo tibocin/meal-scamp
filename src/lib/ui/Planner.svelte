@@ -19,7 +19,7 @@
     return out;
   }
 
-  let allMeals: any[] = [];
+  let allMeals = $state<any[]>([]);
   meals.subscribe((v) => (allMeals = v));
 
   // Load data only on client side using onMount

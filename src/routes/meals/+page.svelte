@@ -2,7 +2,7 @@
   import { meals } from "$lib/stores";
   import { onMount } from "svelte";
 
-  let all: any[] = [];
+  let all = $state<any[]>([]);
   meals.subscribe((v) => (all = v));
 
   // Load data only on client side using onMount

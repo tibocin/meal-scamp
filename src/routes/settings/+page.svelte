@@ -2,7 +2,7 @@
   import { pushover } from "$lib/stores";
   import { onMount } from "svelte";
 
-  let cfg: any;
+  let cfg = $state<any>({});
   pushover.subscribe((v) => (cfg = v));
 
   function save() {
