@@ -23,6 +23,9 @@
   let meditationCompleted = $state(false);
   let prayerCompleted = $state(false);
 
+  // Punch card navigation state
+  let currentPunchCardPeriod = $state(0); // 0 = current, -1 = previous, 1 = next
+
   // Initialize dates using the date range from stores
   dates = getCurrentDateRange();
 
@@ -72,6 +75,43 @@
     gratitudeCompleted = false;
     meditationCompleted = false;
     prayerCompleted = false;
+  }
+
+  // Punch card navigation functions
+  function getPunchCardDates() {
+    const today = new Date();
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() - 15 + (currentPunchCardPeriod * 30)); // Center on today, allow navigation
+    
+    const dates: string[] = [];
+    for (let i = 0; i < 30; i++) {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
+      dates.push(date.toISOString().slice(0, 10));
+    }
+    return dates;
+  }
+
+  function navigatePunchCard(direction: number) {
+    currentPunchCardPeriod += direction;
+    // Ensure we don't go too far into the future (max 1 period ahead)
+    if (currentPunchCardPeriod > 1) currentPunchCardPeriod = 1;
+  }
+
+  function getCurrentStreak() {
+    const dates = getPunchCardDates();
+    let streak = 0;
+    
+    // Count backwards from today to find current streak
+    const today = new Date().toISOString().slice(0, 10);
+    for (let i = dates.length - 1; i >= 0; i--) {
+      if (punchMap[dates[i]]) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+    return streak;
   }
 </script>
 
@@ -133,18 +173,57 @@
         <div class="text-sm text-gray-600 mb-4">
           Complete your daily gratitude, meditation, or prayer practice before checking off each day.
         </div>
+        
+        <!-- Punch Card Navigation -->
+        <div class="flex items-center justify-between mb-4">
+          <button
+            class="btn-outline text-sm px-3 py-1"
+            onclick={(e) => { e.stopPropagation(); navigatePunchCard(-1); }}
+            disabled={currentPunchCardPeriod <= -2}
+          >
+            ← Previous 30 Days
+          </button>
+          
+          <div class="text-center">
+            <div class="text-lg font-bold text-green-600">{getCurrentStreak()}</div>
+            <div class="text-xs text-gray-500">Day Streak</div>
+          </div>
+          
+          <button
+            class="btn-outline text-sm px-3 py-1"
+            onclick={(e) => { e.stopPropagation(); navigatePunchCard(1); }}
+            disabled={currentPunchCardPeriod >= 1}
+          >
+            Next 30 Days →
+          </button>
+        </div>
+        
+        <!-- 30-Day Punch Card Grid -->
         <div class="grid grid-cols-10 gap-2">
-          {#each dates as d}
+          {#each getPunchCardDates() as d}
             <button
-              class="p-3 rounded border-2 border-black bg-white hover:bg-gray-50 transition-all duration-200 {punchMap[d] ? 'bg-green-100' : ''}"
+              class="aspect-square rounded border-2 border-black {punchMap[d] ? 'bg-green-100 border-green-600' : 'bg-white hover:bg-gray-50'} transition-all duration-200 flex items-center justify-center"
               onclick={(e) => { e.stopPropagation(); showDailyPracticeModal(d); }}
-              title={d}
+              title="Check in for {d}"
             >
               {#if punchMap[d]}
-                <span class="text-green-600 font-bold text-lg">✔</span>
+                <span class="text-2xl">✅</span>
               {/if}
             </button>
           {/each}
+        </div>
+        
+        <!-- Period Indicator -->
+        <div class="text-center mt-3">
+          <span class="text-xs text-gray-500">
+            {#if currentPunchCardPeriod === -1}
+              Previous 30 Days
+            {:else if currentPunchCardPeriod === 0}
+              Current 30 Days
+            {:else if currentPunchCardPeriod === 1}
+              Next 30 Days
+            {/if}
+          </span>
         </div>
       </div>
     {/if}
