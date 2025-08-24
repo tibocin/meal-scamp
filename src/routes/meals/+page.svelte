@@ -16,6 +16,11 @@
   let toastType = $state<"success" | "error" | "info">("info");
   let isLoading = $state(false);
 
+  let breakfastCollapsed = $state(true);
+  let lunchCollapsed = $state(true);
+  let dinnerCollapsed = $state(true);
+  let snackCollapsed = $state(true);
+
   meals.subscribe((v) => (all = v));
 
   // Load data only on client side using onMount
@@ -120,6 +125,10 @@
       showToast("Meal deleted successfully", "success");
     }
   }
+
+  function getMealsByType(type: string) {
+    return all.filter((meal) => meal.mealType === type);
+  }
 </script>
 
 <div class="max-w-4xl mx-auto p-4 space-y-4">
@@ -163,7 +172,9 @@
       <h2 class="text-xl font-semibold mb-4">Import Meals from JSON</h2>
       <div class="space-y-4">
         <div>
-          <label for="json-data" class="block text-sm font-medium mb-2">JSON Data</label>
+          <label for="json-data" class="block text-sm font-medium mb-2"
+            >JSON Data</label
+          >
           <textarea
             id="json-data"
             bind:value={importData}
@@ -203,7 +214,9 @@
       >
         <div class="grid md:grid-cols-2 gap-4">
           <div>
-            <label for="meal-name" class="block text-sm font-medium mb-1">Meal Name</label>
+            <label for="meal-name" class="block text-sm font-medium mb-1"
+              >Meal Name</label
+            >
             <input
               id="meal-name"
               type="text"
@@ -215,8 +228,15 @@
           </div>
 
           <div>
-            <label for="meal-type" class="block text-sm font-medium mb-1">Meal Type</label>
-            <select id="meal-type" name="mealType" class="border p-2 w-full rounded" required>
+            <label for="meal-type" class="block text-sm font-medium mb-1"
+              >Meal Type</label
+            >
+            <select
+              id="meal-type"
+              name="mealType"
+              class="border p-2 w-full rounded"
+              required
+            >
               <option
                 value="breakfast"
                 selected={editingMeal?.mealType === "breakfast"}
@@ -240,7 +260,9 @@
           <h3 class="font-medium mb-2">Portion Sizes</h3>
           <div class="grid grid-cols-5 gap-2">
             <div>
-              <label for="protein-palms" class="block text-xs mb-1">Protein (palms)</label>
+              <label for="protein-palms" class="block text-xs mb-1"
+                >Protein (palms)</label
+              >
               <input
                 id="protein-palms"
                 type="number"
@@ -251,7 +273,9 @@
               />
             </div>
             <div>
-              <label for="veg-fists" class="block text-xs mb-1">Veggies (fists)</label>
+              <label for="veg-fists" class="block text-xs mb-1"
+                >Veggies (fists)</label
+              >
               <input
                 id="veg-fists"
                 type="number"
@@ -262,7 +286,9 @@
               />
             </div>
             <div>
-              <label for="starch-fists" class="block text-xs mb-1">Starch (fists)</label>
+              <label for="starch-fists" class="block text-xs mb-1"
+                >Starch (fists)</label
+              >
               <input
                 id="starch-fists"
                 type="number"
@@ -273,7 +299,9 @@
               />
             </div>
             <div>
-              <label for="fat-thumbs" class="block text-xs mb-1">Fat (thumbs)</label>
+              <label for="fat-thumbs" class="block text-xs mb-1"
+                >Fat (thumbs)</label
+              >
               <input
                 id="fat-thumbs"
                 type="number"
@@ -284,7 +312,9 @@
               />
             </div>
             <div>
-              <label for="fruit-fists" class="block text-xs mb-1">Fruit (fists)</label>
+              <label for="fruit-fists" class="block text-xs mb-1"
+                >Fruit (fists)</label
+              >
               <input
                 id="fruit-fists"
                 type="number"
@@ -357,48 +387,410 @@
   {/if}
 
   <!-- Meals Grid -->
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {#each all as meal}
-      <div class="card">
-        <div class="flex justify-between items-start mb-2">
-          <h3 class="font-semibold">{meal.name}</h3>
-          <div class="flex gap-1">
-            <button
-              class="text-sm text-blue-600 hover:text-blue-800"
-              onclick={() => editMeal(meal)}>Edit</button
-            >
-            <button
-              class="text-sm text-red-600 hover:text-red-800"
-              onclick={() => deleteMeal(meal.id)}>Delete</button
-            >
-          </div>
-        </div>
+  <div class="space-y-6">
+    <!-- Breakfast Section -->
+    <div class="card">
+      <button
+        type="button"
+        class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onclick={() => (breakfastCollapsed = !breakfastCollapsed)}
+        aria-expanded={!breakfastCollapsed}
+        aria-controls="breakfast-content"
+      >
+        <h2 class="text-lg font-medium">
+          Breakfast ({getMealsByType("breakfast").length} meals)
+        </h2>
+        <svg
+          class="w-5 h-5 transform transition-transform duration-200 {breakfastCollapsed
+            ? 'rotate-180'
+            : ''}"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
+        </svg>
+      </button>
 
-        <div class="text-sm text-gray-600 mb-2">
-          <span class="capitalize">{meal.mealType}</span>
-          {#if meal.tags?.length}
-            • {meal.tags.join(", ")}
+      {#if !breakfastCollapsed}
+        <div id="breakfast-content" class="p-4 pt-0">
+          {#if getMealsByType("breakfast").length === 0}
+            <p class="text-gray-500 text-center py-4">
+              No breakfast meals yet. Add your first breakfast meal!
+            </p>
+          {:else}
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {#each getMealsByType("breakfast") as meal}
+                <div
+                  class="border rounded-lg p-3 hover:shadow-md transition-shadow"
+                >
+                  <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-semibold">{meal.name}</h3>
+                    <div class="flex gap-1">
+                      <button
+                        class="text-sm text-blue-600 hover:text-blue-800"
+                        onclick={() => editMeal(meal)}>Edit</button
+                      >
+                      <button
+                        class="text-sm text-red-600 hover:text-red-800"
+                        onclick={() => deleteMeal(meal.id)}>Delete</button
+                      >
+                    </div>
+                  </div>
+
+                  <div class="text-sm text-gray-600 mb-2">
+                    {#if meal.tags?.length}
+                      <span
+                        class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"
+                        >{meal.tags.join(", ")}</span
+                      >
+                    {/if}
+                  </div>
+
+                  <div class="text-xs text-gray-500 mb-2">
+                    <div>
+                      Protein: {meal.portions?.protein_palms || 0} palms
+                    </div>
+                    <div>Veggies: {meal.portions?.veg_fists || 0} fists</div>
+                    <div>Starch: {meal.portions?.starch_fists || 0} fists</div>
+                    <div>Fat: {meal.portions?.fat_thumbs || 0} thumbs</div>
+                    <div>Fruit: {meal.portions?.fruit_fists || 0} fists</div>
+                  </div>
+
+                  {#if meal.ingredients?.length}
+                    <div class="text-xs text-gray-600 mb-2">
+                      <strong>Ingredients:</strong>
+                      {meal.ingredients
+                        .map((i: any) => `${i.name} ${i.amount} ${i.unit}`)
+                        .join(", ")}
+                    </div>
+                  {/if}
+
+                  {#if meal.steps?.length}
+                    <div class="text-xs text-gray-600">
+                      <strong>Prep Steps:</strong>
+                      <ol class="list-decimal list-inside mt-1 space-y-1">
+                        {#each meal.steps as step, index}
+                          <li>{step}</li>
+                        {/each}
+                      </ol>
+                    </div>
+                  {/if}
+                </div>
+              {/each}
+            </div>
           {/if}
         </div>
+      {/if}
+    </div>
 
-        <div class="text-xs text-gray-500 mb-2">
-          <div>Protein: {meal.portions?.protein_palms || 0} palms</div>
-          <div>Veggies: {meal.portions?.veg_fists || 0} fists</div>
-          <div>Starch: {meal.portions?.starch_fists || 0} fists</div>
-          <div>Fat: {meal.portions?.fat_thumbs || 0} thumbs</div>
-          <div>Fruit: {meal.portions?.fruit_fists || 0} fists</div>
+    <!-- Lunch Section -->
+    <div class="card">
+      <button
+        type="button"
+        class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onclick={() => (lunchCollapsed = !lunchCollapsed)}
+        aria-expanded={!lunchCollapsed}
+        aria-controls="lunch-content"
+      >
+        <h2 class="text-lg font-medium">
+          Lunch ({getMealsByType("lunch").length} meals)
+        </h2>
+        <svg
+          class="w-5 h-5 transform transition-transform duration-200 {lunchCollapsed
+            ? 'rotate-180'
+            : ''}"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
+        </svg>
+      </button>
+
+      {#if !lunchCollapsed}
+        <div id="lunch-content" class="p-4 pt-0">
+          {#if getMealsByType("lunch").length === 0}
+            <p class="text-gray-500 text-center py-4">
+              No lunch meals yet. Add your first lunch meal!
+            </p>
+          {:else}
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {#each getMealsByType("lunch") as meal}
+                <div
+                  class="border rounded-lg p-3 hover:shadow-md transition-shadow"
+                >
+                  <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-semibold">{meal.name}</h3>
+                    <div class="flex gap-1">
+                      <button
+                        class="text-sm text-blue-600 hover:text-blue-800"
+                        onclick={() => editMeal(meal)}>Edit</button
+                      >
+                      <button
+                        class="text-sm text-red-600 hover:text-red-800"
+                        onclick={() => deleteMeal(meal.id)}>Delete</button
+                      >
+                    </div>
+                  </div>
+
+                  <div class="text-sm text-gray-600 mb-2">
+                    {#if meal.tags?.length}
+                      <span
+                        class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"
+                        >{meal.tags.join(", ")}</span
+                      >
+                    {/if}
+                  </div>
+
+                  <div class="text-xs text-gray-500 mb-2">
+                    <div>
+                      Protein: {meal.portions?.protein_palms || 0} palms
+                    </div>
+                    <div>Veggies: {meal.portions?.veg_fists || 0} fists</div>
+                    <div>Starch: {meal.portions?.starch_fists || 0} fists</div>
+                    <div>Fat: {meal.portions?.fat_thumbs || 0} thumbs</div>
+                    <div>Fruit: {meal.portions?.fruit_fists || 0} fists</div>
+                  </div>
+
+                  {#if meal.ingredients?.length}
+                    <div class="text-xs text-gray-600 mb-2">
+                      <strong>Ingredients:</strong>
+                      {meal.ingredients
+                        .map((i: any) => `${i.name} ${i.amount} ${i.unit}`)
+                        .join(", ")}
+                    </div>
+                  {/if}
+
+                  {#if meal.steps?.length}
+                    <div class="text-xs text-gray-600">
+                      <strong>Prep Steps:</strong>
+                      <ol class="list-decimal list-inside mt-1 space-y-1">
+                        {#each meal.steps as step, index}
+                          <li>{step}</li>
+                        {/each}
+                      </ol>
+                    </div>
+                  {/if}
+                </div>
+              {/each}
+            </div>
+          {/if}
         </div>
+      {/if}
+    </div>
 
-        {#if meal.ingredients?.length}
-          <div class="text-xs text-gray-600">
-            <strong>Ingredients:</strong>
-            {meal.ingredients
-              .map((i: any) => `${i.name} ${i.amount} ${i.unit}`)
-              .join(", ")}
-          </div>
-        {/if}
-      </div>
-    {/each}
+    <!-- Dinner Section -->
+    <div class="card">
+      <button
+        type="button"
+        class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onclick={() => (dinnerCollapsed = !dinnerCollapsed)}
+        aria-expanded={!dinnerCollapsed}
+        aria-controls="dinner-content"
+      >
+        <h2 class="text-lg font-medium">
+          Dinner ({getMealsByType("dinner").length} meals)
+        </h2>
+        <svg
+          class="w-5 h-5 transform transition-transform duration-200 {dinnerCollapsed
+            ? 'rotate-180'
+            : ''}"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
+        </svg>
+      </button>
+
+      {#if !dinnerCollapsed}
+        <div id="dinner-content" class="p-4 pt-0">
+          {#if getMealsByType("dinner").length === 0}
+            <p class="text-gray-500 text-center py-4">
+              No dinner meals yet. Add your first dinner meal!
+            </p>
+          {:else}
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {#each getMealsByType("dinner") as meal}
+                <div
+                  class="border rounded-lg p-3 hover:shadow-md transition-shadow"
+                >
+                  <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-semibold">{meal.name}</h3>
+                    <div class="flex gap-1">
+                      <button
+                        class="text-sm text-blue-600 hover:text-blue-800"
+                        onclick={() => editMeal(meal)}>Edit</button
+                      >
+                      <button
+                        class="text-sm text-red-600 hover:text-red-800"
+                        onclick={() => deleteMeal(meal.id)}>Delete</button
+                      >
+                    </div>
+                  </div>
+
+                  <div class="text-sm text-gray-600 mb-2">
+                    {#if meal.tags?.length}
+                      <span
+                        class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded"
+                        >{meal.tags.join(", ")}</span
+                      >
+                    {/if}
+                  </div>
+
+                  <div class="text-xs text-gray-500 mb-2">
+                    <div>
+                      Protein: {meal.portions?.protein_palms || 0} palms
+                    </div>
+                    <div>Veggies: {meal.portions?.veg_fists || 0} fists</div>
+                    <div>Starch: {meal.portions?.starch_fists || 0} fists</div>
+                    <div>Fat: {meal.portions?.fat_thumbs || 0} thumbs</div>
+                    <div>Fruit: {meal.portions?.fruit_fists || 0} fists</div>
+                  </div>
+
+                  {#if meal.ingredients?.length}
+                    <div class="text-xs text-gray-600 mb-2">
+                      <strong>Ingredients:</strong>
+                      {meal.ingredients
+                        .map((i: any) => `${i.name} ${i.amount} ${i.unit}`)
+                        .join(", ")}
+                    </div>
+                  {/if}
+
+                  {#if meal.steps?.length}
+                    <div class="text-xs text-gray-600">
+                      <strong>Prep Steps:</strong>
+                      <ol class="list-decimal list-inside mt-1 space-y-1">
+                        {#each meal.steps as step, index}
+                          <li>{step}</li>
+                        {/each}
+                      </ol>
+                    </div>
+                  {/if}
+                </div>
+              {/each}
+            </div>
+          {/if}
+        </div>
+      {/if}
+    </div>
+
+    <!-- Snack Section -->
+    <div class="card">
+      <button
+        type="button"
+        class="w-full flex items-center justify-between cursor-pointer p-4 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onclick={() => (snackCollapsed = !snackCollapsed)}
+        aria-expanded={!snackCollapsed}
+        aria-controls="snack-content"
+      >
+        <h2 class="text-lg font-medium">
+          Snacks ({getMealsByType("snack").length} meals)
+        </h2>
+        <svg
+          class="w-5 h-5 transform transition-transform duration-200 {snackCollapsed
+            ? 'rotate-180'
+            : ''}"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          ></path>
+        </svg>
+      </button>
+
+      {#if !snackCollapsed}
+        <div id="snack-content" class="p-4 pt-0">
+          {#if getMealsByType("snack").length === 0}
+            <p class="text-gray-500 text-center py-4">
+              No snack meals yet. Add your first snack meal!
+            </p>
+          {:else}
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {#each getMealsByType("snack") as meal}
+                <div
+                  class="border rounded-lg p-3 hover:shadow-md transition-shadow"
+                >
+                  <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-semibold">{meal.name}</h3>
+                    <div class="flex gap-1">
+                      <button
+                        class="text-sm text-blue-600 hover:text-blue-800"
+                        onclick={() => editMeal(meal)}>Edit</button
+                      >
+                      <button
+                        class="text-sm text-red-600 hover:text-red-800"
+                        onclick={() => deleteMeal(meal.id)}>Delete</button
+                      >
+                    </div>
+                  </div>
+
+                  <div class="text-sm text-gray-600 mb-2">
+                    {#if meal.tags?.length}
+                      <span
+                        class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded"
+                        >{meal.tags.join(", ")}</span
+                      >
+                    {/if}
+                  </div>
+
+                  <div class="text-xs text-gray-500 mb-2">
+                    <div>
+                      Protein: {meal.portions?.protein_palms || 0} palms
+                    </div>
+                    <div>Veggies: {meal.portions?.veg_fists || 0} fists</div>
+                    <div>Starch: {meal.portions?.starch_fists || 0} fists</div>
+                    <div>Fat: {meal.portions?.fat_thumbs || 0} thumbs</div>
+                    <div>Fruit: {meal.portions?.fruit_fists || 0} fists</div>
+                  </div>
+
+                  {#if meal.ingredients?.length}
+                    <div class="text-xs text-gray-600 mb-2">
+                      <strong>Ingredients:</strong>
+                      {meal.ingredients
+                        .map((i: any) => `${i.name} ${i.amount} ${i.unit}`)
+                        .join(", ")}
+                    </div>
+                  {/if}
+
+                  {#if meal.steps?.length}
+                    <div class="text-xs text-gray-600">
+                      <strong>Prep Steps:</strong>
+                      <ol class="list-decimal list-inside mt-1 space-y-1">
+                        {#each meal.steps as step, index}
+                          <li>{step}</li>
+                        {/each}
+                      </ol>
+                    </div>
+                  {/if}
+                </div>
+              {/each}
+            </div>
+          {/if}
+        </div>
+      {/if}
+    </div>
   </div>
 
   <!-- Empty State -->
