@@ -448,13 +448,14 @@
                   class="border rounded-lg p-3 hover:shadow-md transition-shadow"
                 >
                   <div class="flex justify-between items-start mb-2">
-                    <h3
-                      class="font-semibold cursor-pointer hover:text-blue-600 hover:underline"
+                    <button
+                      type="button"
+                      class="font-semibold text-left hover:text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
                       onclick={() => editMeal(meal)}
                       title="Click to edit meal"
                     >
                       {meal.name}
-                    </h3>
+                    </button>
                     <div class="flex gap-1">
                       <button
                         class="text-sm text-blue-600 hover:text-blue-800"
@@ -564,13 +565,14 @@
                   class="border rounded-lg p-3 hover:shadow-md transition-shadow"
                 >
                   <div class="flex justify-between items-start mb-2">
-                    <h3
-                      class="font-semibold cursor-pointer hover:text-blue-600 hover:underline"
+                    <button
+                      type="button"
+                      class="font-semibold text-left hover:text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
                       onclick={() => editMeal(meal)}
                       title="Click to edit meal"
                     >
                       {meal.name}
-                    </h3>
+                    </button>
                     <div class="flex gap-1">
                       <button
                         class="text-sm text-blue-600 hover:text-blue-800"
@@ -680,13 +682,14 @@
                   class="border rounded-lg p-3 hover:shadow-md transition-shadow"
                 >
                   <div class="flex justify-between items-start mb-2">
-                    <h3
-                      class="font-semibold cursor-pointer hover:text-blue-600 hover:underline"
+                    <button
+                      type="button"
+                      class="font-semibold text-left hover:text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
                       onclick={() => editMeal(meal)}
                       title="Click to edit meal"
                     >
                       {meal.name}
-                    </h3>
+                    </button>
                     <div class="flex gap-1">
                       <button
                         class="text-sm text-blue-600 hover:text-blue-800"
@@ -796,13 +799,14 @@
                   class="border rounded-lg p-3 hover:shadow-md transition-shadow"
                 >
                   <div class="flex justify-between items-start mb-2">
-                    <h3
-                      class="font-semibold cursor-pointer hover:text-blue-600 hover:underline"
+                    <button
+                      type="button"
+                      class="font-semibold text-left hover:text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
                       onclick={() => editMeal(meal)}
                       title="Click to edit meal"
                     >
                       {meal.name}
-                    </h3>
+                    </button>
                     <div class="flex gap-1">
                       <button
                         class="text-sm text-blue-600 hover:text-blue-800"
