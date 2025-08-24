@@ -101,18 +101,20 @@
         </div>
         <div class="space-y-2">
           {#each getCurrentDateRange() as date}
-            <div class="flex items-center gap-2">
-              <div class="w-24 text-xs text-gray-500">{date}</div>
-              {#each ["Strength", "Endurance", "Fast-twitch", "Core", "Flexibility"] as category}
-                <button
-                  class="tag {$workouts[date]?.includes(category)
-                    ? 'bg-blue-500 text-white'
-                    : ''}"
-                  onclick={() => toggleWorkout(date, category)}
-                >
-                  {category}
-                </button>
-              {/each}
+            <div class="flex flex-wrap items-start gap-2">
+              <div class="w-24 text-xs text-gray-500 flex-shrink-0">{date}</div>
+              <div class="flex flex-wrap gap-2 flex-1">
+                {#each ["Strength", "Endurance", "Fast-twitch", "Core", "Flexibility"] as category}
+                  <button
+                    class="tag {$workouts[date]?.includes(category)
+                      ? 'bg-blue-500 text-white'
+                      : ''}"
+                    onclick={() => toggleWorkout(date, category)}
+                  >
+                    {category}
+                  </button>
+                {/each}
+              </div>
             </div>
           {/each}
         </div>

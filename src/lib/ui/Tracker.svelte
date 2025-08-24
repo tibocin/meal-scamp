@@ -60,14 +60,16 @@
     </div>
     <div class="space-y-2">
       {#each dates.slice(-7) as d}
-        <div class="flex items-center gap-2">
-          <div class="w-24 text-xs text-gray-500">{d}</div>
-          {#each cats as c}
-            <button
-              class={`tag ${(workoutMap[d] || []).includes(c) ? "bg-black text-white" : ""}`}
-              onclick={() => toggleCat(d, c)}>{c}</button
-            >
-          {/each}
+        <div class="flex flex-wrap items-start gap-2">
+          <div class="w-24 text-xs text-gray-500 flex-shrink-0">{d}</div>
+          <div class="flex flex-wrap gap-2 flex-1">
+            {#each cats as c}
+              <button
+                class={`tag ${(workoutMap[d] || []).includes(c) ? "bg-black text-white" : ""}`}
+                onclick={() => toggleCat(d, c)}>{c}</button
+              >
+            {/each}
+          </div>
         </div>
       {/each}
     </div>
