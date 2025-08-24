@@ -18,8 +18,13 @@
 
   // Subscribe to dateRange store for reactive date updates
   let currentDateRange = $state<string[]>([]);
+  let selectedStartDate = $state("");
+  let selectedEndDate = $state("");
+  
   dateRange.subscribe((range) => {
     if (range.start && range.end) {
+      selectedStartDate = range.start;
+      selectedEndDate = range.end;
       currentDateRange = getLocalDateRange(range.start, range.end);
     }
   });
@@ -30,7 +35,45 @@
     if (allMeals.length === 0) {
       loadMealsDirectly();
     }
+    
+    // Set default date range if none is selected
+    if (currentDateRange.length === 0) {
+      setDefaultWeekRange();
+    }
   });
+
+  function setDefaultWeekRange() {
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay()); // Sunday
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Saturday
+
+    const newRange = {
+      start: startOfWeek.toISOString().slice(0, 10),
+      end: endOfWeek.toISOString().slice(0, 10),
+    };
+    
+    dateRange.set(newRange);
+  }
+
+  function navigateWeek(direction: number) {
+    if (!selectedStartDate || !selectedEndDate) return;
+    
+    const startDate = new Date(selectedStartDate);
+    const endDate = new Date(selectedEndDate);
+    const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    startDate.setDate(startDate.getDate() + (direction * daysDiff));
+    endDate.setDate(endDate.getDate() + (direction * daysDiff));
+    
+    const newRange = {
+      start: startDate.toISOString().slice(0, 10),
+      end: endDate.toISOString().slice(0, 10),
+    };
+    
+    dateRange.set(newRange);
+  }
 
   async function loadMealsDirectly() {
     try {
@@ -277,7 +320,14 @@
         aria-expanded={!weeklyPlannerCollapsed}
         aria-controls="weekly-planner-content"
       >
-        <h2 class="text-lg font-medium">Weekly Planner</h2>
+        <div class="flex items-center gap-3">
+          <h2 class="text-lg font-medium">Weekly Planner</h2>
+          {#if selectedStartDate && selectedEndDate}
+            <span class="text-sm text-gray-600 font-normal">
+              {selectedStartDate} to {selectedEndDate}
+            </span>
+          {/if}
+        </div>
         <svg
           class="w-5 h-5 transform transition-transform duration-200 {weeklyPlannerCollapsed
             ? 'rotate-180'
@@ -309,6 +359,31 @@
               </button>
             </div>
           {:else}
+            <!-- Week Navigation Controls -->
+            <div class="flex items-center justify-between mb-4 p-3 bg-gray-50 rounded-lg">
+              <button
+                class="btn-outline text-sm px-3 py-1"
+                onclick={() => navigateWeek(-1)}
+                disabled={!selectedStartDate || !selectedEndDate}
+              >
+                ← Previous Week
+              </button>
+              
+              <div class="text-sm text-gray-600">
+                {#if selectedStartDate && selectedEndDate}
+                  Week of {new Date(selectedStartDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - {new Date(selectedEndDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                {/if}
+              </div>
+              
+              <button
+                class="btn-outline text-sm px-3 py-1"
+                onclick={() => navigateWeek(1)}
+                disabled={!selectedStartDate || !selectedEndDate}
+              >
+                Next Week →
+              </button>
+            </div>
+
             <!-- Meal Planning Grid with 4 organized rows -->
             <div class="space-y-4">
               {#each currentDateRange as date}
