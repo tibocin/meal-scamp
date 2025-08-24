@@ -202,12 +202,20 @@
         <div class="grid grid-cols-10 gap-2">
           {#each getPunchCardDates() as d}
             <button
-              class="aspect-square rounded border-2 border-black {punchMap[d] ? 'bg-green-100 border-green-600' : 'bg-white hover:bg-gray-50'} transition-all duration-200 flex items-center justify-center"
+              class="aspect-square rounded border-2 border-black {punchMap[d] ? 'bg-green-100 border-green-600' : 'bg-white hover:bg-gray-50'} transition-all duration-200 flex items-center justify-center relative"
               onclick={(e) => { e.stopPropagation(); showDailyPracticeModal(d); }}
               title="Check in for {d}"
             >
+              <!-- Current day indicator -->
+              {#if d === new Date().toISOString().slice(0, 10)}
+                <div class="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-white"></div>
+              {/if}
+              
+              <!-- Checkmark overlay (doesn't affect box size) -->
               {#if punchMap[d]}
-                <span class="text-2xl">✅</span>
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span class="text-lg">✅</span>
+                </div>
               {/if}
             </button>
           {/each}
