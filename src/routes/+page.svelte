@@ -345,7 +345,17 @@
           <div class="flex items-center gap-3 mb-3">
             <div>Start: {$goal.start} lbs</div>
             <div>Target: {$goal.target} lbs</div>
-            <div>Current: {$goal.current} lbs</div>
+            <div>
+              Current: <input
+                class="border p-1 w-20 text-center"
+                type="number"
+                bind:value={$goal.current}
+                onclick={(e) => e.stopPropagation()}
+                min="100"
+                max="500"
+                step="0.1"
+              /> lbs
+            </div>
           </div>
           <div class="text-xs text-gray-500 mb-3">
             💡 Update your weight goals in <a
@@ -353,7 +363,7 @@
               class="text-blue-600 hover:underline">Settings</a
             >
           </div>
-          
+
           <!-- Progress Bar with Label -->
           <div class="mb-3">
             <div class="text-sm text-gray-600 mb-2">🎯 Progress:</div>
@@ -373,9 +383,11 @@
             </div>
             <div class="text-xs text-gray-500 mt-1">
               {#if $goal.target < $goal.start}
-                {Math.max(0, $goal.start - $goal.current)} lbs lost of {$goal.start - $goal.target} lbs goal
+                {Math.max(0, $goal.start - $goal.current)} lbs lost of {$goal.start -
+                  $goal.target} lbs goal
               {:else}
-                {Math.max(0, $goal.current - $goal.start)} lbs gained of {$goal.target - $goal.start} lbs goal
+                {Math.max(0, $goal.current - $goal.start)} lbs gained of {$goal.target -
+                  $goal.start} lbs goal
               {/if}
             </div>
           </div>
