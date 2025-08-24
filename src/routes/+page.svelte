@@ -223,18 +223,20 @@
   <div class="space-y-6 mb-8">
     <!-- 30-Day Success Punch Card -->
     <div class="card">
-      <div
-        class="flex items-center justify-between cursor-pointer"
+      <button
+        class="w-full flex items-center justify-between cursor-pointer text-left"
         onclick={() => (punchCardCollapsed = !punchCardCollapsed)}
+        onkeydown={(e) =>
+          e.key === "Enter" && (punchCardCollapsed = !punchCardCollapsed)}
       >
         <h3 class="font-semibold text-lg">Punch Card</h3>
-        <button
+        <span
           class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
           class:rotate-180={punchCardCollapsed}
         >
           ▼
-        </button>
-      </div>
+        </span>
+      </button>
 
       {#if !punchCardCollapsed}
         <div class="mt-4 transition-all duration-300 ease-in-out">
@@ -279,10 +281,10 @@
           </div>
 
           <!-- 30-Day Punch Card Grid -->
-          <div class="grid grid-cols-10 gap-2">
+          <div class="grid grid-cols-10 gap-2 lg:gap-0.5">
             {#each getPunchCardDates() as date}
               <button
-                class="aspect-square rounded border-2 border-black {$punches[
+                class="aspect-square rounded border-2 lg:border-2 border-black {$punches[
                   date
                 ]
                   ? 'bg-green-100 border-green-600'
@@ -296,7 +298,7 @@
                 <!-- Current day indicator -->
                 {#if date === new Date().toISOString().slice(0, 10)}
                   <div
-                    class="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-white"
+                    class="absolute -top-1 -right-1 w-3 h-3 lg:w-1.5 lg:h-1.5 bg-blue-500 rounded-full border-2 border-white"
                   ></div>
                 {/if}
 
@@ -305,7 +307,7 @@
                   <div
                     class="absolute inset-0 flex items-center justify-center pointer-events-none"
                   >
-                    <span class="text-lg">✅</span>
+                    <span class="text-lg lg:text-sm">✅</span>
                   </div>
                 {/if}
               </button>
@@ -326,18 +328,19 @@
 
     <!-- Goal Tracker -->
     <div class="card">
-      <div
-        class="flex items-center justify-between cursor-pointer"
+      <button
+        class="w-full flex items-center justify-between cursor-pointer text-left"
         onclick={() => (goalCollapsed = !goalCollapsed)}
+        onkeydown={(e) => e.key === "Enter" && (goalCollapsed = !goalCollapsed)}
       >
         <h3 class="font-semibold text-lg">Goal Tracker</h3>
-        <button
+        <span
           class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
           class:rotate-180={goalCollapsed}
         >
           ▼
-        </button>
-      </div>
+        </span>
+      </button>
 
       {#if !goalCollapsed}
         <div class="mt-4 transition-all duration-300 ease-in-out">
@@ -380,18 +383,20 @@
   <div class="space-y-6">
     <!-- Weekly Workout Categories -->
     <div class="card">
-      <div
-        class="flex items-center justify-between cursor-pointer"
+      <button
+        class="w-full flex items-center justify-between cursor-pointer text-left"
         onclick={() => (workoutCollapsed = !workoutCollapsed)}
+        onkeydown={(e) =>
+          e.key === "Enter" && (workoutCollapsed = !workoutCollapsed)}
       >
         <h3 class="font-semibold">Weekly Workout Categories</h3>
-        <button
+        <span
           class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
           class:rotate-180={workoutCollapsed}
         >
           ▼
-        </button>
-      </div>
+        </span>
+      </button>
 
       {#if !workoutCollapsed}
         <div class="mt-4 transition-all duration-300 ease-in-out">

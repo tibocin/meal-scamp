@@ -262,10 +262,12 @@
         </div>
 
         <!-- 30-Day Punch Card Grid -->
-        <div class="grid grid-cols-10 gap-2">
+        <div class="grid grid-cols-10 gap-2 lg:gap-0.5">
           {#each getPunchCardDates() as d}
             <button
-              class="aspect-square rounded border-2 border-black {punchMap[d]
+              class="aspect-square rounded border-2 lg:border-2 border-black {punchMap[
+                d
+              ]
                 ? 'bg-green-100 border-green-600'
                 : 'bg-white hover:bg-gray-50'} transition-all duration-200 flex items-center justify-center relative"
               onclick={(e) => {
@@ -277,7 +279,7 @@
               <!-- Current day indicator -->
               {#if d === new Date().toISOString().slice(0, 10)}
                 <div
-                  class="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-white"
+                  class="absolute -top-1 -right-1 w-3 h-3 lg:w-1.5 lg:h-1.5 bg-blue-500 rounded-full border-2 border-white"
                 ></div>
               {/if}
 
@@ -286,7 +288,7 @@
                 <div
                   class="absolute inset-0 flex items-center justify-center pointer-events-none"
                 >
-                  <span class="text-lg">✅</span>
+                  <span class="text-lg lg:text-sm">✅</span>
                 </div>
               {/if}
             </button>
