@@ -5,8 +5,8 @@
     "mealType": "breakfast",
     "portions": {
       "protein_palms": 1.5,
-      "veg_fists": 1,
-      "starch_fists": 1,
+      "veg_fists": 2,
+      "starch_fists": 0,
       "fat_thumbs": 1,
       "fruit_fists": 0
     },
@@ -19,25 +19,41 @@
       {
         "name": "spinach",
         "amount": 2,
-        "unit": "fist"
+        "unit": "cups"
       },
       {
-        "name": "onion",
-        "amount": 0.5,
-        "unit": "fist"
+        "name": "yellow onion",
+        "amount": 0.25,
+        "unit": "count"
       },
       {
         "name": "olive oil",
         "amount": 1,
-        "unit": "thumb"
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "black pepper",
+        "amount": 0.25,
+        "unit": "tsp"
+      },
+      {
+        "name": "turmeric (optional)",
+        "amount": 0.25,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Dice onion. Heat olive oil; saut\u00e9 onion 2\u20133 min.",
+      "Add spinach; cook until wilted.",
+      "Crack in eggs and scramble; season."
     ],
     "tags": [
+      "quick",
       "gluten-free"
     ]
   },
@@ -54,32 +70,39 @@
     },
     "ingredients": [
       {
-        "name": "salmon",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "salmon fillet",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
         "name": "cucumber",
-        "amount": 1,
-        "unit": "fist"
+        "amount": 0.5,
+        "unit": "count"
       },
       {
-        "name": "rice",
-        "amount": 1,
-        "unit": "fist"
+        "name": "white rice (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
       },
       {
         "name": "sesame oil",
         "amount": 1,
-        "unit": "thumb"
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Cook salmon 10\u201312 min at 400\u00b0F (or pan-sear) until flakes.",
+      "Cook rice according to package.",
+      "Slice cucumber; toss with sesame oil and salt.",
+      "Serve salmon over rice with cucumber."
     ],
     "tags": [
+      "batch-protein",
       "gluten-free"
     ]
   },
@@ -88,17 +111,17 @@
     "name": "Ribeye + Eggs",
     "mealType": "breakfast",
     "portions": {
-      "protein_palms": 1.5,
+      "protein_palms": 2,
       "veg_fists": 1,
-      "starch_fists": 1,
-      "fat_thumbs": 1,
+      "starch_fists": 0,
+      "fat_thumbs": 0.5,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "ribeye steak",
-        "amount": 1,
-        "unit": "palm"
+        "name": "ribeye steak (thin-sliced)",
+        "amount": 0.4,
+        "unit": "lb"
       },
       {
         "name": "eggs",
@@ -106,17 +129,33 @@
         "unit": "count"
       },
       {
-        "name": "broccoli",
+        "name": "broccoli florets",
+        "amount": 2,
+        "unit": "cups"
+      },
+      {
+        "name": "olive oil or butter",
         "amount": 1,
-        "unit": "fist"
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "black pepper",
+        "amount": 0.25,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Heat skillet high; sear ribeye 2\u20133 min/side; rest.",
+      "Fry eggs in the same pan.",
+      "Steam broccoli 2\u20133 min; season."
     ],
     "tags": [
+      "high-protein",
       "gluten-free"
     ]
   },
@@ -125,40 +164,45 @@
     "name": "Quinoa Porridge",
     "mealType": "breakfast",
     "portions": {
-      "protein_palms": 1.5,
-      "veg_fists": 1,
+      "protein_palms": 1,
+      "veg_fists": 0,
       "starch_fists": 1,
       "fat_thumbs": 1,
-      "fruit_fists": 0
+      "fruit_fists": 1
     },
     "ingredients": [
       {
-        "name": "quinoa",
-        "amount": 1,
-        "unit": "fist"
+        "name": "quinoa (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
       },
       {
-        "name": "almond milk",
+        "name": "unsweetened almond milk",
         "amount": 1,
         "unit": "cup"
       },
       {
-        "name": "walnuts",
+        "name": "walnuts (chopped)",
         "amount": 1,
-        "unit": "thumb"
+        "unit": "tbsp"
       },
       {
         "name": "blueberries",
         "amount": 1,
-        "unit": "fist"
+        "unit": "cup"
+      },
+      {
+        "name": "cinnamon",
+        "amount": 0.25,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Simmer quinoa in almond milk until porridge-like (12\u201315 min).",
+      "Top with walnuts, blueberries, and cinnamon."
     ],
     "tags": [
+      "vegetarian",
       "gluten-free"
     ]
   },
@@ -170,38 +214,50 @@
       "protein_palms": 1.5,
       "veg_fists": 1,
       "starch_fists": 1,
-      "fat_thumbs": 1,
+      "fat_thumbs": 0.5,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "sweet potato",
+        "name": "sweet potato (medium)",
         "amount": 1,
-        "unit": "fist"
+        "unit": "count"
       },
       {
-        "name": "onion",
+        "name": "yellow onion",
         "amount": 0.5,
-        "unit": "fist"
+        "unit": "count"
       },
       {
-        "name": "chicken sausage",
-        "amount": 1,
-        "unit": "palm"
+        "name": "chicken sausage (GF)",
+        "amount": 0.33,
+        "unit": "lb"
       },
       {
         "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "paprika",
         "amount": 0.5,
-        "unit": "thumb"
+        "unit": "tsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Dice sweet potato and onion.",
+      "Saut\u00e9 in olive oil with paprika and salt until tender.",
+      "Add sliced chicken sausage; brown lightly."
     ],
     "tags": [
-      "gluten-free"
+      "hearty",
+      "gluten-free",
+      "one-pan"
     ]
   },
   {
@@ -210,35 +266,41 @@
     "mealType": "breakfast",
     "portions": {
       "protein_palms": 1.5,
-      "veg_fists": 1,
-      "starch_fists": 1,
+      "veg_fists": 0,
+      "starch_fists": 0,
       "fat_thumbs": 1,
-      "fruit_fists": 0
+      "fruit_fists": 1
     },
     "ingredients": [
       {
-        "name": "Greek yogurt",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "Greek yogurt (unsweetened)",
+        "amount": 1,
+        "unit": "cup"
       },
       {
         "name": "almonds",
         "amount": 1,
-        "unit": "thumb"
+        "unit": "tbsp"
       },
       {
-        "name": "berries",
+        "name": "mixed berries",
         "amount": 1,
-        "unit": "fist"
+        "unit": "cup"
+      },
+      {
+        "name": "cinnamon (optional)",
+        "amount": 0.25,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Spoon yogurt into a bowl.",
+      "Top with almonds and berries; dust with cinnamon."
     ],
     "tags": [
-      "gluten-free"
+      "quick",
+      "gluten-free",
+      "no-cook"
     ]
   },
   {
@@ -246,11 +308,11 @@
     "name": "Eggs, Bacon, Yogurt & Fruit",
     "mealType": "breakfast",
     "portions": {
-      "protein_palms": 1.5,
-      "veg_fists": 1,
-      "starch_fists": 1,
+      "protein_palms": 2,
+      "veg_fists": 0,
+      "starch_fists": 0,
       "fat_thumbs": 1,
-      "fruit_fists": 0
+      "fruit_fists": 1
     },
     "ingredients": [
       {
@@ -264,22 +326,22 @@
         "unit": "count"
       },
       {
-        "name": "Greek yogurt",
-        "amount": 1,
-        "unit": "palm"
+        "name": "Greek yogurt (unsweetened)",
+        "amount": 0.75,
+        "unit": "cup"
       },
       {
-        "name": "fruit",
+        "name": "fruit (apple or berries)",
         "amount": 1,
-        "unit": "fist"
+        "unit": "count"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Cook bacon and eggs to preference.",
+      "Serve with yogurt and fruit."
     ],
     "tags": [
+      "classic",
       "gluten-free"
     ]
   },
@@ -289,35 +351,35 @@
     "mealType": "breakfast",
     "portions": {
       "protein_palms": 1.5,
-      "veg_fists": 1,
-      "starch_fists": 1,
+      "veg_fists": 0,
+      "starch_fists": 0,
       "fat_thumbs": 1,
-      "fruit_fists": 0
+      "fruit_fists": 1
     },
     "ingredients": [
       {
-        "name": "cottage cheese",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "cottage cheese (2%)",
+        "amount": 1,
+        "unit": "cup"
       },
       {
-        "name": "nuts/seeds",
+        "name": "mixed nuts/seeds",
         "amount": 1,
-        "unit": "thumb"
+        "unit": "tbsp"
       },
       {
-        "name": "fruit",
+        "name": "pineapple or berries",
         "amount": 1,
-        "unit": "fist"
+        "unit": "cup"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Scoop cottage cheese; top with nuts/seeds and fruit."
     ],
     "tags": [
-      "gluten-free"
+      "high-protein",
+      "gluten-free",
+      "no-cook"
     ]
   },
   {
@@ -325,10 +387,10 @@
     "name": "Lettuce Wrap Breakfast Tacos",
     "mealType": "breakfast",
     "portions": {
-      "protein_palms": 1.5,
+      "protein_palms": 2,
       "veg_fists": 1,
-      "starch_fists": 1,
-      "fat_thumbs": 1,
+      "starch_fists": 0,
+      "fat_thumbs": 0.5,
       "fruit_fists": 0
     },
     "ingredients": [
@@ -338,28 +400,34 @@
         "unit": "count"
       },
       {
-        "name": "carnitas",
-        "amount": 1,
-        "unit": "palm"
+        "name": "carnitas (pre-cooked)",
+        "amount": 0.33,
+        "unit": "lb"
       },
       {
         "name": "lettuce leaves",
-        "amount": 1,
-        "unit": "fist"
+        "amount": 6,
+        "unit": "count"
       },
       {
         "name": "salsa",
         "amount": 0.5,
-        "unit": "fist"
+        "unit": "cup"
+      },
+      {
+        "name": "avocado",
+        "amount": 0.5,
+        "unit": "count"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Scramble eggs; warm carnitas.",
+      "Assemble in lettuce leaves with salsa and avocado."
     ],
     "tags": [
-      "gluten-free"
+      "mexican",
+      "gluten-free",
+      "tacos"
     ]
   },
   {
@@ -368,50 +436,54 @@
     "mealType": "breakfast",
     "portions": {
       "protein_palms": 1.5,
-      "veg_fists": 1,
-      "starch_fists": 1,
-      "fat_thumbs": 1,
-      "fruit_fists": 0
+      "veg_fists": 2,
+      "starch_fists": 0,
+      "fat_thumbs": 0.5,
+      "fruit_fists": 0.5
     },
     "ingredients": [
       {
-        "name": "protein powder",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "protein powder (whey/pea)",
+        "amount": 1,
+        "unit": "scoop"
       },
       {
-        "name": "carrot",
+        "name": "carrot (peeled, chopped)",
         "amount": 1,
-        "unit": "fist"
+        "unit": "count"
       },
       {
         "name": "spinach",
         "amount": 1,
-        "unit": "fist"
+        "unit": "cup"
       },
       {
-        "name": "ginger",
-        "amount": 0.1,
-        "unit": "thumb"
-      },
-      {
-        "name": "banana",
+        "name": "fresh ginger",
         "amount": 0.5,
-        "unit": "fist"
+        "unit": "tbsp"
+      },
+      {
+        "name": "banana (optional)",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "almond milk or water",
+        "amount": 1,
+        "unit": "cup"
       }
     ],
     "steps": [
-      "Prepare ingredients",
-      "Cook/assemble",
-      "Serve"
+      "Blend all ingredients until smooth; adjust liquid to taste."
     ],
     "tags": [
+      "smoothie",
       "gluten-free"
     ]
   },
   {
     "id": "l01",
-    "name": "Lunch 1",
+    "name": "Chicken Thigh Bowl",
     "mealType": "lunch",
     "portions": {
       "protein_palms": 1.5,
@@ -422,124 +494,226 @@
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "chicken thighs (boneless)",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
-        "amount": 2,
-        "unit": "fist"
+        "name": "brown rice (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
+      },
+      {
+        "name": "cucumber",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "broccoli florets",
+        "amount": 1.5,
+        "unit": "cups"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "black pepper",
+        "amount": 0.25,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Roast or pan-sear chicken 15\u201320 min until 165\u00b0F.",
+      "Cook brown rice.",
+      "Steam broccoli; slice cucumber; assemble bowl; drizzle olive oil; season."
     ],
     "tags": [
-      "gluten-free"
+      "bowl",
+      "gluten-free",
+      "batch-protein"
     ]
   },
   {
     "id": "l02",
-    "name": "Lunch 2",
+    "name": "Carnitas Salad",
     "mealType": "lunch",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
-      "starch_fists": 1,
+      "starch_fists": 0,
       "fat_thumbs": 1,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "carnitas (pre-cooked)",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
-        "amount": 2,
-        "unit": "fist"
+        "name": "romaine or butter lettuce",
+        "amount": 0.5,
+        "unit": "head"
+      },
+      {
+        "name": "avocado",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "red onion",
+        "amount": 0.25,
+        "unit": "count"
+      },
+      {
+        "name": "salsa",
+        "amount": 0.5,
+        "unit": "cup"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "lime",
+        "amount": 0.5,
+        "unit": "count"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Warm carnitas.",
+      "Chop lettuce and onion; slice avocado.",
+      "Toss with salsa, olive oil, and a squeeze of lime."
     ],
     "tags": [
-      "gluten-free"
+      "salad",
+      "gluten-free",
+      "low-starch"
     ]
   },
   {
     "id": "l03",
-    "name": "Lunch 3",
+    "name": "Tuna + Bean Bowl",
     "mealType": "lunch",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
-      "starch_fists": 1,
-      "fat_thumbs": 1,
+      "starch_fists": 0.5,
+      "fat_thumbs": 0.5,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "tuna (canned, drained)",
+        "amount": 1,
+        "unit": "can"
       },
       {
-        "name": "veg",
+        "name": "white beans (canned, drained)",
+        "amount": 0.5,
+        "unit": "can"
+      },
+      {
+        "name": "spinach",
         "amount": 2,
-        "unit": "fist"
+        "unit": "cups"
+      },
+      {
+        "name": "cucumber",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "paprika",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Drain tuna and beans.",
+      "Toss with spinach, sliced cucumber, olive oil, paprika, and salt."
     ],
     "tags": [
-      "gluten-free"
+      "pantry",
+      "gluten-free",
+      "no-cook"
     ]
   },
   {
     "id": "l04",
-    "name": "Lunch 4",
+    "name": "Egg + Quinoa Bowl",
     "mealType": "lunch",
     "portions": {
       "protein_palms": 1.5,
-      "veg_fists": 2,
+      "veg_fists": 1.5,
       "starch_fists": 1,
-      "fat_thumbs": 1,
+      "fat_thumbs": 0.5,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "eggs",
+        "amount": 2,
+        "unit": "count"
       },
       {
-        "name": "veg",
+        "name": "quinoa (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
+      },
+      {
+        "name": "spinach",
         "amount": 2,
-        "unit": "fist"
+        "unit": "cups"
+      },
+      {
+        "name": "garlic",
+        "amount": 2,
+        "unit": "clove"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Cook quinoa.",
+      "Saut\u00e9 spinach and minced garlic in olive oil.",
+      "Fry or poach eggs and serve over quinoa and spinach."
     ],
     "tags": [
-      "gluten-free"
+      "simple",
+      "gluten-free",
+      "vegetarian-option"
     ]
   },
   {
     "id": "l05",
-    "name": "Lunch 5",
+    "name": "Salmon + Sweet Potato Mash",
     "mealType": "lunch",
     "portions": {
       "protein_palms": 1.5,
@@ -550,92 +724,156 @@
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "salmon fillet",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
-        "amount": 2,
-        "unit": "fist"
+        "name": "sweet potato (medium)",
+        "amount": 1,
+        "unit": "count"
+      },
+      {
+        "name": "broccoli florets",
+        "amount": 1.5,
+        "unit": "cups"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "ground cumin",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Roast or pan-sear salmon 10\u201312 min.",
+      "Boil sweet potato until soft; mash with olive oil and cumin.",
+      "Steam broccoli and plate."
     ],
     "tags": [
+      "batch-protein",
       "gluten-free"
     ]
   },
   {
     "id": "l06",
-    "name": "Lunch 6",
+    "name": "Chicken Lettuce Wraps",
     "mealType": "lunch",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
-      "starch_fists": 1,
+      "starch_fists": 0,
       "fat_thumbs": 1,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "ground chicken",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
+        "name": "yellow onion",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "garlic",
         "amount": 2,
-        "unit": "fist"
+        "unit": "clove"
+      },
+      {
+        "name": "lettuce leaves",
+        "amount": 8,
+        "unit": "count"
+      },
+      {
+        "name": "hot sauce or salsa",
+        "amount": 0.5,
+        "unit": "cup"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Saut\u00e9 diced onion and minced garlic.",
+      "Brown ground chicken; season to taste.",
+      "Spoon into lettuce leaves and top with sauce."
     ],
     "tags": [
-      "gluten-free"
+      "tacos",
+      "gluten-free",
+      "fast"
     ]
   },
   {
     "id": "l07",
-    "name": "Lunch 7",
+    "name": "Shrimp Stir-Fry",
     "mealType": "lunch",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
-      "starch_fists": 1,
+      "starch_fists": 0,
       "fat_thumbs": 1,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "shrimp (peeled, deveined)",
+        "amount": 0.45,
+        "unit": "lb"
       },
       {
-        "name": "veg",
+        "name": "cabbage (shredded)",
         "amount": 2,
-        "unit": "fist"
+        "unit": "cups"
+      },
+      {
+        "name": "carrot (matchsticks)",
+        "amount": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "fresh ginger",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "garlic",
+        "amount": 2,
+        "unit": "clove"
+      },
+      {
+        "name": "tamari (gluten-free)",
+        "amount": 1.5,
+        "unit": "tbsp"
+      },
+      {
+        "name": "sesame oil",
+        "amount": 1,
+        "unit": "tbsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Heat sesame oil; sear shrimp 2\u20133 min/side; remove.",
+      "Stir-fry cabbage and carrot with ginger and garlic.",
+      "Return shrimp; splash with tamari; toss and serve."
     ],
     "tags": [
+      "stir-fry",
       "gluten-free"
     ]
   },
   {
     "id": "l08",
-    "name": "Lunch 8",
+    "name": "Beef + Broccoli Bowl",
     "mealType": "lunch",
     "portions": {
       "protein_palms": 1.5,
@@ -646,60 +884,114 @@
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "beef strips",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
+        "name": "white rice (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
+      },
+      {
+        "name": "broccoli florets",
         "amount": 2,
-        "unit": "fist"
+        "unit": "cups"
+      },
+      {
+        "name": "yellow onion",
+        "amount": 0.25,
+        "unit": "count"
+      },
+      {
+        "name": "garlic",
+        "amount": 2,
+        "unit": "clove"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "tamari (gluten-free)",
+        "amount": 1,
+        "unit": "tbsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Stir-fry beef with sliced onion and garlic.",
+      "Steam broccoli.",
+      "Cook rice.",
+      "Assemble bowl; season with tamari."
     ],
     "tags": [
+      "bowl",
       "gluten-free"
     ]
   },
   {
     "id": "l09",
-    "name": "Lunch 9",
+    "name": "Spinach + Lentil Soup",
     "mealType": "lunch",
     "portions": {
-      "protein_palms": 1.5,
+      "protein_palms": 0.8,
       "veg_fists": 2,
-      "starch_fists": 1,
-      "fat_thumbs": 1,
+      "starch_fists": 0.8,
+      "fat_thumbs": 0.5,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "lentils (dry)",
+        "amount": 0.5,
+        "unit": "cup_dry"
       },
       {
-        "name": "veg",
+        "name": "spinach",
         "amount": 2,
-        "unit": "fist"
+        "unit": "cups"
+      },
+      {
+        "name": "yellow onion",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "garlic",
+        "amount": 2,
+        "unit": "clove"
+      },
+      {
+        "name": "turmeric",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Saut\u00e9 chopped onion and garlic in olive oil.",
+      "Add lentils and water/broth; simmer until tender (15\u201320 min).",
+      "Stir in spinach to wilt; season with turmeric and salt."
     ],
     "tags": [
-      "gluten-free"
+      "soup",
+      "gluten-free",
+      "budget"
     ]
   },
   {
     "id": "l10",
-    "name": "Lunch 10",
+    "name": "Chicken Curry Bowl",
     "mealType": "lunch",
     "portions": {
       "protein_palms": 1.5,
@@ -710,60 +1002,108 @@
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "chicken breast or thigh",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
-        "amount": 2,
-        "unit": "fist"
+        "name": "chickpeas (canned, drained)",
+        "amount": 0.5,
+        "unit": "can"
+      },
+      {
+        "name": "yellow onion",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "coconut milk",
+        "amount": 0.5,
+        "unit": "can"
+      },
+      {
+        "name": "rice (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
+      },
+      {
+        "name": "turmeric",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "cumin",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "paprika",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Saut\u00e9 diced onion; brown chicken pieces.",
+      "Add chickpeas, coconut milk, and spices; simmer 10\u201315 min.",
+      "Cook rice; serve curry over rice."
     ],
     "tags": [
-      "gluten-free"
+      "curry",
+      "gluten-free",
+      "comfort"
     ]
   },
   {
     "id": "d01",
-    "name": "Dinner 1",
+    "name": "Ribeye Steak + Broccolini",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
-      "starch_fists": 1,
+      "starch_fists": 0,
       "fat_thumbs": 1,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "ribeye steak",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
-        "amount": 2,
-        "unit": "fist"
+        "name": "broccolini",
+        "amount": 1,
+        "unit": "bunch"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "black pepper",
+        "amount": 0.25,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Sear ribeye 3\u20134 min/side; rest 5 min.",
+      "Toss broccolini with oil and salt; roast at 400\u00b0F for 10\u201312 min."
     ],
     "tags": [
-      "gluten-free"
+      "steak-night",
+      "gluten-free",
+      "low-starch"
     ]
   },
   {
     "id": "d02",
-    "name": "Dinner 2",
+    "name": "Carnitas Bowl",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
@@ -774,60 +1114,95 @@
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "carnitas (pre-cooked)",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
-        "amount": 2,
-        "unit": "fist"
+        "name": "quinoa (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
+      },
+      {
+        "name": "red onion",
+        "amount": 0.25,
+        "unit": "count"
+      },
+      {
+        "name": "cilantro",
+        "amount": 0.25,
+        "unit": "bunch"
+      },
+      {
+        "name": "avocado",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "lime",
+        "amount": 0.5,
+        "unit": "count"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Warm carnitas; cook quinoa.",
+      "Top bowl with diced onion, chopped cilantro, avocado, and lime."
     ],
     "tags": [
+      "bowl",
       "gluten-free"
     ]
   },
   {
     "id": "d03",
-    "name": "Dinner 3",
+    "name": "Salmon + Cabbage Slaw",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
-      "starch_fists": 1,
+      "starch_fists": 0,
       "fat_thumbs": 1,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "salmon fillet",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
+        "name": "green or purple cabbage (shredded)",
+        "amount": 3,
+        "unit": "cups"
+      },
+      {
+        "name": "garlic",
         "amount": 2,
-        "unit": "fist"
+        "unit": "clove"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "lime or lemon",
+        "amount": 0.5,
+        "unit": "count"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Roast salmon 10\u201312 min at 400\u00b0F.",
+      "Toss cabbage with minced garlic, olive oil, citrus juice, salt."
     ],
     "tags": [
+      "light",
       "gluten-free"
     ]
   },
   {
     "id": "d04",
-    "name": "Dinner 4",
+    "name": "Chicken Thigh Curry",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
@@ -838,60 +1213,107 @@
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "chicken thighs (boneless)",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
-        "amount": 2,
-        "unit": "fist"
+        "name": "yellow onion",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "broccoli florets",
+        "amount": 1.5,
+        "unit": "cups"
+      },
+      {
+        "name": "coconut milk",
+        "amount": 0.5,
+        "unit": "can"
+      },
+      {
+        "name": "rice (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
+      },
+      {
+        "name": "turmeric",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "cumin",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "paprika",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Brown chicken with onion.",
+      "Add coconut milk and spices; simmer 10\u201315 min.",
+      "Steam broccoli and fold in; serve with rice."
     ],
     "tags": [
+      "curry",
       "gluten-free"
     ]
   },
   {
     "id": "d05",
-    "name": "Dinner 5",
+    "name": "Shrimp + Zucchini Noodles",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
-      "starch_fists": 1,
+      "starch_fists": 0,
       "fat_thumbs": 1,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "shrimp (peeled, deveined)",
+        "amount": 0.45,
+        "unit": "lb"
       },
       {
-        "name": "veg",
+        "name": "zucchini (spiralized)",
+        "amount": 3,
+        "unit": "cups"
+      },
+      {
+        "name": "yellow onion",
+        "amount": 0.25,
+        "unit": "count"
+      },
+      {
+        "name": "garlic",
         "amount": 2,
-        "unit": "fist"
+        "unit": "clove"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Sear shrimp 2\u20133 min/side; remove.",
+      "Saut\u00e9 onion and garlic; add zoodles 2\u20133 min; return shrimp and serve."
     ],
     "tags": [
-      "gluten-free"
+      "low-starch",
+      "gluten-free",
+      "stir-fry"
     ]
   },
   {
     "id": "d06",
-    "name": "Dinner 6",
+    "name": "Quinoa + Veggie Stir-Fry",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
@@ -902,92 +1324,175 @@
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "quinoa (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
       },
       {
-        "name": "veg",
+        "name": "spinach",
         "amount": 2,
-        "unit": "fist"
+        "unit": "cups"
+      },
+      {
+        "name": "carrot",
+        "amount": 1,
+        "unit": "count"
+      },
+      {
+        "name": "yellow onion",
+        "amount": 0.25,
+        "unit": "count"
+      },
+      {
+        "name": "tamari (gluten-free)",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Cook quinoa.",
+      "Saut\u00e9 sliced carrot and onion; add spinach to wilt.",
+      "Stir in quinoa; season with tamari."
     ],
     "tags": [
-      "gluten-free"
+      "vegetarian",
+      "gluten-free",
+      "stir-fry"
     ]
   },
   {
     "id": "d07",
-    "name": "Dinner 7",
+    "name": "Beef Chili (bean-based)",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
       "starch_fists": 1,
-      "fat_thumbs": 1,
+      "fat_thumbs": 0.5,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "ground beef (90%)",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
-        "amount": 2,
-        "unit": "fist"
+        "name": "beans (kidney or black), canned, drained",
+        "amount": 1,
+        "unit": "can"
+      },
+      {
+        "name": "yellow onion",
+        "amount": 0.5,
+        "unit": "count"
+      },
+      {
+        "name": "garlic",
+        "amount": 3,
+        "unit": "clove"
+      },
+      {
+        "name": "crushed tomatoes (canned)",
+        "amount": 1,
+        "unit": "can"
+      },
+      {
+        "name": "chili powder",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "paprika",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "name": "cumin",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Brown beef with onion and garlic.",
+      "Add beans, tomatoes, and spices; simmer 20 min."
     ],
     "tags": [
-      "gluten-free"
+      "chili",
+      "gluten-free",
+      "comfort"
     ]
   },
   {
     "id": "d08",
-    "name": "Dinner 8",
+    "name": "Roast Chicken + Sweet Potatoes",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
       "starch_fists": 1,
-      "fat_thumbs": 1,
+      "fat_thumbs": 0.5,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "chicken drumsticks or thighs",
+        "amount": 0.6,
+        "unit": "lb"
       },
       {
-        "name": "veg",
-        "amount": 2,
-        "unit": "fist"
+        "name": "sweet potatoes (cubed)",
+        "amount": 1,
+        "unit": "count"
+      },
+      {
+        "name": "broccoli florets",
+        "amount": 1.5,
+        "unit": "cups"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "paprika",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "name": "garlic powder",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Toss chicken and sweet potatoes with oil and spices; roast at 400\u00b0F for 25\u201330 min.",
+      "Steam or roast broccoli; plate."
     ],
     "tags": [
+      "sheet-pan",
       "gluten-free"
     ]
   },
   {
     "id": "d09",
-    "name": "Dinner 9",
+    "name": "Salmon + Spinach Rice Bowl",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
@@ -998,55 +1503,102 @@
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "salmon fillet",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
+        "name": "spinach",
         "amount": 2,
-        "unit": "fist"
+        "unit": "cups"
+      },
+      {
+        "name": "white rice (dry)",
+        "amount": 0.33,
+        "unit": "cup_dry"
+      },
+      {
+        "name": "sesame oil or olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Cook rice.",
+      "Pan-sear salmon 3\u20134 min/side.",
+      "Wilt spinach in pan with a little oil and salt; assemble bowl."
     ],
     "tags": [
+      "bowl",
       "gluten-free"
     ]
   },
   {
     "id": "d10",
-    "name": "Dinner 10",
+    "name": "Stuffed Bell Peppers (Chicken)",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
       "starch_fists": 1,
-      "fat_thumbs": 1,
+      "fat_thumbs": 0.5,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "protein",
-        "amount": 1.5,
-        "unit": "palm"
+        "name": "ground chicken",
+        "amount": 0.5,
+        "unit": "lb"
       },
       {
-        "name": "veg",
+        "name": "bell peppers",
         "amount": 2,
-        "unit": "fist"
+        "unit": "count"
+      },
+      {
+        "name": "white rice (cooked)",
+        "amount": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "yellow onion",
+        "amount": 0.25,
+        "unit": "count"
+      },
+      {
+        "name": "garlic",
+        "amount": 2,
+        "unit": "clove"
+      },
+      {
+        "name": "olive oil",
+        "amount": 1,
+        "unit": "tbsp"
+      },
+      {
+        "name": "salt",
+        "amount": 0.5,
+        "unit": "tsp"
+      },
+      {
+        "name": "paprika",
+        "amount": 0.5,
+        "unit": "tsp"
       }
     ],
     "steps": [
-      "Cook protein",
-      "Add veg",
-      "Assemble"
+      "Cook rice (or use leftover).",
+      "Saut\u00e9 onion/garlic; brown ground chicken; season.",
+      "Mix chicken with cooked rice; stuff halved peppers; bake 375\u00b0F for ~20 min."
     ],
     "tags": [
-      "gluten-free"
+      "gluten-free",
+      "comfort"
     ]
   }
 ]
