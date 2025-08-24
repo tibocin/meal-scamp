@@ -16,32 +16,35 @@ const pushoverSchema = z.object({
   priority: z.number().min(-2).max(2).optional().default(0),
   sound: z.string().optional(),
   url: z.string().url().optional(),
-  urlTitle: z.string().optional()
+  urlTitle: z.string().optional(),
+  userKey: z.string().min(1, 'User key is required'),
+  appToken: z.string().min(1, 'App token is required')
 });
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
+    console.log('🔔 Pushover endpoint called');
+
     const body = await request.json();
+    console.log('📨 Request body received:', body);
 
     // Validate input
     const validationResult = pushoverSchema.safeParse(body);
     if (!validationResult.success) {
+      console.log('❌ Validation failed:', validationResult.error.errors);
       return json(
         { message: validationResult.error.errors[0].message },
         { status: 400 }
       );
     }
 
-    const { message, title, priority, sound, url, urlTitle } = validationResult.data;
-
-    // TODO: Get Pushover credentials from environment variables or user settings
-    const pushoverToken = process.env.PUSHOVER_TOKEN || 'your-app-token';
-    const pushoverUser = process.env.PUSHOVER_USER || 'your-user-key';
+    console.log('✅ Validation passed:', validationResult.data);
+    const { message, title, priority, sound, url, urlTitle, userKey, appToken } = validationResult.data;
 
     // Prepare notification data for Pushover API
     const notificationData = {
-      token: pushoverToken,
-      user: pushoverUser,
+      token: appToken,
+      user: userKey,
       message,
       title: title || 'Meal Scamp',
       priority,
@@ -62,9 +65,15 @@ export const POST: RequestHandler = async ({ request }) => {
     if (!pushoverResponse.ok) {
       const errorData = await pushoverResponse.json();
       console.error('Pushover API error:', errorData);
+
+      // Determine if this is a client error (400) or server error (500)
+      // Invalid credentials, rate limits, etc. are client errors
+      const isClientError = pushoverResponse.status >= 400 && pushoverResponse.status < 500;
+      const statusCode = isClientError ? 400 : 500;
+
       return json(
         { message: 'Failed to send push notification', error: errorData },
-        { status: 500 }
+        { status: statusCode }
       );
     }
 
@@ -87,7 +96,7 @@ export const POST: RequestHandler = async ({ request }) => {
 // Handle GET requests (when someone visits the API endpoint directly)
 export const GET: RequestHandler = async () => {
   return json(
-    { 
+    {
       message: 'This endpoint only accepts POST requests for sending push notifications.',
       usage: 'Send a POST request with message and optional title, priority, sound, url, urlTitle',
       example: {

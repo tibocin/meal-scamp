@@ -45,12 +45,20 @@
       showToast("Please enable Pushover first", "error");
       return;
     }
+
+    if (!cfg.userKey || !cfg.appToken) {
+      showToast("Please enter both User Key and App Token", "error");
+      return;
+    }
+
     const r = await fetch("/api/pushover", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         title: "Meal Scamp",
         message: "Test from settings",
+        userKey: cfg.userKey,
+        appToken: cfg.appToken,
       }),
     });
     showToast(
