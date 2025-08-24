@@ -12,17 +12,27 @@
 
   // Load data only on client side using onMount
   onMount(async () => {
+    console.log('🔍 Planner component mounted');
+    console.log('📊 Current meals count:', allMeals.length);
+    console.log('🌱 Needs seeding?', needsSeeding());
+    
     if (needsSeeding()) {
+      console.log('🌱 Loading sample meals...');
       await loadSampleMeals();
+    } else {
+      console.log('✅ Meals already available:', allMeals.length);
     }
   });
 
   async function loadSampleMeals() {
     isLoading = true;
     try {
+      console.log('🔄 Calling seedMeals()...');
       const result = await seedMeals();
+      console.log('📊 Seed result:', result);
       showToast(result.message, result.success ? "success" : "error");
     } catch (error) {
+      console.error('❌ Error in loadSampleMeals:', error);
       showToast("Failed to load sample meals", "error");
     } finally {
       isLoading = false;
