@@ -52,32 +52,47 @@
     plan.set(p);
   }
 
-  // Convert reactive statements to Svelte 5 $derived
-  const counts = $derived(() => {
+  // Convert reactive statements to simpler reactive variables
+  let counts = $state<Record<string, number>>({});
+  let shopping = $state<Record<string, number>>({});
+
+  // Update counts and shopping when plan or meals change
+  function updateDerivedData() {
     const currentPlan = get(plan);
-    const c: Record<string, number> = {};
+
+    // Update counts
+    const newCounts: Record<string, number> = {};
     Object.values(currentPlan).forEach((arr) =>
       arr.forEach((m) => {
-        c[m] = (c[m] || 0) + 1;
+        newCounts[m] = (newCounts[m] || 0) + 1;
       }),
     );
-    return c;
-  });
+    counts = newCounts;
 
-  const shopping = $derived(() => {
-    const currentPlan = get(plan);
-    const out: Record<string, number> = {};
+    // Update shopping
+    const newShopping: Record<string, number> = {};
     const mealsById = Object.fromEntries(allMeals.map((m) => [m.id, m]));
     for (const arr of Object.values(currentPlan)) {
       for (const id of arr) {
         const m = mealsById[id];
         if (!m) continue;
         for (const ing of m.ingredients) {
-          out[ing.name] = (out[ing.name] || 0) + (ing.amount || 0);
+          newShopping[ing.name] =
+            (newShopping[ing.name] || 0) + (ing.amount || 0);
         }
       }
     }
-    return out;
+    shopping = newShopping;
+  }
+
+  // Subscribe to plan changes to update derived data
+  plan.subscribe(() => {
+    updateDerivedData();
+  });
+
+  // Subscribe to meals changes to update derived data
+  meals.subscribe(() => {
+    updateDerivedData();
   });
 
   function getMealsForDate(date: string): string[] {
@@ -107,7 +122,12 @@
   }
 
   // Get meal plan data
-  const days = $derived(() => Object.keys(get(plan)).length);
+  let days = $state(0);
+
+  // Update days when plan changes
+  plan.subscribe((currentPlan) => {
+    days = Object.keys(currentPlan).length;
+  });
 
   function dates() {
     const dates = [];
