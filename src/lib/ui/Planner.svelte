@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { meals, plan, seedMeals, needsSeeding } from "$lib/stores";
+  import {
+    meals,
+    plan,
+    seedMeals,
+    needsSeeding,
+    getCurrentDateRange,
+  } from "$lib/stores";
   import { get } from "svelte/store";
   import { onMount } from "svelte";
 
@@ -12,27 +18,27 @@
 
   // Load data only on client side using onMount
   onMount(async () => {
-    console.log('🔍 Planner component mounted');
-    console.log('📊 Current meals count:', allMeals.length);
-    console.log('🌱 Needs seeding?', needsSeeding());
-    
+    console.log("🔍 Planner component mounted");
+    console.log("📊 Current meals count:", allMeals.length);
+    console.log("🌱 Needs seeding?", needsSeeding());
+
     if (needsSeeding()) {
-      console.log('🌱 Loading sample meals...');
+      console.log("🌱 Loading sample meals...");
       await loadSampleMeals();
     } else {
-      console.log('✅ Meals already available:', allMeals.length);
+      console.log("✅ Meals already available:", allMeals.length);
     }
   });
 
   async function loadSampleMeals() {
     isLoading = true;
     try {
-      console.log('🔄 Calling seedMeals()...');
+      console.log("🔄 Calling seedMeals()...");
       const result = await seedMeals();
-      console.log('📊 Seed result:', result);
+      console.log("📊 Seed result:", result);
       showToast(result.message, result.success ? "success" : "error");
     } catch (error) {
-      console.error('❌ Error in loadSampleMeals:', error);
+      console.error("❌ Error in loadSampleMeals:", error);
       showToast("Failed to load sample meals", "error");
     } finally {
       isLoading = false;
@@ -48,27 +54,39 @@
   }
 
   function add(date: string, mealId: string) {
-    const currentPlan = get(plan);
     const p = structuredClone(currentPlan);
     p[date] = p[date] || [];
     p[date].push(mealId);
+    currentPlan = p; // Update local state immediately
     plan.set(p);
   }
 
   function remove(date: string, idx: number) {
-    const currentPlan = get(plan);
     const p = structuredClone(currentPlan);
     p[date].splice(idx, 1);
+    currentPlan = p; // Update local state immediately
     plan.set(p);
   }
 
   // Convert reactive statements to simpler reactive variables
   let counts = $state<Record<string, number>>({});
-  let shopping = $state<Record<string, number>>({});
+  let shopping = $state<Record<string, { amount: number; unit: string }>>({});
+  let currentPlan = $state<Record<string, string[]>>({});
+
+  // Subscribe to plan changes to update derived data and local state
+  plan.subscribe((planData) => {
+    currentPlan = planData;
+    updateDerivedData();
+  });
+
+  // Subscribe to meals changes to update derived data
+  meals.subscribe(() => {
+    updateDerivedData();
+  });
 
   // Update counts and shopping when plan or meals change
   function updateDerivedData() {
-    const currentPlan = get(plan);
+    console.log("🔄 updateDerivedData called, currentPlan:", currentPlan);
 
     // Update counts
     const newCounts: Record<string, number> = {};
@@ -78,35 +96,29 @@
       }),
     );
     counts = newCounts;
+    console.log("📊 Updated counts:", counts);
 
-    // Update shopping
-    const newShopping: Record<string, number> = {};
+    // Update shopping with proper unit handling
+    const newShopping: Record<string, { amount: number; unit: string }> = {};
     const mealsById = Object.fromEntries(allMeals.map((m) => [m.id, m]));
     for (const arr of Object.values(currentPlan)) {
       for (const id of arr) {
         const m = mealsById[id];
         if (!m) continue;
         for (const ing of m.ingredients) {
-          newShopping[ing.name] =
-            (newShopping[ing.name] || 0) + (ing.amount || 0);
+          const key = ing.name;
+          if (!newShopping[key]) {
+            newShopping[key] = { amount: 0, unit: ing.unit };
+          }
+          newShopping[key].amount += ing.amount || 0;
         }
       }
     }
     shopping = newShopping;
+    console.log("🛒 Updated shopping:", shopping);
   }
 
-  // Subscribe to plan changes to update derived data
-  plan.subscribe(() => {
-    updateDerivedData();
-  });
-
-  // Subscribe to meals changes to update derived data
-  meals.subscribe(() => {
-    updateDerivedData();
-  });
-
   function getMealsForDate(date: string): string[] {
-    const currentPlan = get(plan);
     return currentPlan[date] || [];
   }
 
@@ -117,7 +129,7 @@
 
   function exportShoppingList() {
     const data = Object.entries(shopping)
-      .map(([name, amt]) => `${name}: ${amt}`)
+      .map(([name, amt]) => `${name}: ${amt.amount} ${amt.unit}`)
       .join("\n");
     const blob = new Blob([data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -135,19 +147,12 @@
   let days = $state(0);
 
   // Update days when plan changes
-  plan.subscribe((currentPlan) => {
-    days = Object.keys(currentPlan).length;
+  plan.subscribe((planData) => {
+    days = Object.keys(planData).length;
   });
 
   function dates() {
-    const dates = [];
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      dates.push(date.toISOString().split("T")[0]);
-    }
-    return dates;
+    return getCurrentDateRange();
   }
 </script>
 
@@ -181,13 +186,51 @@
 
   <div class="card">
     <h3 class="font-semibold mb-2">Add Meals to Days</h3>
-    <div class="flex gap-2 flex-wrap">
-      {#each allMeals as m}
-        <button class="btn-outline" onclick={() => add(dates()[0], m.id)}
-          >{m.name}</button
-        >
-      {/each}
-    </div>
+
+    <!-- Breakfast Meals -->
+    {#if allMeals.filter((m) => m.mealType === "breakfast").length > 0}
+      <div class="mb-3">
+        <h4 class="text-sm font-medium text-gray-700 mb-2">🍳 Breakfast</h4>
+        <div class="flex gap-2 flex-wrap">
+          {#each allMeals.filter((m) => m.mealType === "breakfast") as m}
+            <button
+              class="btn-outline text-sm"
+              onclick={() => add(dates()[0], m.id)}>{m.name}</button
+            >
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+    <!-- Lunch Meals -->
+    {#if allMeals.filter((m) => m.mealType === "lunch").length > 0}
+      <div class="mb-3">
+        <h4 class="text-sm font-medium text-gray-700 mb-2">🥪 Lunch</h4>
+        <div class="flex gap-2 flex-wrap">
+          {#each allMeals.filter((m) => m.mealType === "lunch") as m}
+            <button
+              class="btn-outline text-sm"
+              onclick={() => add(dates()[0], m.id)}>{m.name}</button
+            >
+          {/each}
+        </div>
+      </div>
+    {/if}
+
+    <!-- Dinner Meals -->
+    {#if allMeals.filter((m) => m.mealType === "dinner").length > 0}
+      <div class="mb-3">
+        <h4 class="text-sm font-medium text-gray-700 mb-2">🍽️ Dinner</h4>
+        <div class="flex gap-2 flex-wrap">
+          {#each allMeals.filter((m) => m.mealType === "dinner") as m}
+            <button
+              class="btn-outline text-sm"
+              onclick={() => add(dates()[0], m.id)}>{m.name}</button
+            >
+          {/each}
+        </div>
+      </div>
+    {/if}
   </div>
 
   <div class="grid md:grid-cols-2 gap-4">
@@ -197,10 +240,10 @@
         <div class="mb-3">
           <div class="text-sm text-gray-500">{d}</div>
           <div class="flex flex-wrap gap-2 mt-1">
-            {#if getMealsForDate(d).length === 0}
+            {#if (currentPlan[d] || []).length === 0}
               <span class="tag">No meals yet</span>
             {:else}
-              {#each getMealsForDate(d) as id, i}
+              {#each currentPlan[d] || [] as id, i}
                 <button class="tag" onclick={() => remove(d, i)}
                   >{getMealName(id)} ✕</button
                 >
@@ -210,12 +253,46 @@
           <div class="mt-2">
             <select
               class="border p-1"
-              onchange={(e) => add(d, (e.target as HTMLSelectElement).value)}
+              onchange={(e) => {
+                const value = (e.target as HTMLSelectElement).value;
+                if (value) {
+                  console.log("🍽️ Adding meal:", value, "to date:", d);
+                  add(d, value);
+                  (e.target as HTMLSelectElement).value = "";
+                }
+              }}
             >
               <option value="">+ Add meal</option>
-              {#each allMeals as m}
-                <option value={m.id}>{m.name}</option>
-              {/each}
+
+              <!-- Breakfast Meals -->
+              <optgroup label="🍳 Breakfast">
+                {#each allMeals.filter((m) => m.mealType === "breakfast") as m}
+                  <option value={m.id}>{m.name}</option>
+                {/each}
+                {#if allMeals.filter((m) => m.mealType === "breakfast").length === 0}
+                  <option disabled>No breakfast meals available</option>
+                {/if}
+              </optgroup>
+
+              <!-- Lunch Meals -->
+              <optgroup label="🥪 Lunch">
+                {#each allMeals.filter((m) => m.mealType === "lunch") as m}
+                  <option value={m.id}>{m.name}</option>
+                {/each}
+                {#if allMeals.filter((m) => m.mealType === "lunch").length === 0}
+                  <option disabled>No lunch meals available</option>
+                {/if}
+              </optgroup>
+
+              <!-- Dinner Meals -->
+              <optgroup label="🍽️ Dinner">
+                {#each allMeals.filter((m) => m.mealType === "dinner") as m}
+                  <option value={m.id}>{m.name}</option>
+                {/each}
+                {#if allMeals.filter((m) => m.mealType === "dinner").length === 0}
+                  <option disabled>No dinner meals available</option>
+                {/if}
+              </optgroup>
             </select>
           </div>
         </div>
@@ -245,7 +322,9 @@
       </div>
       {#each Object.entries(shopping) as [name, amt]}
         <div class="flex justify-between border-b py-1 text-sm">
-          <span>{name}</span><span class="font-mono">{amt}</span>
+          <span>{name}</span><span class="font-mono"
+            >{amt.amount} {amt.unit}</span
+          >
         </div>
       {/each}
     </div>

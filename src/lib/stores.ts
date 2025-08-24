@@ -39,6 +39,31 @@ export const workouts = persisted<Record<string, string[]>>('workouts-v1', {});
 export const goal = persisted<{ start: number; target: number; current: number; startedAt: string }>('goal-v1', { start: 175, target: 150, current: 175, startedAt: new Date().toISOString() });
 export const pushover = persisted<{ userKey: string; appToken: string; enabled: boolean }>('pushover-v1', { userKey: '', appToken: '', enabled: false });
 
+// Date range for meal and exercise planning
+export const dateRange = persisted<{ start: string; end: string }>('date-range-v1', {
+  start: new Date().toISOString().slice(0, 10),
+  end: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10) // 7 days from now
+});
+
+// Helper function to generate date range
+export function generateDateRange(startDate: string, endDate: string): string[] {
+  const dates: string[] = [];
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    dates.push(d.toISOString().slice(0, 10));
+  }
+  
+  return dates;
+}
+
+// Helper function to get current date range
+export function getCurrentDateRange(): string[] {
+  const range = get(dateRange);
+  return generateDateRange(range.start, range.end);
+}
+
 // Use the expanded seed data as fallback
 const FALLBACK_MEALS: Meal[] = seedMealsData as Meal[];
 

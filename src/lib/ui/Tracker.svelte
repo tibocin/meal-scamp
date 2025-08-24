@@ -1,24 +1,18 @@
 <script lang="ts">
-  import { punches, workouts, goal, pushover } from "$lib/stores";
+  import {
+    punches,
+    workouts,
+    goal,
+    pushover,
+    getCurrentDateRange,
+  } from "$lib/stores";
 
   // Use $state for reactive variables in Svelte 5
   let dates = $state<string[]>([]);
   let today = $state(new Date());
 
-  function genDates(): string[] {
-    const s = new Date();
-    s.setDate(s.getDate() - 3);
-    const out: string[] = [];
-    for (let i = 0; i < 30; i++) {
-      const d = new Date(s);
-      d.setDate(s.getDate() + i);
-      out.push(d.toISOString().slice(0, 10));
-    }
-    return out;
-  }
-
-  // Initialize dates
-  dates = genDates();
+  // Initialize dates using the date range from stores
+  dates = getCurrentDateRange();
 
   let punchMap = $state<Record<string, boolean>>({});
   punches.subscribe((v) => (punchMap = v));

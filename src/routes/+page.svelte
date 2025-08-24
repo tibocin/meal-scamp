@@ -2,6 +2,7 @@
   import Planner from "$lib/ui/Planner.svelte";
   import Tracker from "$lib/ui/Tracker.svelte";
   import LinkBar from "$lib/ui/LinkBar.svelte";
+  import DateRangePicker from "$lib/ui/DateRangePicker.svelte";
 
   // Service worker registration - only run in browser
   if (typeof window !== "undefined" && "serviceWorker" in navigator) {
@@ -22,6 +23,9 @@
       </div>
     </div>
   </div>
+  
+  <!-- Date Range Picker -->
+  <DateRangePicker />
   
   <div class="grid md:grid-cols-2 gap-4">
     <div class="card">
