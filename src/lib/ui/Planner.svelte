@@ -9,25 +9,35 @@
   import { get } from "svelte/store";
   import { onMount } from "svelte";
 
+  // Use explicit subscription to meals store
   let allMeals = $state<any[]>([]);
   let isLoading = $state(false);
   let toastMessage = $state("");
   let toastType = $state<"success" | "error" | "info">("info");
 
-  meals.subscribe((v) => (allMeals = v));
+  // Subscribe to meals store changes
+  meals.subscribe((v) => {
+    console.log("🍽️ Meals store subscription triggered:", v.length, "meals");
+    allMeals = v;
+    console.log("🍽️ allMeals updated to:", allMeals.length, "meals");
+  });
 
   // Load data only on client side using onMount
   onMount(async () => {
     console.log("🔍 Planner component mounted");
     console.log("📊 Current meals count:", allMeals.length);
     console.log("🌱 Needs seeding?", needsSeeding());
+    console.log("🍽️ Meals store value:", get(meals).length);
 
-    if (needsSeeding()) {
-      console.log("🌱 Loading sample meals...");
-      await loadSampleMeals();
-    } else {
-      console.log("✅ Meals already available:", allMeals.length);
-    }
+    // Always try to load meals to ensure they're available
+    console.log("🌱 Loading sample meals...");
+    await loadSampleMeals();
+    
+    // Force a refresh of the meals data
+    const currentMeals = get(meals);
+    console.log("📊 After loading - meals store:", currentMeals.length);
+    allMeals = currentMeals;
+    console.log("📊 After loading - allMeals count:", allMeals.length);
   });
 
   async function loadSampleMeals() {
@@ -263,6 +273,8 @@
               }}
             >
               <option value="">+ Add meal</option>
+              <!-- Debug: allMeals count -->
+              <option disabled>DEBUG: {allMeals.length} total meals</option>
 
               <!-- Breakfast Meals -->
               <optgroup label="🍳 Breakfast">
