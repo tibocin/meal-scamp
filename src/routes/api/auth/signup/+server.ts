@@ -17,6 +17,17 @@ const signupSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters')
 });
 
+// Handle GET requests (when someone visits the API endpoint directly)
+export const GET: RequestHandler = async () => {
+  return json(
+    { 
+      message: 'This endpoint only accepts POST requests for user signup. Please use the signup form.',
+      usage: 'Send a POST request with email, username, and password in the request body'
+    },
+    { status: 405 }
+  );
+};
+
 export const POST: RequestHandler = async ({ request }) => {
   try {
     const body = await request.json();

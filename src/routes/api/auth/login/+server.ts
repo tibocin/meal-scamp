@@ -16,6 +16,17 @@ const loginSchema = z.object({
   password: z.string().min(1, 'Password is required')
 });
 
+// Handle GET requests (when someone visits the API endpoint directly)
+export const GET: RequestHandler = async () => {
+  return json(
+    {
+      message: 'This endpoint only accepts POST requests for user login. Please use the login form.',
+      usage: 'Send a POST request with email and password in the request body'
+    },
+    { status: 405 }
+  );
+};
+
 export const POST: RequestHandler = async ({ request }) => {
   try {
     const body = await request.json();
