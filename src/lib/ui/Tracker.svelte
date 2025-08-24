@@ -118,14 +118,14 @@
     if (currentPunchCardPeriod > 1) currentPunchCardPeriod = 1;
   }
 
-    function getCurrentStreak() {
+  function getCurrentStreak() {
     const today = new Date().toISOString().slice(0, 10);
     let streak = 0;
-    
+
     // Count backwards from today to find current streak
     // Start from today and go backwards until we find a gap
     let currentDate = new Date(today);
-    
+
     while (true) {
       const dateString = currentDate.toISOString().slice(0, 10);
       if (punchMap[dateString]) {
@@ -136,7 +136,7 @@
         break; // Found a gap, stop counting
       }
     }
-    
+
     return streak;
   }
 </script>
@@ -210,7 +210,7 @@
       class="flex items-center justify-between cursor-pointer"
       onclick={() => (punchCardCollapsed = !punchCardCollapsed)}
     >
-      <h3 class="font-semibold text-lg">Daily Spiritual Practice Tracker</h3>
+      <h3 class="font-semibold text-lg">Punch Card</h3>
       <button
         class="text-gray-500 hover:text-gray-700 transition-transform duration-200"
         class:rotate-180={punchCardCollapsed}
