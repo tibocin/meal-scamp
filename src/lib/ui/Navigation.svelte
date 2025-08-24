@@ -7,6 +7,7 @@
 
 <script lang="ts">
   import { page } from '$app/stores';
+  import { auth, user } from '$lib/stores/auth';
   
   // Navigation items with their routes and icons
   const navItems = [
@@ -23,6 +24,10 @@
       return $page.url.pathname === '/';
     }
     return $page.url.pathname.startsWith(path);
+  }
+
+  function handleLogout() {
+    auth.logout();
   }
 </script>
 
@@ -48,6 +53,19 @@
             <span>{item.label}</span>
           </a>
         {/each}
+        
+        <!-- User Info & Logout -->
+        <div class="flex items-center space-x-4 ml-8 pl-8 border-l border-gray-200">
+          <div class="text-sm text-gray-600">
+            Welcome, <span class="font-medium text-gray-900">{$user?.username || 'User'}</span>
+          </div>
+          <button
+            onclick={handleLogout}
+            class="text-sm text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-2 rounded-md transition-colors duration-200"
+          >
+            Logout
+          </button>
+        </div>
       </div>
       
       <!-- Mobile Menu Button -->

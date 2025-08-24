@@ -11,8 +11,10 @@
     "clean": "rm -rf www"
   },
   "dependencies": {
-    "@sveltejs/kit": "^2.5.10",
     "@sveltejs/adapter-node": "^5.2.8",
+    "@sveltejs/kit": "^2.5.10",
+    "@types/bcryptjs": "^3.0.0",
+    "bcryptjs": "^3.0.2",
     "svelte": "^5.0.0",
     "svelte-local-storage-store": "^0.6.4",
     "zod": "^3.23.8"
