@@ -5,8 +5,8 @@
     "mealType": "breakfast",
     "portions": {
       "protein_palms": 1.5,
-      "veg_fists": 2,
-      "starch_fists": 0,
+      "veg_fists": 1,
+      "starch_fists": 1,
       "fat_thumbs": 1,
       "fruit_fists": 0
     },
@@ -33,12 +33,11 @@
       }
     ],
     "steps": [
-      "Saut\u00e9 onion 2\u20133 min in oil",
-      "Add spinach to wilt",
-      "Scramble in eggs; season"
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
     ],
     "tags": [
-      "quick",
       "gluten-free"
     ]
   },
@@ -65,7 +64,7 @@
         "unit": "fist"
       },
       {
-        "name": "rice (dry)",
+        "name": "rice",
         "amount": 1,
         "unit": "fist"
       },
@@ -76,42 +75,35 @@
       }
     ],
     "steps": [
-      "Cook salmon 10\u201312 min",
-      "Cook rice",
-      "Slice cucumber; dress with oil/salt",
-      "Serve bowl"
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
     ],
     "tags": [
-      "batch-protein",
       "gluten-free"
     ]
   },
   {
-    "id": "l01",
-    "name": "Chicken Thigh Bowl",
-    "mealType": "lunch",
+    "id": "b03",
+    "name": "Ribeye + Eggs",
+    "mealType": "breakfast",
     "portions": {
       "protein_palms": 1.5,
-      "veg_fists": 2,
+      "veg_fists": 1,
       "starch_fists": 1,
-      "fat_thumbs": 0.5,
+      "fat_thumbs": 1,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "chicken thighs",
-        "amount": 1.5,
+        "name": "ribeye steak",
+        "amount": 1,
         "unit": "palm"
       },
       {
-        "name": "brown rice (dry)",
-        "amount": 1,
-        "unit": "fist"
-      },
-      {
-        "name": "cucumber",
-        "amount": 1,
-        "unit": "fist"
+        "name": "eggs",
+        "amount": 2,
+        "unit": "count"
       },
       {
         "name": "broccoli",
@@ -120,92 +112,940 @@
       }
     ],
     "steps": [
-      "Roast/pan chicken",
-      "Cook rice",
-      "Steam broccoli; slice cucumber; assemble"
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
     ],
     "tags": [
-      "bowl",
       "gluten-free"
     ]
   },
   {
-    "id": "l02",
-    "name": "Carnitas Salad",
-    "mealType": "lunch",
+    "id": "b04",
+    "name": "Quinoa Porridge",
+    "mealType": "breakfast",
     "portions": {
       "protein_palms": 1.5,
-      "veg_fists": 2.5,
-      "starch_fists": 0,
+      "veg_fists": 1,
+      "starch_fists": 1,
       "fat_thumbs": 1,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "carnitas",
-        "amount": 1.5,
-        "unit": "palm"
-      },
-      {
-        "name": "lettuce",
-        "amount": 1.5,
+        "name": "quinoa",
+        "amount": 1,
         "unit": "fist"
       },
       {
-        "name": "avocado",
-        "amount": 0.5,
+        "name": "almond milk",
+        "amount": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "walnuts",
+        "amount": 1,
         "unit": "thumb"
+      },
+      {
+        "name": "blueberries",
+        "amount": 1,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "b05",
+    "name": "Sweet Potato Hash",
+    "mealType": "breakfast",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 1,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "sweet potato",
+        "amount": 1,
+        "unit": "fist"
       },
       {
         "name": "onion",
         "amount": 0.5,
         "unit": "fist"
+      },
+      {
+        "name": "chicken sausage",
+        "amount": 1,
+        "unit": "palm"
+      },
+      {
+        "name": "olive oil",
+        "amount": 0.5,
+        "unit": "thumb"
       }
     ],
     "steps": [
-      "Warm carnitas",
-      "Chop lettuce/onion; slice avocado",
-      "Toss with salsa/olive oil"
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
     ],
     "tags": [
-      "salad",
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "b06",
+    "name": "Greek Yogurt Bowl with Fruit",
+    "mealType": "breakfast",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 1,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "Greek yogurt",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "almonds",
+        "amount": 1,
+        "unit": "thumb"
+      },
+      {
+        "name": "berries",
+        "amount": 1,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "b07",
+    "name": "Eggs, Bacon, Yogurt & Fruit",
+    "mealType": "breakfast",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 1,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "eggs",
+        "amount": 2,
+        "unit": "count"
+      },
+      {
+        "name": "bacon",
+        "amount": 2,
+        "unit": "count"
+      },
+      {
+        "name": "Greek yogurt",
+        "amount": 1,
+        "unit": "palm"
+      },
+      {
+        "name": "fruit",
+        "amount": 1,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "b08",
+    "name": "Cottage Cheese Bowl",
+    "mealType": "breakfast",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 1,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "cottage cheese",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "nuts/seeds",
+        "amount": 1,
+        "unit": "thumb"
+      },
+      {
+        "name": "fruit",
+        "amount": 1,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "b09",
+    "name": "Lettuce Wrap Breakfast Tacos",
+    "mealType": "breakfast",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 1,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "eggs",
+        "amount": 2,
+        "unit": "count"
+      },
+      {
+        "name": "carnitas",
+        "amount": 1,
+        "unit": "palm"
+      },
+      {
+        "name": "lettuce leaves",
+        "amount": 1,
+        "unit": "fist"
+      },
+      {
+        "name": "salsa",
+        "amount": 0.5,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "b10",
+    "name": "Carrot + Ginger Smoothie",
+    "mealType": "breakfast",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 1,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein powder",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "carrot",
+        "amount": 1,
+        "unit": "fist"
+      },
+      {
+        "name": "spinach",
+        "amount": 1,
+        "unit": "fist"
+      },
+      {
+        "name": "ginger",
+        "amount": 0.1,
+        "unit": "thumb"
+      },
+      {
+        "name": "banana",
+        "amount": 0.5,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Prepare ingredients",
+      "Cook/assemble",
+      "Serve"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l01",
+    "name": "Lunch 1",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l02",
+    "name": "Lunch 2",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l03",
+    "name": "Lunch 3",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l04",
+    "name": "Lunch 4",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l05",
+    "name": "Lunch 5",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l06",
+    "name": "Lunch 6",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l07",
+    "name": "Lunch 7",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l08",
+    "name": "Lunch 8",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l09",
+    "name": "Lunch 9",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "l10",
+    "name": "Lunch 10",
+    "mealType": "lunch",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
       "gluten-free"
     ]
   },
   {
     "id": "d01",
-    "name": "Ribeye + Broccolini",
+    "name": "Dinner 1",
     "mealType": "dinner",
     "portions": {
       "protein_palms": 1.5,
       "veg_fists": 2,
-      "starch_fists": 0,
-      "fat_thumbs": 0.3,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
       "fruit_fists": 0
     },
     "ingredients": [
       {
-        "name": "ribeye",
+        "name": "protein",
         "amount": 1.5,
         "unit": "palm"
       },
       {
-        "name": "broccolini",
+        "name": "veg",
         "amount": 2,
         "unit": "fist"
-      },
-      {
-        "name": "olive oil",
-        "amount": 0.3,
-        "unit": "thumb"
       }
     ],
     "steps": [
-      "Sear ribeye 3\u20134 min/side; rest",
-      "Roast broccolini 400\u00b0F 10\u201312 min"
+      "Cook protein",
+      "Add veg",
+      "Assemble"
     ],
     "tags": [
-      "steak-night",
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "d02",
+    "name": "Dinner 2",
+    "mealType": "dinner",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "d03",
+    "name": "Dinner 3",
+    "mealType": "dinner",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "d04",
+    "name": "Dinner 4",
+    "mealType": "dinner",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "d05",
+    "name": "Dinner 5",
+    "mealType": "dinner",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "d06",
+    "name": "Dinner 6",
+    "mealType": "dinner",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "d07",
+    "name": "Dinner 7",
+    "mealType": "dinner",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "d08",
+    "name": "Dinner 8",
+    "mealType": "dinner",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "d09",
+    "name": "Dinner 9",
+    "mealType": "dinner",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
+      "gluten-free"
+    ]
+  },
+  {
+    "id": "d10",
+    "name": "Dinner 10",
+    "mealType": "dinner",
+    "portions": {
+      "protein_palms": 1.5,
+      "veg_fists": 2,
+      "starch_fists": 1,
+      "fat_thumbs": 1,
+      "fruit_fists": 0
+    },
+    "ingredients": [
+      {
+        "name": "protein",
+        "amount": 1.5,
+        "unit": "palm"
+      },
+      {
+        "name": "veg",
+        "amount": 2,
+        "unit": "fist"
+      }
+    ],
+    "steps": [
+      "Cook protein",
+      "Add veg",
+      "Assemble"
+    ],
+    "tags": [
       "gluten-free"
     ]
   }

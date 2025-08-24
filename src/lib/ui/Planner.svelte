@@ -1,15 +1,15 @@
 <script lang="ts">
   import { meals, plan, seedMeals, needsSeeding } from "$lib/stores";
   import { get } from "svelte/store";
-  import { onMount } from 'svelte';
-  
+  import { onMount } from "svelte";
+
   let allMeals = $state<any[]>([]);
   let isLoading = $state(false);
   let toastMessage = $state("");
   let toastType = $state<"success" | "error" | "info">("info");
-  
+
   meals.subscribe((v) => (allMeals = v));
-  
+
   // Load data only on client side using onMount
   onMount(async () => {
     if (needsSeeding()) {
@@ -44,7 +44,7 @@
     p[date].push(mealId);
     plan.set(p);
   }
-  
+
   function remove(date: string, idx: number) {
     const currentPlan = get(plan);
     const p = structuredClone(currentPlan);
@@ -91,7 +91,9 @@
   }
 
   function exportShoppingList() {
-    const data = Object.entries(shopping).map(([name, amt]) => `${name}: ${amt}`).join("\n");
+    const data = Object.entries(shopping)
+      .map(([name, amt]) => `${name}: ${amt}`)
+      .join("\n");
     const blob = new Blob([data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -106,14 +108,14 @@
 
   // Get meal plan data
   const days = $derived(() => Object.keys(get(plan)).length);
-  
+
   function dates() {
     const dates = [];
     const today = new Date();
     for (let i = 0; i < 7; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
-      dates.push(date.toISOString().split('T')[0]);
+      dates.push(date.toISOString().split("T")[0]);
     }
     return dates;
   }
