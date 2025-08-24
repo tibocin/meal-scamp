@@ -348,21 +348,23 @@
             <div>Current: {$goal.current} lbs</div>
           </div>
           <div class="text-xs text-gray-500 mb-3">
-            💡 Update your weight goals in <a href="/settings" class="text-blue-600 hover:underline">Settings</a>
+            💡 Update your weight goals in <a
+              href="/settings"
+              class="text-blue-600 hover:underline">Settings</a
+            >
           </div>
           <div class="w-full bg-gray-200 h-3 rounded">
             <div
               class="bg-black h-3 rounded transition-all duration-300"
-              style="width:{100 -
-                Math.max(
-                  0,
-                  Math.min(
-                    100,
-                    (($goal.start - $goal.current) /
-                      ($goal.start - $goal.target)) *
-                      100,
-                  ),
-                )}%"
+              style="width:{Math.max(
+                0,
+                Math.min(
+                  100,
+                  Math.abs($goal.current - $goal.start) /
+                    Math.abs($goal.target - $goal.start) *
+                    100
+                )
+              )}%"
             ></div>
           </div>
         </div>

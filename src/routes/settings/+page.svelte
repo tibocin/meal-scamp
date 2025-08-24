@@ -142,24 +142,27 @@
     
     <!-- Progress Preview -->
     <div class="mt-4 p-3 bg-gray-50 rounded-lg">
-      <div class="text-sm text-gray-600 mb-2">Progress Preview:</div>
+      <div class="text-sm text-gray-600 mb-2">🎯 Progress Preview:</div>
       <div class="w-full bg-gray-200 h-3 rounded">
         <div
           class="bg-blue-600 h-3 rounded transition-all duration-300"
-          style="width:{100 -
-            Math.max(
-              0,
-              Math.min(
-                100,
-                ((goalSettings.start - goalSettings.current) /
-                  (goalSettings.start - goalSettings.target)) *
-                  100,
-              ),
-            )}%"
+          style="width:{Math.max(
+            0,
+            Math.min(
+              100,
+              Math.abs(goalSettings.current - goalSettings.start) /
+                Math.abs(goalSettings.target - goalSettings.start) *
+                100
+            )
+          )}%"
         ></div>
       </div>
       <div class="text-xs text-gray-500 mt-1">
-        {goalSettings.start - goalSettings.current} lbs lost of {goalSettings.start - goalSettings.target} lbs goal
+        {#if goalSettings.target < goalSettings.start}
+          {Math.max(0, goalSettings.start - goalSettings.current)} lbs lost of {goalSettings.start - goalSettings.target} lbs goal
+        {:else}
+          {Math.max(0, goalSettings.current - goalSettings.start)} lbs gained of {goalSettings.target - goalSettings.start} lbs goal
+        {/if}
       </div>
     </div>
     
