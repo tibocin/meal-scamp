@@ -1,9 +1,9 @@
-<!--
-  src/routes/api/auth/login/+server.ts
-  User login API endpoint
-  Related components: Login, AuthGuard
-  Tags: api, authentication, user-login
--->
+/**
+ * src/routes/api/auth/login/+server.ts
+ * User login API endpoint
+ * Related components: Login, AuthGuard
+ * Tags: api, authentication, user-login
+ */
 
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
@@ -19,7 +19,7 @@ const loginSchema = z.object({
 export const POST: RequestHandler = async ({ request }) => {
   try {
     const body = await request.json();
-    
+
     // Validate input
     const validationResult = loginSchema.safeParse(body);
     if (!validationResult.success) {

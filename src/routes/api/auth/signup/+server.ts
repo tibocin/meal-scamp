@@ -1,9 +1,9 @@
-<!--
-  src/routes/api/auth/signup/+server.ts
-  User signup API endpoint
-  Related components: Signup, AuthGuard
-  Tags: api, authentication, user-registration
--->
+/**
+ * src/routes/api/auth/signup/+server.ts
+ * User signup API endpoint
+ * Related components: Signup, AuthGuard
+ * Tags: api, authentication, user-registration
+ */
 
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';

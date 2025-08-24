@@ -1,9 +1,9 @@
-<!--
-  src/lib/stores/auth.ts
-  Authentication store for user login/signup and session management
-  Related components: Login, Signup, AuthGuard
-  Tags: authentication, user-management, database-sync
--->
+/**
+ * src/lib/stores/auth.ts
+ * Authentication store for user login/signup and session management
+ * Related components: Login, Signup, AuthGuard
+ * Tags: authentication, user-management, database-sync
+ */
 
 import { writable, derived } from 'svelte/store';
 import { persisted } from 'svelte-local-storage-store';
@@ -39,12 +39,15 @@ const createAuthStore = () => {
 
   return {
     subscribe,
-    
+
     // Initialize auth state from stored token
     async init() {
       update(state => ({ ...state, isLoading: true }));
-      
-      const token = tokenStore.get();
+
+      // Get the current token value from the store
+      let token: string | null = null;
+      tokenStore.subscribe(value => { token = value; })();
+
       if (token) {
         try {
           const user = await this.validateToken(token);
@@ -62,7 +65,7 @@ const createAuthStore = () => {
           console.error('Token validation failed:', error);
         }
       }
-      
+
       // Clear invalid token
       tokenStore.set(null);
       set({
@@ -77,7 +80,7 @@ const createAuthStore = () => {
     // User signup
     async signup(email: string, username: string, password: string) {
       update(state => ({ ...state, isLoading: true, error: null }));
-      
+
       try {
         const response = await fetch('/api/auth/signup', {
           method: 'POST',
@@ -86,14 +89,14 @@ const createAuthStore = () => {
         });
 
         const data = await response.json();
-        
+
         if (!response.ok) {
           throw new Error(data.message || 'Signup failed');
         }
 
         // Auto-login after successful signup
         await this.login(email, password);
-        
+
         return { success: true, user: data.user };
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Signup failed';
@@ -105,7 +108,7 @@ const createAuthStore = () => {
     // User login
     async login(email: string, password: string) {
       update(state => ({ ...state, isLoading: true, error: null }));
-      
+
       try {
         const response = await fetch('/api/auth/login', {
           method: 'POST',
@@ -114,7 +117,7 @@ const createAuthStore = () => {
         });
 
         const data = await response.json();
-        
+
         if (!response.ok) {
           throw new Error(data.message || 'Login failed');
         }

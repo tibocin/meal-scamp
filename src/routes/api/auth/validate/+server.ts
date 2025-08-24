@@ -1,9 +1,9 @@
-<!--
-  src/routes/api/auth/validate/+server.ts
-  Token validation API endpoint
-  Related components: AuthGuard, Navigation
-  Tags: api, authentication, token-validation
--->
+/**
+ * src/routes/api/auth/validate/+server.ts
+ * Token validation API endpoint
+ * Related components: AuthGuard, Navigation
+ * Tags: api, authentication, token-validation
+ */
 
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
