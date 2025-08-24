@@ -32,7 +32,7 @@
     // Always try to load meals to ensure they're available
     console.log("🌱 Loading sample meals...");
     await loadSampleMeals();
-    
+
     // Force a refresh of the meals data
     const currentMeals = get(meals);
     console.log("📊 After loading - meals store:", currentMeals.length);
@@ -46,6 +46,32 @@
       console.log("🔄 Calling seedMeals()...");
       const result = await seedMeals();
       console.log("📊 Seed result:", result);
+      
+      // Check the store immediately after seeding
+      const storeMeals = get(meals);
+      console.log("🍽️ Store meals after seeding:", storeMeals.length);
+      console.log("🍽️ Store meals content:", storeMeals);
+      
+      // Force update allMeals
+      allMeals = storeMeals;
+      console.log("🍽️ allMeals after seeding:", allMeals.length);
+      
+      // TEMPORARY: If store is still empty, try direct API call
+      if (allMeals.length === 0) {
+        console.log("⚠️ Store still empty, trying direct API call...");
+        try {
+          const response = await fetch('/api/seed');
+          if (response.ok) {
+            const directMeals = await response.json();
+            console.log("🍽️ Direct API call successful:", directMeals.length, "meals");
+            allMeals = directMeals;
+            console.log("🍽️ allMeals after direct API:", allMeals.length);
+          }
+        } catch (apiError) {
+          console.error("❌ Direct API call failed:", apiError);
+        }
+      }
+      
       showToast(result.message, result.success ? "success" : "error");
     } catch (error) {
       console.error("❌ Error in loadSampleMeals:", error);
