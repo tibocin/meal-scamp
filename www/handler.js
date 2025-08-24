@@ -1248,6 +1248,45 @@ function serve_prerendered() {
 	};
 }
 
+/**
+ * Custom health check endpoint
+ */
+const healthz = (req, res) => {
+	if (req.url === '/healthz') {
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'text/plain');
+		res.setHeader('Cache-Control', 'no-cache');
+		res.end('ok');
+		return true;
+	}
+	return false;
+};
+
+/**
+ * Custom diagnostic endpoint
+ */
+const diag = (req, res) => {
+	if (req.url === '/api/diag') {
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'application/json');
+		res.setHeader('Cache-Control', 'no-cache');
+		res.end(JSON.stringify({
+			node: process.version,
+			env: {
+				NODE_ENV: process.env.NODE_ENV,
+				PORT: process.env.PORT,
+				HAS_PUSHOVER_TOKEN: Boolean(process.env.PUSHOVER_APP_TOKEN),
+				HAS_PUSHOVER_USER: Boolean(process.env.PUSHOVER_USER_KEY)
+			},
+			now: new Date().toISOString(),
+			uptime: process.uptime(),
+			memory: process.memoryUsage()
+		}, null, 2));
+		return true;
+	}
+	return false;
+};
+
 /** @type {import('polka').Middleware} */
 const ssr = async (req, res) => {
 	/** @type {Request} */
@@ -1354,6 +1393,8 @@ const handler = sequence(
 		serve(path.join(dir, 'client'), true),
 		serve(path.join(dir, 'static')),
 		serve_prerendered(),
+		healthz,
+		diag,
 		ssr
 	].filter(Boolean)
 );
